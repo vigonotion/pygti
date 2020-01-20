@@ -11,6 +11,7 @@ setup(
     version="0.1.0",
     description="access public transport information in hamburg, germany.",
     long_description=readme,
+    long_description_content_type="text/markdown",
     author="Tom Schneider",
     author_email="mail@vigonotion.com",
     url="https://github.com/vigonotion/pygti",
