@@ -16,20 +16,30 @@ cn = gti.checkName({"theName": {"name": "Wartenau"}})
 print(cn)
 
 print()
-print("Example 3: departureList()")
-dl = gti.departureList({
-    'station': {
-        'name': 'Wartenau',
-        'id': 'Master:10901',
-        'type': 'STATION'
-    },
-    'time': {
-        'date': 'heute',
-        'time': 'jetzt'
-    },
-    "maxList": 5,
-    "maxTimeOffset": 200,
-    "useRealtime": True,
-})
+print("Example 3.1: departureList()")
+dl = gti.departureList(
+    {
+        "station": {"name": "Wartenau", "id": "Master:10901", "type": "STATION"},
+        "time": {"date": "heute", "time": "jetzt"},
+        "maxList": 5,
+        "maxTimeOffset": 200,
+        "useRealtime": True,
+    }
+)
+
+print(dl)
+
+print()
+print("Example 3.2: departureList(), only trains")
+dl = gti.departureList(
+    {
+        "station": {"name": "Wartenau", "id": "Master:10901", "type": "STATION"},
+        "time": {"date": "heute", "time": "jetzt"},
+        "maxList": 5,
+        "maxTimeOffset": 200,
+        "useRealtime": True,
+        "returnFilters": True,
+    }
+)
 
 print(dl)
