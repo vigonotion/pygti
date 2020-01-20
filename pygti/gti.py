@@ -12,6 +12,7 @@ class GTI:
         self.server = server
 
     def request(self, uri, payload):
+        payload.update({"version": 37})
         res = requests.post(uri, json=payload, auth=GTIAuth(self, payload))
         return res.json()
 
