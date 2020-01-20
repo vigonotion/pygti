@@ -25,5 +25,3 @@ class GTI:
     def departureList(self, payload):
         request = DLRequest(payload)
         return self.request(self.server + ENDPOINT_DEPARTURE_LIST, request)
-
-    

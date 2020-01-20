@@ -1,34 +1,27 @@
 from voluptuous import Schema, Required, In
 
-CoordinateType = In([
-    'EPSG_4326',
-    'EPSG_31467'
-])
+CoordinateType = In(["EPSG_4326", "EPSG_31467"])
 
-SDType = In([
-    'STATION',
-    'COORDINATE',
-    'ADDRESS',
-    'POI',
-    'UNKNOWN'
-])
+SDType = In(["STATION", "COORDINATE", "ADDRESS", "POI", "UNKNOWN"])
 
-FilterServiceType = In([
-    'ZUG',
-    'UBAHN',
-    'SBAHN',
-    'AKN',
-    'RBAHN',
-    'FERNBAHN',
-    'BUS',
-    'STADTBUS',
-    'METROBUS',
-    'SCHNELLBUS',
-    'NACHTBUS',
-    'EILBUS',
-    'AST',
-    'FAEHRE',
-])
+FilterServiceType = In(
+    [
+        "ZUG",
+        "UBAHN",
+        "SBAHN",
+        "AKN",
+        "RBAHN",
+        "FERNBAHN",
+        "BUS",
+        "STADTBUS",
+        "METROBUS",
+        "SCHNELLBUS",
+        "NACHTBUS",
+        "EILBUS",
+        "AST",
+        "FAEHRE",
+    ]
+)
 
 TariffDetails = Schema(
     {
