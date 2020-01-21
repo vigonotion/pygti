@@ -43,7 +43,7 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [ ] getVehicleMap
 - [ ] getTrackCoordinates
 - [ ] checkPostalCode
-- [ ] getStationInformation
+- [x] getStationInformation
 - [ ] tariffZoneNeighbours
 - [ ] ticketList
 
