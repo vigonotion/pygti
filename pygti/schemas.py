@@ -86,3 +86,5 @@ DLRequest = Schema(
         "useRealtime": bool,
     }
 )
+
+SIRequest = Schema({"station": SDName})

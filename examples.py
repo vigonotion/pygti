@@ -30,7 +30,7 @@ dl = gti.departureList(
 print(dl)
 
 print()
-print("Example 3.2: departureList(), only trains")
+print("Example 3.2: departureList(), return filters")
 dl = gti.departureList(
     {
         "station": {"name": "Wartenau", "id": "Master:10901", "type": "STATION"},
@@ -43,3 +43,10 @@ dl = gti.departureList(
 )
 
 print(dl)
+
+print()
+print("Example 4: stationInformation()")
+si = gti.stationInformation(
+    {"station": {"name": "Wartenau", "id": "Master:10901", "type": "STATION"}}
+)
+print(si)
