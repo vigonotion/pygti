@@ -1,32 +1,29 @@
-import requests
-
-from .auth import GTIAuth
+from .auth import Auth, GTIAuth
 from .const import *
 from .schemas import *
 
 
 class GTI:
-    def __init__(self, username, password, server="http://api-test.geofox.de"):
-        self.username = username
-        self.password = password
-        self.server = server
+    def __init__(self, auth):
+        self.auth = auth
 
-    def request(self, uri, payload):
-        payload.update({"version": 37})
-        res = requests.post(uri, json=payload, auth=GTIAuth(self, payload))
-        return res.json()
+    async def init(self):
+        response = await self.auth.request("post", ENDPOINT_INIT, {})
+        return await response.json()
 
-    def init(self):
-        return self.request(self.server + ENDPOINT_INIT, {})
-
-    def checkName(self, payload):
+    async def checkName(self, payload):
         request = CNRequest(payload)
-        return self.request(self.server + ENDPOINT_CHECK_NAME, request)
+        response = await self.auth.request("post", ENDPOINT_CHECK_NAME, request)
+        return await response.json()
 
-    def departureList(self, payload):
+    async def departureList(self, payload):
         request = DLRequest(payload)
-        return self.request(self.server + ENDPOINT_DEPARTURE_LIST, request)
+        response = await self.auth.request("post", ENDPOINT_DEPARTURE_LIST, request)
+        return await response.json()
 
-    def stationInformation(self, payload):
+    async def stationInformation(self, payload):
         request = SIRequest(payload)
-        return self.request(self.server + ENDPOINT_GET_STATION_INFORMATION, request)
+        response = await self.auth.request(
+            "post", ENDPOINT_GET_STATION_INFORMATION, request
+        )
+        return await response.json()
