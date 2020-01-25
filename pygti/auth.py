@@ -43,15 +43,12 @@ class Auth:
             hmac.new(self.password.encode("UTF-8"), data, hashlib.sha1).digest()
         ).decode("UTF-8")
 
-        print(payload)
-        print(signature)
-
         headers["geofox-auth-signature"] = f"{signature}"
         headers["geofox-auth-user"] = self.username
 
         return await self.websession.request(
             method,
-            f"http://{self.host}/{path}",
+            f"https://{self.host}/{path}",
             json=payload,
             **kwargs,
             headers=headers,
