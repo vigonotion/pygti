@@ -5,7 +5,7 @@ import json
 
 from aiohttp import ClientResponse, ClientSession
 
-GTI_DEFAULT_HOST = "api-test.geofox.de"
+GTI_DEFAULT_HOST = "api-prod.geofox.de"
 
 
 class Auth:
