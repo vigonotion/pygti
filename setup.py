@@ -9,7 +9,7 @@ import os
 import sys
 from shutil import rmtree
 
-from setuptools import find_packages, setup, Command
+from setuptools import Command, find_packages, setup
 
 # Package meta-data.
 NAME = "pygti"
@@ -18,7 +18,7 @@ URL = "https://github.com/vigonotion/pygti"
 EMAIL = "mail@vigonotion.com"
 AUTHOR = "Tom Schneider"
 REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "0.2.0"
+VERSION = "0.3.0"
 
 # What packages are required for this module to be executed?
 REQUIRED = ["requests", "voluptuous"]
