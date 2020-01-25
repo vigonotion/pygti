@@ -1,4 +1,4 @@
-from .auth import Auth, GTIAuth
+from .auth import Auth
 from .const import *
 from .schemas import *
 
