@@ -7,6 +7,12 @@ class GTIError(Exception):
         self.error_dev_info = error_dev_info
 
 
+class CannotConnect(Exception):
+    """Exception raised if connection could not be established to host."""
+
+    pass
+
+
 class InvalidAuth(GTIError):
     """Exception raised if credentials are incorrent."""
 
