@@ -73,4 +73,4 @@ class Auth:
                 raise InvalidAuth(return_code, error_text, error_dev_info)
             raise GTIError(return_code, error_text, error_dev_info)
 
-        return await response
+        return response
