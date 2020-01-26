@@ -5,6 +5,8 @@ import json
 
 from aiohttp import ClientResponse, ClientSession
 
+from .exceptions import *
+
 GTI_DEFAULT_HOST = "api-prod.geofox.de"
 
 
@@ -46,10 +48,29 @@ class Auth:
         headers["geofox-auth-signature"] = f"{signature}"
         headers["geofox-auth-user"] = self.username
 
-        return await self.websession.request(
+        response = await self.websession.request(
             method,
             f"https://{self.host}/{path}",
             json=payload,
             **kwargs,
             headers=headers,
         )
+
+        data = await response.json()
+
+        return_code = data.get("returnCode")
+        error_text = data.get("errorText")
+        error_dev_info = data.get("errorDevInfo")
+
+        if return_code == "ERROR_CN_TOO_MANY":
+            raise CheckNameTooMany(return_code, error_text, error_dev_info)
+        elif return_code == "ERROR_COMM":
+            raise CommunicationError(return_code, error_text, error_dev_info)
+        elif return_code == "ERROR_ROUTE":
+            raise RouteError(return_code, error_text, error_dev_info)
+        elif return_code == "ERROR_TEXT":
+            if error_dev_info == "Authentication failed!":
+                raise InvalidAuth(return_code, error_text, error_dev_info)
+            raise GTIError(return_code, error_text, error_dev_info)
+
+        return await response
