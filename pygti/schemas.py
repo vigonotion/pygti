@@ -88,3 +88,67 @@ DLRequest = Schema(
 )
 
 SIRequest = Schema({"station": SDName})
+
+ContSearchByServiceId = Schema(
+    {
+        "serviceId": int,
+        "lineKey": str,
+        "plannedDepArrTime": GTITime,
+        "additionalOffset": int,
+    }
+)
+
+TariffInfoSelector = Schema(
+    {
+        "tariff": str,
+        "tariffRegions": bool,
+        "kinds": [int],
+    }
+)
+
+Penalty = In(
+    {
+        "ChangeEvent": int,
+        "ExtraFare": int,
+        "Walker": int,
+        "AnyHandicap": int,
+        "ToStartStationBy": int,
+        "TimeRange": int,
+        "ForVisitors": int,
+        "DesiredType": str,
+        "DesiredLine": str,
+    }
+)
+
+RealtimeType = In(["REALTIME","PLANDATA"])
+
+SimpleServiceType = In(["BUS", "TRAIN", "SHIP", "FOOTPATH", "BICYCLE", "AIRPLANE", "CHANGE"])
+
+GRRequest = Schema(
+    {
+        "start": SDName,
+        "dest": SDName,
+        "via": SDName,
+        "time": GTITime,
+        "timeIsDeparture": bool,
+        "numberOfSchedules": int,
+        "tariffDetails": bool,
+        "continousSearch": bool,
+        "contSearchByServiceId": ContSearchByServiceId,
+        "coordinateType": CoordinateType,
+        "schedulesBefore": int,
+        "schedulesAfter": int,
+        "returnReduced": boolean,
+        "tariffInfoSelector": [TariffInfoSelector]
+        "penalties": [Penalty],
+        "returnPartialTickets": bool,
+        "realtime": RealtimeType,
+        "intermediateStops": bool,
+        "useStationPosition": bool,
+        "forcedStart": SDName,
+        "forcedDest": SDName,
+        "toStartBy": SimpleServiceType,
+        "toDestBy": SimpleServiceType,
+        "returnContSearchData": bool,
+    }
+)
