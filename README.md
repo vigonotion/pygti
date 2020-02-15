@@ -22,6 +22,12 @@
 
 This library is a python wrapper for accessing the geofox api. This api is used to get information about the public transport in Hamburg, Germany.
 
+## How to get the api credentials
+
+You have to apply for credentials via the HVV website. You can see their official guide [here](https://www.hvv.de/de/fahrplaene/abruf-fahrplaninfos/datenabruf) (the page is only available in German).
+
+They will send you a contract you will have to sign and send back. After about a week, you will receive your api credentials.
+
 ## Documentation
 
 This library uses the same data types and parameters as specified in the [GTI documentation](https://api-test.geofox.de/gti/doc/index.jsp). It features client side validation of the parameters.
