@@ -46,7 +46,7 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [x] 8. listLines
 - [x] 9. listStations
 - [ ] 10. listLines
-- [ ] 11. getAnnouncements
+- [x] 11. getAnnouncements
 - [x] 12. getIndividualRoute
 - [ ] 13. getVehicleMap
 - [ ] 14. getTrackCoordinates
