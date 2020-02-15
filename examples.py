@@ -1,5 +1,6 @@
 import asyncio
 import os
+from datetime import datetime, timedelta
 
 import aiohttp
 from pygti.auth import Auth
@@ -149,6 +150,19 @@ async def main():
         }
         indRoute = await gti.getIndividualRoute(payload)
         print(indRoute)
+
+        print("Example 11: AnnouncementRequest")
+        ar = await gti.getAnnouncements(
+            {
+                "names": ["S3"],
+                "timeRange": {
+                    "begin": datetime.now() - timedelta(days=2),
+                    "end": datetime.now() + timedelta(days=10),
+                },
+            }
+        )
+
+        print(ar)
 
         print()
         print("Example 13: stationInformation()")
