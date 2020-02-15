@@ -30,24 +30,24 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 
 ## Progress
 
-- [x] init
-- [x] checkName
-- [x] getRoute
-- [x] departureList
-- [x] getTariff
-- [ ] departureCourse
-- [ ] listStations
-- [x] listLines
-- [x] listStations
-- [ ] listLines
-- [ ] getAnnouncements
-- [ ] getIndividualRoute
-- [ ] getVehicleMap
-- [ ] getTrackCoordinates
-- [ ] checkPostalCode
-- [x] getStationInformation
-- [ ] tariffZoneNeighbours
-- [ ] ticketList
+- [x] 01. init
+- [x] 02. checkName
+- [x] 03. getRoute
+- [x] 04. departureList
+- [x] 05. getTariff
+- [ ] 06. departureCourse
+- [ ] 07. listStations
+- [x] 08. listLines
+- [x] 09. listStations
+- [ ] 10. listLines
+- [ ] 11. getAnnouncements
+- [ ] 12. getIndividualRoute
+- [ ] 13. getVehicleMap
+- [ ] 14. getTrackCoordinates
+- [ ] 15. checkPostalCode
+- [x] 16. getStationInformation
+- [ ] 17. tariffZoneNeighbours
+- [ ] 18. ticketList
 
 
 ## Contributions are welcome!
