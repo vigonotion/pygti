@@ -176,6 +176,31 @@ GRRequest = Schema.extend(
     },
 )
 
+LineModificationType = In(["MAIN", "SEQUENCE"])
+
+LLRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "dataReleaseID": str,
+        "modificationTypes": [LineModificationType],
+        "withSublines": bool,
+    },
+)
+ScheduleElementLight = Schema(
+    {"departureStationId": str, "arrivalStationId": str, "lineId": str,}
+)
+
+TariffRequest = Schema.extend(
+    BaseRequestType,
+    {
+        Required("scheduleElements"): [ScheduleElementLight],
+        Required("departure"): GTITime,
+        Required("arrival"): GTITime,
+        "returnReduced": bool,
+        "returnPartialTickets": bool,
+    },
+)
+
 IndividualProfileType = In(
     [
         "BICYCLE_NORMAL",

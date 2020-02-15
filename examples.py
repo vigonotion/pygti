@@ -54,7 +54,7 @@ async def main():
         print(gr)
 
         print()
-        print("Example 3.1: departureList()")
+        print("Example 4.1: departureList()")
         dl = await gti.departureList(
             {
                 "station": {
@@ -72,7 +72,7 @@ async def main():
         print(dl)
 
         print()
-        print("Example 3.2: departureList(), return filters")
+        print("Example 4.2: departureList(), return filters")
         dl = await gti.departureList(
             {
                 "station": {
@@ -88,6 +88,28 @@ async def main():
             }
         )
         print(dl)
+
+        print()
+        print("Example 5: getTariff()")
+        gT = await gti.getTariff(
+            {
+                "scheduleElements": [
+                    {
+                        "departureStationId": "Master:10950",
+                        "arrivalStationId": "Master:37979",
+                        "lineId": "DB-EFZ:RE8_DB-EFZ_Z",
+                    }
+                ],
+                "departure": {"date": "16.02.2020", "time": "8:04"},
+                "arrival": {"date": "16.02.2020", "time": "8:29"},
+            }
+        )
+        print(gT)
+
+        print()
+        print("Example 8: listLines()")
+        ll = await gti.listLines({"dataReleaseID": "32.17.02"})
+        print(ll)
 
         print()
         print("Example 10: getIndividualRoute()")
@@ -107,7 +129,7 @@ async def main():
         print(indRoute)
 
         print()
-        print("Example 4: stationInformation()")
+        print("Example 13: stationInformation()")
         si = await gti.stationInformation(
             {"station": {"name": "Wartenau", "id": "Master:10901", "type": "STATION"}}
         )
