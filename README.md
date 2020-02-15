@@ -34,10 +34,10 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [x] checkName
 - [x] getRoute
 - [x] departureList
-- [ ] getTariff
+- [x] getTariff
 - [ ] departureCourse
 - [ ] listStations
-- [ ] listLines
+- [x] listLines
 - [ ] getAnnouncements
 - [x] getIndividualRoute
 - [ ] getVehicleMap
@@ -46,6 +46,7 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [x] getStationInformation
 - [ ] tariffZoneNeighbours
 - [ ] ticketList
+
 
 ## Contributions are welcome!
 
