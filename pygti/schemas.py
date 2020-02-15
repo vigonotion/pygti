@@ -137,8 +137,8 @@ ServiceType = Schema(
 GRRequest = Schema.extend(
     BaseRequestType,
     {
-        "start": SDName,
-        "dest": SDName,
+        Required("start"): SDName,
+        Required("dest"): SDName,
         "via": SDName,
         "time": GTITime,
         "timeIsDeparture": bool,
