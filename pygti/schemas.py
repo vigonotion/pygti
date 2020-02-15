@@ -201,3 +201,15 @@ TariffRequest = Schema.extend(
         "returnPartialTickets": bool,
     },
 )
+
+ModificationType = In(["MAIN", "POSITION"])
+
+LSRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "dataReleaseID": str,
+        "modificationTypes": [ModificationType],
+        "coordinateType": CoordinateType,
+        "filterEquivalent": bool,
+    },
+)

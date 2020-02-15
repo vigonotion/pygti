@@ -89,6 +89,11 @@ async def main():
         )
         print(dl)
 
+        print("Example 7: listStations()")
+        # used a older dataReleaseID to show changes since then in the response
+        ls = await gti.listStations({"dataReleaseID": "32.17.02"})
+        print(ls)
+
         print()
         print("Example 8: listLines()")
         ll = await gti.listLines({"dataReleaseID": "32.17.02"})
