@@ -109,21 +109,24 @@ ContSearchByServiceId = Schema(
     }
 )
 
-TariffInfoSelector = Schema({"tariff": str, "tariffRegions": bool, "kinds": [int],})
-
-Penalty = In(
-    {
-        "ChangeEvent": int,
-        "ExtraFare": int,
-        "Walker": int,
-        "AnyHandicap": int,
-        "ToStartStationBy": int,
-        "TimeRange": int,
-        "ForVisitors": int,
-        "DesiredType": str,
-        "DesiredLine": str,
-    }
+# kinds: GTI Docs say int but traffic on the website uses strings
+# Same thing with the value of the penalty. All are strings
+TariffInfoSelector = Schema({"tariff": str, "tariffRegions": bool, "kinds": [str],})
+PenaltyName = In(
+    [
+        "ChangeEvent",
+        "ExtraFare",
+        "Walker",
+        "AnyHandicap",
+        "ToStartStationBy",
+        "TimeRange",
+        "ForVisitors",
+        "desiredType",
+        "DesiredLine",
+    ]
 )
+
+Penalty = Schema({"name": PenaltyName, "value": str})
 
 RealtimeType = In(["REALTIME", "PLANDATA"])
 
