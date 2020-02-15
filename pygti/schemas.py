@@ -128,10 +128,10 @@ PenaltyName = In(
 
 Penalty = Schema({"name": PenaltyName, "value": str})
 
-RealtimeType = In(["REALTIME", "PLANDATA"])
+RealtimeType = In(["REALTIME", "PLANDATA","AUTO"])
 
 SimpleServiceType = In(
-    ["BUS", "TRAIN", "SHIP", "FOOTPATH", "BICYCLE", "AIRPLANE", "CHANGE"]
+    ["BUS", "TRAIN", "SHIP", "FOOTPATH", "BICYCLE", "AIRPLANE", "CHANGE", "CHANGE_SAME_PLATFORM"]
 )
 
 ServiceType = Schema(
