@@ -32,7 +32,7 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 
 - [x] init
 - [x] checkName
-- [ ] getRoute
+- [x] getRoute
 - [x] departureList
 - [ ] getTariff
 - [ ] departureCourse

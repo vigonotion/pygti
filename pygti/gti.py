@@ -16,6 +16,11 @@ class GTI:
         response = await self.auth.request("post", ENDPOINT_CHECK_NAME, request)
         return await response.json()
 
+    async def getRoute(self, payload):
+        request = GRRequest(payload)
+        response = await self.auth.request("post", ENDPOINT_GET_ROUTE, request)
+        return await response.json()
+
     async def departureList(self, payload):
         request = DLRequest(payload)
         response = await self.auth.request("post", ENDPOINT_DEPARTURE_LIST, request)
