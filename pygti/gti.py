@@ -25,12 +25,11 @@ class GTI:
         request = DLRequest(payload)
         response = await self.auth.request("post", ENDPOINT_DEPARTURE_LIST, request)
         return await response.json()
-    
+
     async def getTariff(self, payload):
         request = TariffRequest(payload)
         response = await self.auth.request("post", ENDPOINT_GET_TARIFF, request)
         return await response.json()
-
 
     async def stationInformation(self, payload):
         request = SIRequest(payload)
