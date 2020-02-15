@@ -42,18 +42,17 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [x] 4. departureList
 - [x] 5. getTariff
 - [ ] 6. departureCourse
-- [ ] 7. listStations
+- [x] 7. listStations
 - [x] 8. listLines
-- [x] 9. listStations
-- [ ] 10. listLines
-- [x] 11. getAnnouncements
-- [x] 12. getIndividualRoute
-- [ ] 13. getVehicleMap
-- [ ] 14. getTrackCoordinates
-- [ ] 15. checkPostalCode
-- [x] 16. getStationInformation
-- [ ] 17. tariffZoneNeighbours
-- [ ] 18. ticketList
+- [x] 9. getAnnouncements
+- [x] 10. getIndividualRoute
+- [x] 11. getVehicleMap
+- [ ] 12. getTrackCoordinates
+- [ ] 13. checkPostalCode
+- [x] 14. getStationInformation
+- [ ] 15. tariffZoneNeighbours
+- [ ] 16. ticketList
+
 
 
 ## Contributions are welcome!

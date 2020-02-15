@@ -129,10 +129,6 @@ async def main():
         ll = await gti.listLines({"dataReleaseID": "32.17.02"})
         print(ll)
 
-        print()
-        print("Example 8: listLines()")
-        ll = await gti.listLines({"dataReleaseID": "32.17.02"})
-        print(ll)
 
         print()
         print("Example 10: getIndividualRoute()")
@@ -165,7 +161,25 @@ async def main():
         print(ar)
 
         print()
-        print("Example 13: stationInformation()")
+        print("Example 11: getVehicleMap()")
+        payload = {
+            "version": 37,
+            "boundingBox": {
+                "lowerLeft": {"x": 9.985707, "y": 53.573138, "type": "EPSG_4326"},
+                "upperRight": {"x": 9.992702, "y": 53.576916, "type": "EPSG_4326"},
+            },
+            "periodBegin": 158185312,
+            "periodEnd": 1581805412,
+            "withoutCoords": True,
+            "coordinateType": "EPSG_31467",
+            "vehicleTypes": ["U_BAHN"],
+            "realtime": False,
+        }
+        vm = await gti.getVehicleMap(payload)
+        print(vm)
+
+        print()
+        print("Example 14: stationInformation()")
         si = await gti.stationInformation(
             {"station": {"name": "Wartenau", "id": "Master:10901", "type": "STATION"}}
         )
