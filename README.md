@@ -47,18 +47,6 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [ ] tariffZoneNeighbours
 - [ ] ticketList
 
-## Tests
-
-To run the test use the pytest module
-```
-$ pytest -s
-```
-The `-s` parameter must be used because you will be prompted to insert your api credentials and this will fail if pytest isn't silenced.
-There are two groups to test: `schema` and `asyncio`. `schema` is testing your local schemas with payloads and checks if your schemas are correctly implemented. `asyncio` will send the requests to the api. Note that credentials are only used for the api call. Therefor you can use these two commands to check the parts seperatly:
-```
-$ pytest -m schema 
-$ pytest -s -m asyncio
-```  
 
 ## Contributions are welcome!
 
