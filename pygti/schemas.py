@@ -1,4 +1,4 @@
-from voluptuous import Schema, Required, In
+from voluptuous import In, Required, Schema
 
 CoordinateType = In(["EPSG_4326", "EPSG_31467"])
 
@@ -10,7 +10,7 @@ FilterType = In(["HVV_Listed", "NO_FILTER"])
 
 # See 1.4 in gti docs
 BaseRequestType = Schema(
-    {"language": Language, "version": int, "filterType": FilterType,}
+    {"language": Language, "version": int, "filterType": FilterType}
 )
 
 FilterServiceType = In(
@@ -111,7 +111,7 @@ ContSearchByServiceId = Schema(
 
 # kinds: GTI Docs say int but traffic on the website uses strings
 # Same thing with the value of the penalty. All are strings
-TariffInfoSelector = Schema({"tariff": str, "tariffRegions": bool, "kinds": [str],})
+TariffInfoSelector = Schema({"tariff": str, "tariffRegions": bool, "kinds": [str]})
 PenaltyName = In(
     [
         "ChangeEvent",
@@ -144,7 +144,7 @@ SimpleServiceType = In(
 )
 
 ServiceType = Schema(
-    {"simpleType": SimpleServiceType, "shortInfo": str, "longInfo": str, "model": str,}
+    {"simpleType": SimpleServiceType, "shortInfo": str, "longInfo": str, "model": str}
 )
 GRRequest = Schema.extend(
     BaseRequestType,
@@ -176,18 +176,19 @@ GRRequest = Schema.extend(
     },
 )
 
-LineModificationType = In(["MAIN","SEQUENCE"])
+LineModificationType = In(["MAIN", "SEQUENCE"])
 
 LLRequest = Schema.extend(
     BaseRequestType,
     {
         "dataReleaseID": str,
         "modificationTypes": [LineModificationType],
-        "withSublines": bool, 
-    }
+        "withSublines": bool,
+    },
+)
 
 ScheduleElementLight = Schema(
-    {"departureStationId": str, "arrivalStationId": str, "lineId": str,}
+    {"departureStationId": str, "arrivalStationId": str, "lineId": str}
 )
 
 TariffRequest = Schema.extend(
@@ -198,5 +199,5 @@ TariffRequest = Schema.extend(
         Required("arrival"): GTITime,
         "returnReduced": bool,
         "returnPartialTickets": bool,
-    }
+    },
 )
