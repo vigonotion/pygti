@@ -30,15 +30,28 @@ async def main():
         payload = {
             "version": 37,
             "language": "de",
-            "start": {'name': 'Ritterstraße', 'city': 'Hamburg', 'combinedName': 'Ritterstraße', 'id': 'Master:60904', 'type': 'STATION', 'coordinate': {'x': 10.046196, 'y': 53.567617}},
-            "dest": {'name': 'Wartenau', 'city': 'Hamburg', 'combinedName': 'Wartenau', 'id': 'Master:10901', 'type': 'STATION', 'coordinate': {'x': 10.035515, 'y': 53.56478}},
+            "start": {
+                "name": "Ritterstraße",
+                "city": "Hamburg",
+                "combinedName": "Ritterstraße",
+                "id": "Master:60904",
+                "type": "STATION",
+                "coordinate": {"x": 10.046196, "y": 53.567617},
+            },
+            "dest": {
+                "name": "Wartenau",
+                "city": "Hamburg",
+                "combinedName": "Wartenau",
+                "id": "Master:10901",
+                "type": "STATION",
+                "coordinate": {"x": 10.035515, "y": 53.56478},
+            },
             "time": {"date": "heute", "time": "jetzt"},
             "timeIsDeparture": True,
             "realtime": "REALTIME",
         }
         gr = await gti.getRoute(payload)
         print(gr)
-
 
         print()
         print("Example 3.1: departureList()")
