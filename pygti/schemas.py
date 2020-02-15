@@ -166,3 +166,14 @@ GRRequest = Schema.extend(
         "returnContSearchData": bool,
     },
 )
+
+LineModificationType = In(["MAIN","SEQUENCE"])
+
+LLRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "dataReleaseID": str,
+        "modificationTypes": [LineModificationType],
+        "withSublines": bool, 
+    }
+)
