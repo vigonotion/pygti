@@ -106,8 +106,6 @@ async def main():
         )
         print(gT)
 
-
-
         print()
         print("Example 13: stationInformation()")
         si = await gti.stationInformation(
