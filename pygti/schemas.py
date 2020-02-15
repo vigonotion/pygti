@@ -1,3 +1,6 @@
+from datetime import datetime
+
+import pytz
 from voluptuous import In, Required, Schema
 
 CoordinateType = In(["EPSG_4326", "EPSG_31467"])
@@ -7,6 +10,12 @@ SDType = In(["STATION", "COORDINATE", "ADDRESS", "POI", "UNKNOWN"])
 Language = In(["de", "en"])
 
 FilterType = In(["HVV_Listed", "NO_FILTER"])
+
+
+def DateTime(dt):
+    dt = pytz.utc.localize(dt)
+    return f"{dt.strftime('%Y-%m-%dT%H:%M:%S.%f')[:-3]}{dt.strftime('%z')}"
+
 
 # See 1.4 in gti docs
 BaseRequestType = Schema(
@@ -31,6 +40,8 @@ FilterServiceType = In(
         "FAEHRE",
     ]
 )
+
+AnnouncementFilterPlannedType = In(["ONLY_PLANNED", "ONLY_UNPLANNED", "NO_FILTER"])
 
 TariffDetails = Schema(
     {
@@ -224,7 +235,7 @@ IndividualRouteRequest = Schema.extend(
         "serviceType": SimpleServiceType,
         "profile": IndividualProfileType,
         "speed": str,
-    }
+    },
 )
 
 ModificationType = In(["MAIN", "POSITION"])
@@ -238,7 +249,6 @@ LSRequest = Schema.extend(
         "filterEquivalent": bool,
     },
 )
-
 
 BoundingBox = Schema({"lowerLeft": Coordinate, "upperRight": Coordinate,})
 
@@ -270,4 +280,17 @@ VehicleMapRequest = Schema.extend(
         "vehicleTypes": [VehicleType],
         "realtime": bool,
     },
+)
+
+SIRequest = Schema({"station": SDName})
+
+TimeRange = Schema({Required("begin"): DateTime, Required("end"): DateTime})
+
+AnnouncementRequest = Schema(
+    {
+        "names": [str],
+        "timeRange": TimeRange,
+        "full": bool,
+        "filterPlanned": AnnouncementFilterPlannedType,
+    }
 )
