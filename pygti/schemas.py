@@ -4,6 +4,15 @@ CoordinateType = In(["EPSG_4326", "EPSG_31467"])
 
 SDType = In(["STATION", "COORDINATE", "ADDRESS", "POI", "UNKNOWN"])
 
+Language = In(["de", "en"])
+
+FilterType = In(["HVV_Listed", "NO_FILTER"])
+
+# See 1.4 in gti docs
+BaseRequestType = Schema(
+    {"language": Language, "version": int, "filterType": FilterType,}
+)
+
 FilterServiceType = In(
     [
         "ZUG",
@@ -54,7 +63,8 @@ SDName = Schema(
     }
 )
 
-CNRequest = Schema(
+CNRequest = Schema.extend(
+    BaseRequestType,
     {
         "theName": SDName,
         "maxList": int,
@@ -62,7 +72,7 @@ CNRequest = Schema(
         "coordinateType": CoordinateType,
         "tariffDetails": bool,
         "allowTypeSwitch": bool,
-    }
+    },
 )
 
 GTITime = Schema({"date": str, "time": str})
@@ -72,7 +82,8 @@ FilterEntry = Schema(
 )
 
 
-DLRequest = Schema(
+DLRequest = Schema.extend(
+    BaseRequestType,
     {
         "station": SDName,
         "stations": [SDName],
@@ -84,10 +95,10 @@ DLRequest = Schema(
         "filter": [FilterEntry],
         "serviceTypes": [FilterServiceType],
         "useRealtime": bool,
-    }
+    },
 )
 
-SIRequest = Schema({"station": SDName})
+SIRequest = Schema.extend(BaseRequestType, {"station": SDName})
 
 ContSearchByServiceId = Schema(
     {
@@ -98,13 +109,7 @@ ContSearchByServiceId = Schema(
     }
 )
 
-TariffInfoSelector = Schema(
-    {
-        "tariff": str,
-        "tariffRegions": bool,
-        "kinds": [int],
-    }
-)
+TariffInfoSelector = Schema({"tariff": str, "tariffRegions": bool, "kinds": [int],})
 
 Penalty = In(
     {
@@ -120,11 +125,17 @@ Penalty = In(
     }
 )
 
-RealtimeType = In(["REALTIME","PLANDATA"])
+RealtimeType = In(["REALTIME", "PLANDATA"])
 
-SimpleServiceType = In(["BUS", "TRAIN", "SHIP", "FOOTPATH", "BICYCLE", "AIRPLANE", "CHANGE"])
+SimpleServiceType = In(
+    ["BUS", "TRAIN", "SHIP", "FOOTPATH", "BICYCLE", "AIRPLANE", "CHANGE"]
+)
 
-GRRequest = Schema(
+ServiceType = Schema(
+    {"simpleType": SimpleServiceType, "shortInfo": str, "longInfo": str, "model": str,}
+)
+GRRequest = Schema.extend(
+    BaseRequestType,
     {
         "start": SDName,
         "dest": SDName,
@@ -138,8 +149,8 @@ GRRequest = Schema(
         "coordinateType": CoordinateType,
         "schedulesBefore": int,
         "schedulesAfter": int,
-        "returnReduced": boolean,
-        "tariffInfoSelector": [TariffInfoSelector]
+        "returnReduced": bool,
+        "tariffInfoSelector": [TariffInfoSelector],
         "penalties": [Penalty],
         "returnPartialTickets": bool,
         "realtime": RealtimeType,
@@ -150,5 +161,5 @@ GRRequest = Schema(
         "toStartBy": SimpleServiceType,
         "toDestBy": SimpleServiceType,
         "returnContSearchData": bool,
-    }
+    },
 )
