@@ -87,8 +87,12 @@ async def main():
                 "returnFilters": True,
             }
         )
-
         print(dl)
+
+        print()
+        print("Example 8: listLines()")
+        ll = await gti.listLines({"dataReleaseID": "32.17.02"})
+        print(ll)
 
         print()
         print("Example 4: stationInformation()")
