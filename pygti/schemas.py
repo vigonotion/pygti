@@ -1,4 +1,4 @@
-from voluptuous import In, Required, Schema
+from voluptuous import All, In, Length, Required, Schema
 
 CoordinateType = In(["EPSG_4326", "EPSG_31467"])
 
@@ -224,7 +224,7 @@ IndividualRouteRequest = Schema.extend(
         "serviceType": SimpleServiceType,
         "profile": IndividualProfileType,
         "speed": str,
-    }
+    },
 )
 
 ModificationType = In(["MAIN", "POSITION"])
@@ -240,7 +240,7 @@ LSRequest = Schema.extend(
 )
 
 
-BoundingBox = Schema({"lowerLeft": Coordinate, "upperRight": Coordinate,})
+BoundingBox = Schema({"lowerLeft": Coordinate, "upperRight": Coordinate})
 
 VehicleType = In(
     [
@@ -269,5 +269,14 @@ VehicleMapRequest = Schema.extend(
         "coordinateType": CoordinateType,
         "vehicleTypes": [VehicleType],
         "realtime": bool,
+    },
+)
+
+# TODO: stopPointKeys should only come in pairs. Implement function to check if number of keys is %2=0.
+TrackCoordinatesRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "coordinateType": CoordinateType,
+        Required("stopPointKeys"): All([str], Length(min=2)),
     },
 )

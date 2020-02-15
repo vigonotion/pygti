@@ -28,9 +28,11 @@ class GTI:
 
     async def getIndividualRoute(self, payload):
         request = IndividualRouteRequest(payload)
-        response = await self.auth.request("post", ENDPOINT_GET_INDIVIDUAL_ROUTE, request)
+        response = await self.auth.request(
+            "post", ENDPOINT_GET_INDIVIDUAL_ROUTE, request
+        )
         return await response.json()
-        
+
     async def listLines(self, payload):
         request = LLRequest(payload)
         response = await self.auth.request("post", ENDPOINT_LIST_LINES, request)
@@ -47,10 +49,17 @@ class GTI:
         return await response.json()
 
     async def getVehicleMap(self, payload):
-            request = VehicleMapRequest(payload)
-            response = await self.auth.request("post", ENDPOINT_GET_VEHICLE_MAP, request)
-            return await response.json()
-            
+        request = VehicleMapRequest(payload)
+        response = await self.auth.request("post", ENDPOINT_GET_VEHICLE_MAP, request)
+        return await response.json()
+
+    async def getTrackCoordinates(self, payload):
+        request = TrackCoordinatesRequest(payload)
+        response = await self.auth.request(
+            "post", ENDPOINT_GET_TRACK_COORDINATES, request
+        )
+        return await response.json()
+
     async def stationInformation(self, payload):
         request = SIRequest(payload)
         response = await self.auth.request(

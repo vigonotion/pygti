@@ -128,7 +128,6 @@ async def main():
         ll = await gti.listLines({"dataReleaseID": "32.17.02"})
         print(ll)
 
-
         print()
         print("Example 10: getIndividualRoute()")
         payload = {
@@ -163,6 +162,21 @@ async def main():
         }
         vm = await gti.getVehicleMap(payload)
         print(vm)
+
+        print()
+        print("Example 12: getTrackCoordinates()")
+        payload = {
+            "" "version": 37,
+            "coordinateType": "EPSG_4326",
+            "stopPointKeys": [
+                "ZVU-DB:8004248:2",
+                "ZVU-DB:8004247:2",
+                "ZVU-DB:809100:1",
+                "ZVU-DB:119106:1",
+            ],
+        }
+        tc = await gti.getTrackCoordinates(payload)
+        print(tc)
 
         print()
         print("Example 14: stationInformation()")
