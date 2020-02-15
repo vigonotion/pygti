@@ -1,19 +1,31 @@
 import asyncio
+import os
 
 import aiohttp
 from pygti.auth import Auth
 from pygti.const import *
 from pygti.gti import *
 
-print("To run the examples, enter your credentials for the GTI API.")
-gti_user = input("GTI Username: ")
-gti_pass = input("GTI Password: ")
+try:
+    from dotenv import load_dotenv
+
+    load_dotenv()
+
+    GTI_USER = os.getenv("GTI_USER")
+    GTI_PASS = os.getenv("GTI_PASS")
+except ImportError:
+    pass
+
+if not (GTI_USER and GTI_PASS):
+    print("To run the examples, enter your credentials for the GTI API.")
+    GTI_USER = input("GTI Username: ")
+    GTI_PASS = input("GTI Password: ")
 
 
 async def main():
     async with aiohttp.ClientSession() as session:
 
-        auth = Auth(session, gti_user, gti_pass)
+        auth = Auth(session, GTI_USER, GTI_PASS)
         gti = GTI(auth)
 
         print("Example 1: init()")
