@@ -38,6 +38,8 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [ ] departureCourse
 - [ ] listStations
 - [x] listLines
+- [x] listStations
+- [ ] listLines
 - [ ] getAnnouncements
 - [x] getIndividualRoute
 - [ ] getVehicleMap
