@@ -238,3 +238,36 @@ LSRequest = Schema.extend(
         "filterEquivalent": bool,
     },
 )
+
+
+BoundingBox = Schema({"lowerLeft": Coordinate, "upperRight": Coordinate,})
+
+VehicleType = In(
+    [
+        "REGIONALBUS",
+        "METROBUS",
+        "NACHTBUS",
+        "SCHNELLBUS",
+        "EILBUS",
+        "AST",
+        "SCHIFF",
+        "U_BAHN",
+        "S_BAHN",
+        "R_BAHN",
+        "A_BAHN",
+        "F_BAHN",
+    ]
+)
+
+VehicleMapRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "boundingBox": BoundingBox,
+        "periodBegin": int,
+        "periodEnd": int,
+        "withoutCoords": bool,
+        "coordinateType": CoordinateType,
+        "vehicleTypes": [VehicleType],
+        "realtime": bool,
+    },
+)
