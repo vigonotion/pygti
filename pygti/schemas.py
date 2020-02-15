@@ -176,6 +176,16 @@ GRRequest = Schema.extend(
     },
 )
 
+LineModificationType = In(["MAIN","SEQUENCE"])
+
+LLRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "dataReleaseID": str,
+        "modificationTypes": [LineModificationType],
+        "withSublines": bool, 
+    }
+
 ScheduleElementLight = Schema(
     {"departureStationId": str, "arrivalStationId": str, "lineId": str,}
 )
@@ -188,5 +198,5 @@ TariffRequest = Schema.extend(
         Required("arrival"): GTITime,
         "returnReduced": bool,
         "returnPartialTickets": bool,
-    },
+    }
 )

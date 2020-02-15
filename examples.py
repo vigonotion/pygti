@@ -90,6 +90,12 @@ async def main():
         print(dl)
 
         print()
+        print("Example 8: listLines()")
+        ll = await gti.listLines({"dataReleaseID": "32.17.02"})
+        print(ll)
+
+        print()
+
         print("Example 5: getTariff()")
         gT = await gti.getTariff(
             {
