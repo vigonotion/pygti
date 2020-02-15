@@ -202,6 +202,31 @@ TariffRequest = Schema.extend(
     },
 )
 
+IndividualProfileType = In(
+    [
+        "BICYCLE_NORMAL",
+        "BICYCLE_RACING",
+        "BICYCLE_QUIET_ROADS",
+        "BICYCLE_MAIN_ROADS",
+        "BICYCLE_BAD_WEATHER",
+        "FOOT_NORMAL",
+    ]
+)
+
+IndividualRouteRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "starts": [SDName],
+        "dests": [SDName],
+        "maxLength": int,
+        "maxResults": int,
+        "type": CoordinateType,
+        "serviceType": SimpleServiceType,
+        "profile": IndividualProfileType,
+        "speed": str,
+    }
+)
+
 ModificationType = In(["MAIN", "POSITION"])
 
 LSRequest = Schema.extend(
