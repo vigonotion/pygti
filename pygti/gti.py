@@ -26,6 +26,11 @@ class GTI:
         response = await self.auth.request("post", ENDPOINT_DEPARTURE_LIST, request)
         return await response.json()
 
+    async def listStations(self, payload):
+        request = LSRequest(payload)
+        response = await self.auth.request("post", ENDPOINT_LIST_STATIONS, request)
+        return await response.json()
+
     async def stationInformation(self, payload):
         request = SIRequest(payload)
         response = await self.auth.request(
