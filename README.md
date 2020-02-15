@@ -37,7 +37,7 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [x] getTariff
 - [ ] departureCourse
 - [ ] listStations
-- [ ] listLines
+- [x] listLines
 - [ ] getAnnouncements
 - [ ] getIndividualRoute
 - [ ] getVehicleMap

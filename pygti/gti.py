@@ -26,6 +26,11 @@ class GTI:
         response = await self.auth.request("post", ENDPOINT_DEPARTURE_LIST, request)
         return await response.json()
 
+    async def listLines(self,payload):
+        request = LLRequest(payload)
+        response = await self.auth.request("post", ENDPOINT_LIST_LINES, request)
+        return await response.json()
+        
     async def getTariff(self, payload):
         request = TariffRequest(payload)
         response = await self.auth.request("post", ENDPOINT_GET_TARIFF, request)
