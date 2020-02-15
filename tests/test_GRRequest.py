@@ -9,9 +9,6 @@ from pygti.schemas import *
 from tests.payloadsForTesting import payloadsGRRequest
 
 
-
-
-
 @pytest.mark.schema
 def test_Schema_GRRequest():
     for payload in payloadsGRRequest:
