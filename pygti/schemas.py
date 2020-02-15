@@ -128,10 +128,19 @@ PenaltyName = In(
 
 Penalty = Schema({"name": PenaltyName, "value": str})
 
-RealtimeType = In(["REALTIME", "PLANDATA","AUTO"])
+RealtimeType = In(["REALTIME", "PLANDATA", "AUTO"])
 
 SimpleServiceType = In(
-    ["BUS", "TRAIN", "SHIP", "FOOTPATH", "BICYCLE", "AIRPLANE", "CHANGE", "CHANGE_SAME_PLATFORM"]
+    [
+        "BUS",
+        "TRAIN",
+        "SHIP",
+        "FOOTPATH",
+        "BICYCLE",
+        "AIRPLANE",
+        "CHANGE",
+        "CHANGE_SAME_PLATFORM",
+    ]
 )
 
 ServiceType = Schema(
@@ -164,5 +173,30 @@ GRRequest = Schema.extend(
         "toStartBy": SimpleServiceType,
         "toDestBy": SimpleServiceType,
         "returnContSearchData": bool,
+    },
+)
+
+IndividualProfileType = In(
+    [
+        "BICYCLE_NORMAL",
+        "BICYCLE_RACING",
+        "BICYCLE_QUIET_ROADS",
+        "BICYCLE_MAIN_ROADS",
+        "BICYCLE_BAD_WEATHER",
+        "FOOT_NORMAL",
+    ]
+)
+
+IndividualRouteRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "starts": [SDName],
+        "dests": [SDName],
+        "maxLength": int,
+        "maxResults": int,
+        "type": CoordinateType,
+        "serviceType": SimpleServiceType,
+        "profile": IndividualProfileType,
+        "speed": str,
     },
 )

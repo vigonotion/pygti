@@ -39,7 +39,7 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [ ] listStations
 - [ ] listLines
 - [ ] getAnnouncements
-- [ ] getIndividualRoute
+- [x] getIndividualRoute
 - [ ] getVehicleMap
 - [ ] getTrackCoordinates
 - [ ] checkPostalCode

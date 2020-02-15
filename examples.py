@@ -87,8 +87,24 @@ async def main():
                 "returnFilters": True,
             }
         )
-
         print(dl)
+
+        print()
+        print("Example 10: getIndividualRoute()")
+        payload = {
+            "starts": [
+                {"type": "ADDRESS", "coordinate": {"x": 9.92496, "y": 53.563494}}
+            ],
+            "dests": [
+                {"type": "ADDRESS", "coordinate": {"x": 9.924269, "y": 53.562925}}
+            ],
+            "maxLength": 10000,
+            "serviceType": "BICYCLE",
+            "profile": "BICYCLE_NORMAL",
+            "speed": "NORMAL",
+        }
+        indRoute = await gti.getIndividualRoute(payload)
+        print(indRoute)
 
         print()
         print("Example 4: stationInformation()")
