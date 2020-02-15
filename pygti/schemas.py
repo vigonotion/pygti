@@ -166,3 +166,17 @@ GRRequest = Schema.extend(
         "returnContSearchData": bool,
     },
 )
+
+ScheduleElementLight = Schema(
+    {"departureStationId": str, "arrivalStationId": str, "lineId": str,}
+)
+
+TariffRequest = Schema.extend(
+    BaseRequestType,
+    {
+        Required("scheduleElements"): [ScheduleElementLight],
+        Required("departure"): GTITime,
+        Required("arrival"): GTITime,
+        "returnReduced": bool,
+    }
+)
