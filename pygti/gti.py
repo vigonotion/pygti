@@ -53,6 +53,13 @@ class GTI:
         response = await self.auth.request("post", ENDPOINT_GET_VEHICLE_MAP, request)
         return await response.json()
 
+    async def getTrackCoordinates(self, payload):
+        request = TrackCoordinatesRequest(payload)
+        response = await self.auth.request(
+            "post", ENDPOINT_GET_TRACK_COORDINATES, request
+        )
+        return await response.json()
+
     async def stationInformation(self, payload):
         request = SIRequest(payload)
         response = await self.auth.request(
