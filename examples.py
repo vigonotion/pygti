@@ -129,6 +129,19 @@ async def main():
         ll = await gti.listLines({"dataReleaseID": "32.17.02"})
         print(ll)
 
+        print("Example 9: AnnouncementRequest")
+        ar = await gti.getAnnouncements(
+            {
+                "names": ["S3"],
+                "timeRange": {
+                    "begin": datetime.now() - timedelta(days=2),
+                    "end": datetime.now() + timedelta(days=10),
+                },
+            }
+        )
+
+        print(ar)
+
         print()
         print("Example 10: getIndividualRoute()")
         payload = {
@@ -145,19 +158,6 @@ async def main():
         }
         indRoute = await gti.getIndividualRoute(payload)
         print(indRoute)
-
-        print("Example 11: AnnouncementRequest")
-        ar = await gti.getAnnouncements(
-            {
-                "names": ["S3"],
-                "timeRange": {
-                    "begin": datetime.now() - timedelta(days=2),
-                    "end": datetime.now() + timedelta(days=10),
-                },
-            }
-        )
-
-        print(ar)
 
         print()
         print("Example 11: getVehicleMap()")
