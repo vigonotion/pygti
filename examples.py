@@ -189,5 +189,10 @@ async def main():
         )
         print(si)
 
+        print()
+        print("Example 15: tariffZoneNeighbours()")
+        tzn = await gti.tariffZoneNeighbours({})
+        print(tzn)
+
 
 asyncio.run(main())
