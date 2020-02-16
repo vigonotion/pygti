@@ -306,3 +306,5 @@ PostalCodeRequest = Schema.extend(
         )
     },
 )
+
+TariffZoneNeighboursRequest = BaseRequestType
