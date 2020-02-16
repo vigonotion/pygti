@@ -62,7 +62,6 @@ class GTI:
 
     async def getAnnouncements(self, payload):
         request = AnnouncementRequest(payload)
-        print(request)
         response = await self.auth.request("post", ENDPOINT_GET_ANNOUNCEMENTS, request)
         return await response.json()
 
