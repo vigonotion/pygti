@@ -49,10 +49,10 @@ class GTI:
         return await response.json()
 
     async def getVehicleMap(self, payload):
-            request = VehicleMapRequest(payload)
-            response = await self.auth.request("post", ENDPOINT_GET_VEHICLE_MAP, request)
-            return await response.json()
-            
+        request = VehicleMapRequest(payload)
+        response = await self.auth.request("post", ENDPOINT_GET_VEHICLE_MAP, request)
+        return await response.json()
+
     async def stationInformation(self, payload):
         request = SIRequest(payload)
         response = await self.auth.request(
@@ -64,4 +64,9 @@ class GTI:
         request = AnnouncementRequest(payload)
         print(request)
         response = await self.auth.request("post", ENDPOINT_GET_ANNOUNCEMENTS, request)
+        return await response.json()
+
+    async def checkPostalCode(self, payload):
+        request = PostalCodeRequest(payload)
+        response = await self.auth.request("post", ENDPOINT_CHECK_POSTAL_CODE, request)
         return await response.json()
