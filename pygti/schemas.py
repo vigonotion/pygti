@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import pytz
-from voluptuous import In, Required, Schema
+from voluptuous import In, Range, Required, Schema
 
 CoordinateType = In(["EPSG_4326", "EPSG_31467"])
 
@@ -250,7 +250,7 @@ LSRequest = Schema.extend(
     },
 )
 
-BoundingBox = Schema({"lowerLeft": Coordinate, "upperRight": Coordinate,})
+BoundingBox = Schema({"lowerLeft": Coordinate, "upperRight": Coordinate})
 
 VehicleType = In(
     [
@@ -293,4 +293,15 @@ AnnouncementRequest = Schema(
         "full": bool,
         "filterPlanned": AnnouncementFilterPlannedType,
     }
+)
+
+PostalCodeRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "postalCode": Range(
+            min=1000,
+            max=99999,
+            msg="value must be a valid german postal code (5 digits)",
+        )
+    },
 )
