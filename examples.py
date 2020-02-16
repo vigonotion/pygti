@@ -178,6 +178,21 @@ async def main():
         print(vm)
 
         print()
+        print("Example 12: getTrackCoordinates()")
+        payload = {
+            "version": 37,
+            "coordinateType": "EPSG_4326",
+            "stopPointKeys": [
+                "ZVU-DB:8004248:2",
+                "ZVU-DB:8004247:2",
+                "ZVU-DB:809100:1",
+                "ZVU-DB:119106:1",
+            ],
+        }
+        tc = await gti.getTrackCoordinates(payload)
+        print(tc)
+
+        print()
         print("Example 13: checkPostalCode()")
         pc = await gti.checkPostalCode({"postalCode": 20355})
         print(pc)

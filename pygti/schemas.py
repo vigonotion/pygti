@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import pytz
-from voluptuous import In, Range, Required, Schema
+from voluptuous import All, In, Length, LengthInvalid, Range, Required, Schema
 
 CoordinateType = In(["EPSG_4326", "EPSG_31467"])
 
@@ -10,6 +10,20 @@ SDType = In(["STATION", "COORDINATE", "ADDRESS", "POI", "UNKNOWN"])
 Language = In(["de", "en"])
 
 FilterType = In(["HVV_Listed", "NO_FILTER"])
+
+
+class ModLength(Length):
+    def __init__(self, min=None, max=None, msg=None, mod=None):
+        super(self.__class__, self).__init__(min=min, max=max, msg=msg)
+        self.mod = mod
+
+    def __call__(self, v):
+        super(self.__class__, self).__call__(v)
+        if self.mod is not None and len(v) % self.mod != 0:
+            raise LengthInvalid(
+                self.msg or "length of value must be dividable by %s" % self.mod
+            )
+        return v
 
 
 def DateTime(dt):
@@ -304,5 +318,13 @@ PostalCodeRequest = Schema.extend(
             max=99999,
             msg="value must be a valid german postal code (5 digits)",
         )
+    },
+)
+
+TrackCoordinatesRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "coordinateType": CoordinateType,
+        Required("stopPointKeys"): All([str], ModLength(min=2, mod=2)),
     },
 )
