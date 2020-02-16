@@ -209,5 +209,10 @@ async def main():
         tzn = await gti.tariffZoneNeighbours({})
         print(tzn)
 
+        print()
+        print("Example 16: ticketList()")
+        tl = await gti.ticketList({"stationKey": "Master:92903"})
+        print(tl)
+
 
 asyncio.run(main())
