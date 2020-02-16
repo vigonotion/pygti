@@ -286,13 +286,14 @@ SIRequest = Schema({"station": SDName})
 
 TimeRange = Schema({Required("begin"): DateTime, Required("end"): DateTime})
 
-AnnouncementRequest = Schema(
+AnnouncementRequest = Schema.extend(
+    BaseRequestType,
     {
         "names": [str],
         "timeRange": TimeRange,
         "full": bool,
         "filterPlanned": AnnouncementFilterPlannedType,
-    }
+    },
 )
 
 PostalCodeRequest = Schema.extend(
