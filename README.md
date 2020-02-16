@@ -48,7 +48,7 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [x] 10. getIndividualRoute
 - [x] 11. getVehicleMap
 - [ ] 12. getTrackCoordinates
-- [ ] 13. checkPostalCode
+- [x] 13. checkPostalCode
 - [x] 14. getStationInformation
 - [ ] 15. tariffZoneNeighbours
 - [ ] 16. ticketList
