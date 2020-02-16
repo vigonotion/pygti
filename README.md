@@ -53,7 +53,7 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [x] 13. checkPostalCode
 - [x] 14. getStationInformation
 - [x] 15. tariffZoneNeighbours
-- [x] 16. ticketList
+- [ ] 16. ticketList
 
 
 
