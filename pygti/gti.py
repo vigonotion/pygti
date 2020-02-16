@@ -69,11 +69,17 @@ class GTI:
 
     async def getAnnouncements(self, payload):
         request = AnnouncementRequest(payload)
-        print(request)
         response = await self.auth.request("post", ENDPOINT_GET_ANNOUNCEMENTS, request)
         return await response.json()
 
     async def checkPostalCode(self, payload):
         request = PostalCodeRequest(payload)
         response = await self.auth.request("post", ENDPOINT_CHECK_POSTAL_CODE, request)
+        return await response.json()
+
+    async def tariffZoneNeighbours(self, payload):
+        request = TariffZoneNeighboursRequest(payload)
+        response = await self.auth.request(
+            "post", ENDPOINT_TARIFF_ZONE_NEIGHBOURS, request
+        )
         return await response.json()

@@ -328,3 +328,5 @@ TrackCoordinatesRequest = Schema.extend(
         Required("stopPointKeys"): All([str], ModLength(min=2, mod=2)),
     },
 )
+
+TariffZoneNeighboursRequest = BaseRequestType
