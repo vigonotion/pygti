@@ -83,3 +83,8 @@ class GTI:
             "post", ENDPOINT_TARIFF_ZONE_NEIGHBOURS, request
         )
         return await response.json()
+
+    async def ticketList(self, payload):
+        request = TLRequest(payload)
+        response = await self.auth.request("post", ENDPOINT_TICKET_LIST, request)
+        return await response.json()
