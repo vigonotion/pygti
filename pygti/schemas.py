@@ -21,7 +21,7 @@ class ModLength(Length):
         super(self.__class__, self).__call__(v)
         if self.mod is not None and len(v) % self.mod != 0:
             raise LengthInvalid(
-                self.msg or "length of value must be dividable by %s" % self.mod
+                self.msg or "length of value must be divisible by %s" % self.mod
             )
         return v
 
