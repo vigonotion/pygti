@@ -32,9 +32,7 @@ def DateTime(dt):
 
 
 # See 1.4 in gti docs
-BaseRequestType = Schema(
-    {"language": Language, "version": int, "filterType": FilterType}
-)
+BaseRequestType = Schema({"language": Language, "filterType": FilterType})
 
 FilterServiceType = In(
     [
