@@ -1,6 +1,21 @@
 from .auth import Auth
 from .const import *
-from .schemas import *
+from .schemas import (
+    AnnouncementRequest,
+    CNRequest,
+    DLRequest,
+    GRRequest,
+    IndividualRouteRequest,
+    LLRequest,
+    LSRequest,
+    PostalCodeRequest,
+    SIRequest,
+    TariffRequest,
+    TariffZoneNeighboursRequest,
+    TLRequest,
+    TrackCoordinatesRequest,
+    VehicleMapRequest,
+)
 
 
 class GTI:

@@ -4,8 +4,7 @@ from datetime import datetime, timedelta
 
 import aiohttp
 from pygti.auth import Auth
-from pygti.const import *
-from pygti.gti import *
+from pygti.gti import GTI
 
 try:
     from dotenv import load_dotenv
