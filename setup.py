@@ -21,7 +21,7 @@ REQUIRES_PYTHON = ">=3.6.0"
 VERSION = "0.7.0"
 
 # What packages are required for this module to be executed?
-REQUIRED = ["requests", "voluptuous"]
+REQUIRED = ["aiohttp", "voluptuous"]
 
 # What packages are optional?
 EXTRAS = {
@@ -102,11 +102,7 @@ setup(
     python_requires=REQUIRES_PYTHON,
     url=URL,
     packages=find_packages(exclude=["tests", "*.tests", "*.tests.*", "tests.*"]),
-    entry_points={
-        "console_scripts": [
-            "stadtreinigung_hamburg = stadtreinigung_hamburg.stadtreinigung_hamburg:main"
-        ]
-    },
+    entry_points={},
     install_requires=REQUIRED,
     extras_require=EXTRAS,
     include_package_data=True,
