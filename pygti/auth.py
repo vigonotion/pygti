@@ -37,7 +37,7 @@ class Auth:
         else:
             headers = dict(headers)
 
-        payload.update({"version": 37})
+        payload.update({"version": 38})
 
         data = json.dumps(payload).encode("UTF-8")
 

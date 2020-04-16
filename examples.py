@@ -40,7 +40,6 @@ async def main():
         print()
         print("Example 3: getRoute()")
         payload = {
-            "version": 37,
             "language": "de",
             "start": {
                 "name": "Ritterstraße",
@@ -161,7 +160,6 @@ async def main():
         print()
         print("Example 11: getVehicleMap()")
         payload = {
-            "version": 37,
             "boundingBox": {
                 "lowerLeft": {"x": 9.985707, "y": 53.573138, "type": "EPSG_4326"},
                 "upperRight": {"x": 9.992702, "y": 53.576916, "type": "EPSG_4326"},
@@ -179,7 +177,6 @@ async def main():
         print()
         print("Example 12: getTrackCoordinates()")
         payload = {
-            "version": 37,
             "coordinateType": "EPSG_4326",
             "stopPointKeys": [
                 "ZVU-DB:8004248:2",
