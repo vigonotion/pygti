@@ -157,7 +157,7 @@ async def main():
         }
         indRoute = await gti.getIndividualRoute(payload)
         print(indRoute)
-        
+
         print()
         print("Example 11: getVehicleMap()")
         payload = {
@@ -200,7 +200,7 @@ async def main():
             {"station": {"name": "Wartenau", "id": "Master:10901", "type": "STATION"}}
         )
         print(si)
-        
+
         print()
         print("Example 15: tariffZoneNeighbours()")
         tzn = await gti.tariffZoneNeighbours({})
