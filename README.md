@@ -34,7 +34,43 @@ They will send you a contract you will have to sign and send back. After about a
 
 This library uses the same data types and parameters as specified in the [GTI documentation](https://api-test.geofox.de/gti/doc/index.jsp). It features client side validation of the parameters.
 
-See the examples on how to use the library at [examples.py](examples.py), and see the [GTI documentation](https://api-test.geofox.de/gti/doc/index.jsp) for parameters.
+## Installation
+
+Install the [package from pypi](https://pypi.org/project/pygti/).
+
+```python
+pip install pygti
+```
+
+## Usage
+
+See the examples on how to use the library at [examples.py](https://github.com/vigonotion/pygti/blob/master/examples.py), and see the [GTI documentation](https://api-test.geofox.de/gti/doc/index.jsp) for in-depth explanation of parameters.
+
+A minimal working example is shown below:
+
+```python
+from pygti.gti import GTI, Auth
+import asyncio
+import aiohttp
+
+GTI_USER = "" # your api username
+GTI_PASS = "" # your api password
+
+
+async def main():
+    async with aiohttp.ClientSession() as session:
+        auth = Auth(session, GTI_USER, GTI_PASS)
+
+        gti = GTI(auth)
+
+        ir = await gti.init()
+
+        # see the examples.py file for more functionality and use of the payloads
+
+asyncio.run(main())
+```
+> :exclamation: **If using Python 3.8**: Version 3.6.2 of aiohttp uses a different EventLoopPolicy so running this MWE will currently result in an error displayed in the console! It should not affect the functionality. This should be fixed with a newer version of aiohttp. For a workaround look into the [examples.py](https://github.com/vigonotion/pygti/blob/master/examples.py) file. For more information see this [Issue](https://github.com/aio-libs/aiohttp/issues/4324).
+
 
 ## Progress
 
