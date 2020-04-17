@@ -26,7 +26,7 @@ steps:
 - script: git diff
   displayName: 'Diff Before'
 
-- script: python setup.py sdist
+- script: python setup.py sdist bdist_wheel
   displayName: 'Create artifact'
 
 - task: CopyFiles@2
