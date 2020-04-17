@@ -18,7 +18,7 @@ URL = "https://github.com/vigonotion/pygti"
 EMAIL = "mail@vigonotion.com"
 AUTHOR = "Tom Schneider"
 REQUIRES_PYTHON = ">=3.6.0"
-VERSION = "0.7.0"
+VERSION = "0.8.0"
 
 # What packages are required for this module to be executed?
 REQUIRED = ["aiohttp", "voluptuous", "pytz"]
@@ -93,7 +93,8 @@ class UploadCommand(Command):
 # Where the magic happens:
 setup(
     name=NAME,
-    version=about["__version__"],
+    use_scm_version=True,
+    setup_requires=["setuptools_scm"],
     description=DESCRIPTION,
     long_description=long_description,
     long_description_content_type="text/markdown",
