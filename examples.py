@@ -6,6 +6,9 @@ import aiohttp
 from pygti.auth import Auth
 from pygti.gti import GTI
 
+GTI_USER = None
+GTI_PASS = None
+
 try:
     from dotenv import load_dotenv
 
