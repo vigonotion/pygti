@@ -93,7 +93,8 @@ class UploadCommand(Command):
 # Where the magic happens:
 setup(
     name=NAME,
-    version=about["__version__"],
+    use_scm_version=True,
+    setup_requires=["setuptools_scm"],
     description=DESCRIPTION,
     long_description=long_description,
     long_description_content_type="text/markdown",
