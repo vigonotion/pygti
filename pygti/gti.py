@@ -3,6 +3,7 @@ from .const import *
 from .schemas import (
     AnnouncementRequest,
     CNRequest,
+    DepartureCourseRequest,
     DLRequest,
     GRRequest,
     IndividualRouteRequest,
@@ -56,6 +57,11 @@ class GTI:
     async def getTariff(self, payload):
         request = TariffRequest(payload)
         response = await self.auth.request("post", ENDPOINT_GET_TARIFF, request)
+        return await response.json()
+
+    async def departureCourse(self, payload):
+        request = DepartureCourseRequest(payload)
+        response = await self.auth.request("post", ENDPOINT_DEPARTURE_COURSE, request)
         return await response.json()
 
     async def listStations(self, payload):

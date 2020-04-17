@@ -121,6 +121,47 @@ async def main():
         )
         print(gT)
 
+        print()
+        print("Example 6.1: departureCourse() time and direction")
+        gT = await gti.departureCourse(
+            {
+                "lineKey": "VHH:569_VHH",
+                "station": {
+                    "name": "Rosenhof",
+                    "city": "Ahrensburg",
+                    "combinedName": "Ahrensburg, Rosenhof",
+                    "id": "Master:35009",
+                    "type": "STATION",
+                    "coordinate": {"x": 10.240928, "y": 53.683071},
+                },
+                "time": datetime.fromisoformat("2020-10-21T10:19:00.000"),
+                "direction": "Ahrensburg, Schulzentrum Am Heimgarten",
+            }
+        )
+        # print(gT)
+        print(
+            "departureCourse() output is too long, please uncomment only if neccessary"
+        )
+
+        print()
+        print("Example 6.2: departureCourse() time and serviceId")
+        gT = await gti.departureCourse(
+            {
+                "lineKey": "HHA-U:U1_HHA-U",
+                "station": {
+                    "name": "Wartenau",
+                    "id": "Master:10901",
+                    "type": "STATION",
+                },
+                "time": datetime.now(),
+                "serviceId": 1626150555,
+            }
+        )
+        # print(gT)
+        print(
+            "departureCourse() output is too long, please uncomment only if neccessary"
+        )
+
         print("Example 7: listStations()")
         # used a older dataReleaseID to show changes since then in the response
         ls = await gti.listStations({"dataReleaseID": "32.17.02"})
