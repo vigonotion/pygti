@@ -84,13 +84,14 @@ asyncio.run(main())
 - [x] 8. listLines
 - [x] 9. getAnnouncements
 - [x] 10. getIndividualRoute
-- [x] 11. getVehicleMap
-- [X] 12. getTrackCoordinates
-- [x] 13. checkPostalCode
-- [x] 14. getStationInformation
-- [x] 15. tariffZoneNeighbours
-- [x] 16. ticketList
-
+- [x] 11a. getVehicleMap
+- [x] 11b. getTrackCoordinates
+- [x] 12. checkPostalCode
+- [x] 13. getStationInformation
+- [x] 14. tariffZoneNeighbours
+- [ ] 15. tariffMetaData
+- [ ] 16. singleTicketOptimizer
+- [x] 17. ticketList
 
 ## Contributions are welcome!
 

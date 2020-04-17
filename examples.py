@@ -203,7 +203,7 @@ async def main():
         print(indRoute)
 
         print()
-        print("Example 11: getVehicleMap()")
+        print("Example 11a: getVehicleMap()")
         payload = {
             "boundingBox": {
                 "lowerLeft": {"x": 9.985707, "y": 53.573138, "type": "EPSG_4326"},
@@ -220,7 +220,7 @@ async def main():
         print(vm)
 
         print()
-        print("Example 12: getTrackCoordinates()")
+        print("Example 11b: getTrackCoordinates()")
         payload = {
             "coordinateType": "EPSG_4326",
             "stopPointKeys": ["HHA-U:909010:1", "HHA-U:119000:1"],
@@ -229,24 +229,24 @@ async def main():
         print(tc)
 
         print()
-        print("Example 13: checkPostalCode()")
+        print("Example 12: checkPostalCode()")
         pc = await gti.checkPostalCode({"postalCode": 20355})
         print(pc)
 
         print()
-        print("Example 14: stationInformation()")
+        print("Example 13: stationInformation()")
         si = await gti.stationInformation(
             {"station": {"name": "Wartenau", "id": "Master:10901", "type": "STATION"}}
         )
         print(si)
 
         print()
-        print("Example 15: tariffZoneNeighbours()")
+        print("Example 14: tariffZoneNeighbours()")
         tzn = await gti.tariffZoneNeighbours({})
         print(tzn)
 
         print()
-        print("Example 16: ticketList()")
+        print("Example 17: ticketList()")
         tl = await gti.ticketList({"stationKey": "Master:92903"})
         print(tl)
 
