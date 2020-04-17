@@ -89,7 +89,7 @@ asyncio.run(main())
 - [x] 12. checkPostalCode
 - [x] 13. getStationInformation
 - [x] 14. tariffZoneNeighbours
-- [ ] 15. tariffMetaData
+- [x] 15. tariffMetaData
 - [ ] 16. singleTicketOptimizer
 - [x] 17. ticketList
 

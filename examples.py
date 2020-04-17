@@ -246,6 +246,16 @@ async def main():
         print(tzn)
 
         print()
+        print("Example 15.1: tariffMetaData() in german")
+        tmd = await gti.tariffMetaData({})
+        print(tmd)
+
+        print()
+        print("Example 15.2: tariffMetaData() in english")
+        tmd = await gti.tariffMetaData({"language": "en"})
+        print(tmd)
+
+        print()
         print("Example 17: ticketList()")
         tl = await gti.ticketList({"stationKey": "Master:92903"})
         print(tl)
