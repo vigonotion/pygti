@@ -13,7 +13,7 @@
   <a href=""><img alt="Hamburg" src="https://img.shields.io/badge/city-hamburg-e3000f"></a>
   <a href="https://github.com/vigonotion/pygti/issues"><img alt="Open Issues" src="https://img.shields.io/github/issues/vigonotion/pygti"></a>
   <a href="https://github.com/vigonotion/pygti/releases"><img alt="Release" src="https://img.shields.io/github/release/vigonotion/pygti"></a>
-  <a href="https://api-test.geofox.de/gti/doc/index.jsp"><img alt="GTI version: 37.4" src="https://img.shields.io/badge/gti%20version-37.4-green.svg"></a>
+  <a href="https://api-test.geofox.de/gti/doc/index.jsp"><img alt="GTI version: 38" src="https://img.shields.io/badge/gti%20version-38-green.svg"></a>
   <a href="https://dev.azure.com/vigonotion/pygti/_build/latest?definitionId=1&branchName=master"><img alt="Azure Pipelines status" src="https://dev.azure.com/vigonotion/pygti/_apis/build/status/vigonotion.pygti?branchName=master"></a>
 
 </p>

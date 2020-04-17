@@ -21,3 +21,23 @@ steps:
 
 - script: tox -e py
   displayName: 'Run Tox'
+
+- script: git diff
+  displayName: 'Diff Before'
+
+- script: python setup.py sdist
+  displayName: 'Create artifact'
+
+- task: CopyFiles@2
+  inputs:
+    contents: dist/**
+    targetFolder: $(Build.ArtifactStagingDirectory)
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'dist'
+    publishLocation: 'Container'
+
+- script: git diff
+  displayName: 'Diff After'
