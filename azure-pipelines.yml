@@ -22,6 +22,9 @@ steps:
 - script: tox -e py
   displayName: 'Run Tox'
 
+- script: git diff
+  displayName: 'Diff'
+
 - script: python setup.py sdist
   displayName: 'Create artifact'
 
