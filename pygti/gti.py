@@ -2,6 +2,7 @@ from .auth import Auth
 from .const import *
 from .schemas import (
     AnnouncementRequest,
+    BaseRequestType,
     CNRequest,
     DepartureCourseRequest,
     DLRequest,
@@ -103,6 +104,11 @@ class GTI:
         response = await self.auth.request(
             "post", ENDPOINT_TARIFF_ZONE_NEIGHBOURS, request
         )
+        return await response.json()
+
+    async def tariffMetaData(self, payload):
+        request = BaseRequestType(payload)
+        response = await self.auth.request("post", ENDPOINT_TARIFF_META_DATA, request)
         return await response.json()
 
     async def ticketList(self, payload):
