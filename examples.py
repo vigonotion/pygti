@@ -1,5 +1,6 @@
 import asyncio
 import os
+import sys
 from datetime import datetime, timedelta
 
 import aiohttp
@@ -181,12 +182,7 @@ async def main():
         print("Example 12: getTrackCoordinates()")
         payload = {
             "coordinateType": "EPSG_4326",
-            "stopPointKeys": [
-                "ZVU-DB:8004248:2",
-                "ZVU-DB:8004247:2",
-                "ZVU-DB:809100:1",
-                "ZVU-DB:119106:1",
-            ],
+            "stopPointKeys": ["HHA-U:909010:1", "HHA-U:119000:1"],
         }
         tc = await gti.getTrackCoordinates(payload)
         print(tc)
@@ -214,4 +210,15 @@ async def main():
         print(tl)
 
 
+# To avoid 'Event loop is closed' RuntimeError due to compatibility issue with aiohttp
+if sys.platform.startswith("win") and sys.version_info >= (3, 8):
+    try:
+        from asyncio import WindowsSelectorEventLoopPolicy
+    except ImportError:
+        pass
+    else:
+        if not isinstance(
+            asyncio.get_event_loop_policy(), WindowsSelectorEventLoopPolicy
+        ):
+            asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
 asyncio.run(main())
