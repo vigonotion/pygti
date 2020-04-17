@@ -17,8 +17,8 @@ steps:
     versionSpec: '$(python.version)'
   displayName: 'Use Python $(python.version)'
 
-- script: pip install tox
-  displayName: 'Install Tox'
+- script: pip install tox wheel
+  displayName: 'Install Tox and wheel'
 
 - script: tox -e py
   displayName: 'Run Tox'
