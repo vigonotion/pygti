@@ -330,3 +330,14 @@ TrackCoordinatesRequest = Schema.extend(
 TariffZoneNeighboursRequest = BaseRequestType
 
 TLRequest = Schema.extend(BaseRequestType, {"stationKey": str})
+
+DepartureCourseRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "lineKey": str,
+        "station": SDName,
+        "time": DateTime,
+        "direction": str,
+        "serviceId": int,
+    },
+)

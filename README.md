@@ -43,7 +43,7 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [x] 3. getRoute
 - [x] 4. departureList
 - [x] 5. getTariff
-- [ ] ~~6. departureCourse~~ *
+- [x] 6. departureCourse
 - [x] 7. listStations
 - [x] 8. listLines
 - [x] 9. getAnnouncements
@@ -55,7 +55,6 @@ See the examples on how to use the library at [examples.py](examples.py), and se
 - [x] 15. tariffZoneNeighbours
 - [x] 16. ticketList
 
-\* departureCourse seems to be broken. Also, we were not able to "guess" the correct usage and it's not used on the official HVV page. If you find a solution to this, please open a PR.
 
 ## Contributions are welcome!
 
