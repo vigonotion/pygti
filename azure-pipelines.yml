@@ -23,7 +23,7 @@ steps:
   displayName: 'Run Tox'
 
 - script: git diff
-  displayName: 'Diff'
+  displayName: 'Diff Before'
 
 - script: python setup.py sdist
   displayName: 'Create artifact'
@@ -38,3 +38,6 @@ steps:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: 'dist'
     publishLocation: 'Container'
+
+- script: git diff
+  displayName: 'Diff After'
