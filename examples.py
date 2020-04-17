@@ -181,12 +181,7 @@ async def main():
         print("Example 12: getTrackCoordinates()")
         payload = {
             "coordinateType": "EPSG_4326",
-            "stopPointKeys": [
-                "ZVU-DB:8004248:2",
-                "ZVU-DB:8004247:2",
-                "ZVU-DB:809100:1",
-                "ZVU-DB:119106:1",
-            ],
+            "stopPointKeys": ["HHA-U:909010:1", "HHA-U:119000:1"],
         }
         tc = await gti.getTrackCoordinates(payload)
         print(tc)
