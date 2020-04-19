@@ -92,7 +92,7 @@ asyncio.run(main())
 - [x] 13. getStationInformation
 - [x] 14. tariffZoneNeighbours
 - [x] 15. tariffMetaData
-- [ ] 16. singleTicketOptimizer
+- [x] 16. singleTicketOptimizer
 - [x] 17. ticketList
 
 ## Contributions are welcome!

@@ -11,6 +11,7 @@ from .schemas import (
     LLRequest,
     LSRequest,
     PostalCodeRequest,
+    SingleTicketOptimizerRequest,
     SIRequest,
     TariffRequest,
     TariffZoneNeighboursRequest,
@@ -114,4 +115,11 @@ class GTI:
     async def ticketList(self, payload):
         request = TLRequest(payload)
         response = await self.auth.request("post", ENDPOINT_TICKET_LIST, request)
+        return await response.json()
+
+    async def singleTicketOptimizer(self, payload):
+        request = SingleTicketOptimizerRequest(payload)
+        response = await self.auth.request(
+            "post", ENDPOINT_SINGLE_TICKET_OPTIMIZER, request
+        )
         return await response.json()
