@@ -88,3 +88,7 @@ class CNResponse(BaseResponse):
         BaseResponse.__init__(json)
 
 ```
+
+# Fehler für HVV
+SingleTicketOptimizerRequest.route ist keine Liste
+SingleTicketOptimizerRequestRoute.trip ist eine Liste

@@ -11,6 +11,14 @@ Language = In(["de", "en"])
 
 FilterType = In(["HVV_Listed", "NO_FILTER"])
 
+TariffPersonType = In(
+    ["ALL", "ADULT", "ELDERLY", "APPRENTICE", "PUPIL", "STUDENT", "CHILD"]
+)
+
+TariffExtraFareType = In(["NO", "POSSIBLE", "REQUIRED"])
+
+TicketRegionType = In(["RING", "ZONE", "COUNTY", "GH_ZONE"])
+
 
 class ModLength(Length):
     def __init__(self, min=None, max=None, msg=None, mod=None):
@@ -339,5 +347,61 @@ DepartureCourseRequest = Schema.extend(
         "time": DateTime,
         "direction": str,
         "serviceId": int,
+    },
+)
+
+TariffOptimizerTicket = Schema(
+    {
+        "tariffKindId": int,
+        "tariffKindLabel": str,
+        "tariffLevelId": int,
+        "tariffLevelLabel": str,
+        "tariffRegions": str,
+        "regionType": TicketRegionType,
+        "count": int,
+        "extraFare": bool,
+        "personType": TariffPersonType,
+        "centPrice": int,
+    }
+)
+
+SingleTicketOptimizerRequestStation = Schema({"id": str, "name": str})
+
+SingleTicketOptimizerRequestLine = Schema({"id": str, "name": str})
+
+SingleTicketOptimizerRequestTrip = Schema(
+    {
+        "start": SingleTicketOptimizerRequestStation,
+        "destination": SingleTicketOptimizerRequestStation,
+        "line": SingleTicketOptimizerRequestLine,
+        "vehicleType": str,
+    }
+)
+
+TariffRegions = Schema({"regions": [str]})
+
+TariffOptimizerRegions = Schema(
+    {"zones": [TariffRegions], "rings": [TariffRegions], "counties": [TariffRegions]}
+)
+
+SingleTicketOptimizerRequestRoute = Schema(
+    {
+        "trip": [SingleTicketOptimizerRequestTrip],
+        "departure": DateTime,
+        "arrival": DateTime,
+        "tariffRegions": TariffOptimizerRegions,
+        "singleTicketTariffLevelId": int,
+        "extraFareType": TariffExtraFareType,
+    }
+)
+
+SingleTicketOptimizerRequest = Schema.extend(
+    BaseRequestType,
+    {
+        "withReturnJourney": bool,
+        "numberOfAdults": int,
+        "numberOfChildren": int,
+        "tickets": [TariffOptimizerTicket],
+        "route": SingleTicketOptimizerRequestRoute,
     },
 )
