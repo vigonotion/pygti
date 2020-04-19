@@ -46,6 +46,8 @@ pip install pygti
 
 See the examples on how to use the library at [examples.py](https://github.com/vigonotion/pygti/blob/master/examples.py), and see the [GTI documentation](https://api-test.geofox.de/gti/doc/index.jsp) for in-depth explanation of parameters.
 
+There is also a [Glitch example](https://pygti-examples.glitch.me/) available. Try it out and if you want to see how it's done, just [remix the app](https://glitch.com/edit/#!/pygti-examples).
+
 A minimal working example is shown below:
 
 ```python
