@@ -143,20 +143,20 @@ async def main():
             "departureCourse() output is too long, please uncomment only if neccessary"
         )
 
-        print()
-        print("Example 6.2: departureCourse() time and serviceId")
-        gT = await gti.departureCourse(
-            {
-                "lineKey": "HHA-U:U1_HHA-U",
-                "station": {
-                    "name": "Wartenau",
-                    "id": "Master:10901",
-                    "type": "STATION",
-                },
-                "time": datetime.now(),
-                "serviceId": 1626150555,
-            }
-        )
+        # print()
+        # print("Example 6.2: departureCourse() time and serviceId")
+        # gT = await gti.departureCourse(
+        #     {
+        #         "lineKey": "HHA-U:U1_HHA-U",
+        #         "station": {
+        #             "name": "Wartenau",
+        #             "id": "Master:10901",
+        #             "type": "STATION",
+        #         },
+        #         "time": datetime.now(),
+        #         "serviceId": 1626150555,
+        #     }
+        # )
         # print(gT)
         print(
             "departureCourse() output is too long, please uncomment only if neccessary"
@@ -254,6 +254,61 @@ async def main():
         print("Example 15.2: tariffMetaData() in english")
         tmd = await gti.tariffMetaData({"language": "en"})
         print(tmd)
+
+        print()
+        print("Example 16.1: singleTicketOptimizer()")
+        sto = await gti.singleTicketOptimizer(
+            {
+                "withReturnJourney": True,
+                "numberOfAdults": 2,
+                "numberOfChildren": 0,
+                "tickets": [],
+                "route": {
+                    "trip": [
+                        {
+                            "start": {"id": "Master:43063", "name": "Außenmühle"},
+                            "destination": {
+                                "id": "Master:49001",
+                                "name": "Bf. Harburg",
+                            },
+                            "line": {"id": "HHA-B:145_HHA-B", "name": "145"},
+                            "vehicleType": "Bus",
+                        },
+                        {
+                            "start": {"id": "Master:49950", "name": "Harburg"},
+                            "destination": {
+                                "id": "Master:80950",
+                                "name": "Landungsbrücken",
+                            },
+                            "line": {"id": "SBH:S3_SBH_SBAHNS", "name": "S3"},
+                            "vehicleType": "S",
+                        },
+                        {
+                            "start": {
+                                "id": "Master:80984",
+                                "name": "Landungsbrücken Brücke 1",
+                            },
+                            "destination": {
+                                "id": "Master:80932",
+                                "name": "Elbphilharmonie",
+                            },
+                            "line": {"id": "ZVU-DB:72_ZVU-DB_HADAGZ", "name": "72"},
+                            "vehicleType": "Schiff",
+                        },
+                    ],
+                    "departure": datetime.fromisoformat("2020-04-17T18:16:00.000"),
+                    "arrival": datetime.fromisoformat("2020-04-17T19:14:00.000"),
+                    "tariffRegions": {
+                        "zones": [{"regions": ["308", "208", "108", "000"]}],
+                        "rings": [{"regions": ["B", "A"]}],
+                        "counties": [{"regions": ["HH1", "HH2"]}],
+                    },
+                    "singleTicketTariffLevelId": 14,
+                    "extraFareType": "NO",
+                },
+            }
+        )
+        print(sto)
 
         print()
         print("Example 17: ticketList()")
