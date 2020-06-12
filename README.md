@@ -71,8 +71,8 @@ async def main():
 
 asyncio.run(main())
 ```
-> :exclamation: **If using Python 3.8**: Version 3.6.2 of aiohttp uses a different EventLoopPolicy so running this MWE will currently result in an error displayed in the console! It should not affect the functionality. This should be fixed with a newer version of aiohttp. For a workaround look into the [examples.py](https://github.com/vigonotion/pygti/blob/master/examples.py) file. For more information see this [Issue](https://github.com/aio-libs/aiohttp/issues/4324).
 
+> :exclamation: **If using Python 3.8**: Version 3.6.2 of aiohttp uses a different EventLoopPolicy so running this MWE will currently result in an error displayed in the console! It should not affect the functionality. This should be fixed with a newer version of aiohttp. For a workaround look into the [examples.py](https://github.com/vigonotion/pygti/blob/master/examples.py) file. For more information see this [Issue](https://github.com/aio-libs/aiohttp/issues/4324).
 
 ## Progress
 
@@ -94,6 +94,16 @@ asyncio.run(main())
 - [x] 15. tariffMetaData
 - [x] 16. singleTicketOptimizer
 - [x] 17. ticketList
+
+## Developing
+
+Some files in this project are generated based on the WADL and XSD schema files from GTI.
+To generate them, install the dev dependencies and run the script:
+
+```sh
+pip install -r requirements_dev.txt
+python script/generate.py
+```
 
 ## Contributions are welcome!
 
