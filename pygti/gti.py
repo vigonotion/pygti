@@ -4,18 +4,18 @@ from .schemas import (
     AnnouncementRequest,
     BaseRequestType,
     CNRequest,
-    DepartureCourseRequest,
+    DCRequest,
     DLRequest,
     GRRequest,
     IndividualRouteRequest,
     LLRequest,
     LSRequest,
-    PostalCodeRequest,
+    PCRequest,
     SingleTicketOptimizerRequest,
-    SIRequest,
-    TariffRequest,
+    StationInformationRequest,
+    TariffRequestType,
     TariffZoneNeighboursRequest,
-    TLRequest,
+    TicketListRequest,
     TrackCoordinatesRequest,
     VehicleMapRequest,
 )
@@ -57,12 +57,12 @@ class GTI:
         return await response.json()
 
     async def getTariff(self, payload):
-        request = TariffRequest(payload)
+        request = TariffRequestType(payload)
         response = await self.auth.request("post", ENDPOINT_GET_TARIFF, request)
         return await response.json()
 
     async def departureCourse(self, payload):
-        request = DepartureCourseRequest(payload)
+        request = DCRequest(payload)
         response = await self.auth.request("post", ENDPOINT_DEPARTURE_COURSE, request)
         return await response.json()
 
@@ -84,7 +84,7 @@ class GTI:
         return await response.json()
 
     async def stationInformation(self, payload):
-        request = SIRequest(payload)
+        request = StationInformationRequest(payload)
         response = await self.auth.request(
             "post", ENDPOINT_GET_STATION_INFORMATION, request
         )
@@ -96,7 +96,7 @@ class GTI:
         return await response.json()
 
     async def checkPostalCode(self, payload):
-        request = PostalCodeRequest(payload)
+        request = PCRequest(payload)
         response = await self.auth.request("post", ENDPOINT_CHECK_POSTAL_CODE, request)
         return await response.json()
 
@@ -113,7 +113,7 @@ class GTI:
         return await response.json()
 
     async def ticketList(self, payload):
-        request = TLRequest(payload)
+        request = TicketListRequest(payload)
         response = await self.auth.request("post", ENDPOINT_TICKET_LIST, request)
         return await response.json()
 
