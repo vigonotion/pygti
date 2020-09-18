@@ -7,7 +7,7 @@ from aiohttp import ClientConnectorError, ClientResponse, ClientSession
 
 from .exceptions import *
 
-GTI_DEFAULT_HOST = "api-prod.geofox.de"
+GTI_DEFAULT_HOST = "gti.geofox.de"
 
 
 class Auth:
