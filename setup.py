@@ -21,7 +21,7 @@ REQUIRES_PYTHON = ">=3.6.0"
 VERSION = "0.8.0"
 
 # What packages are required for this module to be executed?
-REQUIRED = ["aiohttp", "asyncio", "voluptuous", "pytz"]
+REQUIRED = ["aiohttp", "voluptuous", "pytz"]
 
 # What packages are optional?
 EXTRAS = {
