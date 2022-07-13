@@ -39,7 +39,7 @@ class Auth:
 
         payload.update({"version": 38})
 
-        data = json.dumps(payload).encode("UTF-8")
+        data = self.websession.json_serialize(payload).encode("UTF-8")
 
         signature = base64.b64encode(
             hmac.new(self.password.encode("UTF-8"), data, hashlib.sha1).digest()
