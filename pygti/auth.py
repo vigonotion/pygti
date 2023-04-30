@@ -37,7 +37,7 @@ class Auth:
         else:
             headers = dict(headers)
 
-        payload.update({"version": 38})
+        payload.update({"version": 54})
 
         data = self.websession.json_serialize(payload).encode("UTF-8")
 
