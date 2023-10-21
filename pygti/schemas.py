@@ -1506,10 +1506,12 @@ city: str the city of the location (0 - None)
 combinedName: str combination of name and city field.
 						* since version 6 (0 - None)
 id: str the unique id of a SDName object (0 - None)
+globalId: str
 type: SDType the type of a SDName object, type can be:
 						UNKNOWN, STATION , ADDRESS, POI, COORDINATE.
 						Unknown type is only for requests. Default: UNKNOWN (0 - None)
 coordinate: Coordinate the coordinate of a SDName object (0 - None)
+layer: int
 tariffDetails: TariffDetails Detailed information about the tariff. (0 - None)
 serviceTypes: str Type of vehicles that stops at this station. (Only filled on SDType Station)
 						* since version 16 (0 - unbounded)
@@ -1524,8 +1526,10 @@ SDName = Schema(
         "city": str,
         "combinedName": str,
         "id": str,
+        "globalId": str,
         "type": SDType,
         "coordinate": Coordinate,
+        "layer": int,
         "tariffDetails": TariffDetails,
         "serviceTypes": [str],
         "hasStationInformation": bool,
