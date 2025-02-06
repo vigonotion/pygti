@@ -1,13 +1,8 @@
-[build-system]
-requires = ["setuptools>=61.0", "setuptools_scm"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "pygti"
 version = "0.10.0"
 description = "Access public transport information in Hamburg, Germany."
 authors = [{ name = "Tom Schneider", email = "mail@vigonotion.com" }]
-license = { text = "Apache-2.0" }
 requires-python = ">=3.6.0"
 dependencies = ["aiohttp", "voluptuous", "pytz"]
 
@@ -26,8 +21,6 @@ packages = ["pygti"]
 
 [tool.pypi-publish]
 repository = "pypi"
-
-[tool.twine]
 
 [dependency-groups]
 dev = ["ruff>=0.0.17"]
