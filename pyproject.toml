@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pygti"
-version = "0.9.0"
+version = "0.10.0"
 description = "Access public transport information in Hamburg, Germany."
 authors = [{ name = "Tom Schneider", email = "mail@vigonotion.com" }]
 license = { text = "Apache-2.0" }
