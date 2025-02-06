@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0", "setuptools_scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pygti"
+version = "0.8.0"
+description = "Access public transport information in Hamburg, Germany."
+authors = [{ name = "Tom Schneider", email = "mail@vigonotion.com" }]
+license = { text = "Apache-2.0" }
+requires-python = ">=3.6.0"
+dependencies = [
+    "aiohttp",
+    "voluptuous",
+    "pytz"
+]
+
+[project.optional-dependencies]
+# Uncomment and add optional dependencies as needed
+# fancy_feature = ["django"]
+
+[project.urls]
+Homepage = "https://github.com/vigonotion/pygti"
+
+[tool.setuptools]
+packages = ["pygti"]
+
+[tool.setuptools_scm]
+# Enables setuptools_scm for versioning
+
+[tool.pypi-publish]
+repository = "pypi"
+
+[tool.twine]
+# If you still need Twine for uploads
+
+[project.scripts]
+# Add CLI entry points here if necessary
