@@ -3,10 +3,6 @@ import hashlib
 import hmac
 import json
 from abc import ABC, abstractmethod
-from aiohttp import ClientConnectorError, ClientResponse, ClientSession
-
-from .exceptions import *
-
 
 class AuthStrategy(ABC):
     """Base class for authentication strategies."""
