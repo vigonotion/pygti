@@ -1,3 +1,7 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "pygti"
 version = "0.10.0"
@@ -5,6 +9,7 @@ description = "Access public transport information in Hamburg, Germany."
 authors = [{ name = "Tom Schneider", email = "mail@vigonotion.com" }]
 requires-python = ">=3.6.0"
 dependencies = ["aiohttp", "voluptuous", "pytz"]
+license-files = ["LICENSE.md"]
 
 [project.optional-dependencies]
 # Uncomment and add optional dependencies as needed
