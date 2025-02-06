@@ -115,3 +115,5 @@ venv/
 .env
 
 uv.lock
+examples-local.py
+.idea

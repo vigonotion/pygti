@@ -32,6 +32,11 @@ packages = ["pygti"]
 repository = "pypi"
 
 [tool.twine]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.0.17",
+]
 # If you still need Twine for uploads
 
 [project.scripts]

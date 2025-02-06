@@ -2,9 +2,8 @@
 This file was generated automatically by xsd-to-vol. Do not edit.
 """
 
-from datetime import datetime
-
 import pytz
+from datetime import datetime
 from voluptuous import All, In, Length, Required, Schema, Url
 
 

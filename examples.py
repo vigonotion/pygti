@@ -4,8 +4,9 @@ import sys
 from datetime import datetime, timedelta
 
 import aiohttp
-from pygti.auth import Auth
+from pygti.auth import HMACAuth
 from pygti.gti import GTI
+from pygti.request import AiohttpRequest
 
 GTI_USER = None
 GTI_PASS = None
@@ -29,8 +30,9 @@ if not (GTI_USER and GTI_PASS):
 async def main():
     async with aiohttp.ClientSession() as session:
 
-        auth = Auth(session, GTI_USER, GTI_PASS)
-        gti = GTI(auth)
+        auth = HMACAuth(GTI_USER, GTI_PASS)
+        request = AiohttpRequest(session)
+        gti = GTI(auth, request)
 
         print("Example 1: init()")
         ir = await gti.init()
