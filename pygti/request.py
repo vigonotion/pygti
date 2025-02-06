@@ -3,7 +3,14 @@ from aiohttp import ClientConnectorError, ClientResponse, ClientSession
 
 from pygti.auth import AuthStrategy
 from pygti.const import GTI_DEFAULT_SERVER
-from pygti.exceptions import CannotConnect, CheckNameTooMany, CommunicationError, GTIError, InvalidAuth, RouteError
+from pygti.exceptions import (
+    CannotConnect,
+    CheckNameTooMany,
+    CommunicationError,
+    GTIError,
+    InvalidAuth,
+    RouteError,
+)
 
 
 class Request(ABC):
@@ -13,8 +20,14 @@ class Request(ABC):
         self.server = server
 
     @abstractmethod
-    async def request(self, auth_strategy: AuthStrategy, method: str, path: str, payload=None,
-                      **kwargs) -> ClientResponse:
+    async def request(
+        self,
+        auth_strategy: AuthStrategy,
+        method: str,
+        path: str,
+        payload=None,
+        **kwargs,
+    ) -> ClientResponse:
         pass
 
 
@@ -22,15 +35,22 @@ class AiohttpRequest(Request):
     """Class to make authenticated requests to the geofox API."""
 
     def __init__(
-            self,
-            websession: ClientSession,
-            server: str = GTI_DEFAULT_SERVER,
+        self,
+        websession: ClientSession,
+        server: str = GTI_DEFAULT_SERVER,
     ):
         """Initialize authentication."""
         super().__init__(server)
         self.websession = websession
 
-    async def request(self, auth_strategy: AuthStrategy, method: str, path: str, payload=None, **kwargs) -> ClientResponse:
+    async def request(
+        self,
+        auth_strategy: AuthStrategy,
+        method: str,
+        path: str,
+        payload=None,
+        **kwargs,
+    ) -> ClientResponse:
         """Make a request with authentication."""
         headers = kwargs.get("headers", {}).copy()
         payload = payload or {}

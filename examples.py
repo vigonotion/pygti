@@ -29,7 +29,6 @@ if not (GTI_USER and GTI_PASS):
 
 async def main():
     async with aiohttp.ClientSession() as session:
-
         auth = HMACAuth(GTI_USER, GTI_PASS)
         request = AiohttpRequest(session)
         gti = GTI(auth, request)

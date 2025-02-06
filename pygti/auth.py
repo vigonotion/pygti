@@ -4,6 +4,7 @@ import hmac
 import json
 from abc import ABC, abstractmethod
 
+
 class AuthStrategy(ABC):
     """Base class for authentication strategies."""
 
