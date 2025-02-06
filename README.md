@@ -51,7 +51,7 @@ There is also a [Glitch example](https://pygti-examples.glitch.me/) available. T
 A minimal working example is shown below:
 
 ```python
-from pygti.gti import GTI, Auth
+from pygti.gti import GTI, HMACAuth
 import asyncio
 import aiohttp
 
@@ -61,9 +61,9 @@ GTI_PASS = "" # your api password
 
 async def main():
     async with aiohttp.ClientSession() as session:
-        auth = Auth(session, GTI_USER, GTI_PASS)
-
-        gti = GTI(auth)
+        auth = HMACAuth(GTI_USER, GTI_PASS)
+        request = AiohttpRequest(session)
+        gti = GTI(auth, request)
 
         ir = await gti.init()
 
@@ -73,27 +73,6 @@ asyncio.run(main())
 ```
 
 > :exclamation: **If using Python 3.8**: Version 3.6.2 of aiohttp uses a different EventLoopPolicy so running this MWE will currently result in an error displayed in the console! It should not affect the functionality. This should be fixed with a newer version of aiohttp. For a workaround look into the [examples.py](https://github.com/vigonotion/pygti/blob/master/examples.py) file. For more information see this [Issue](https://github.com/aio-libs/aiohttp/issues/4324).
-
-## Progress
-
-- [x] 1. init
-- [x] 2. checkName
-- [x] 3. getRoute
-- [x] 4. departureList
-- [x] 5. getTariff
-- [x] 6. departureCourse
-- [x] 7. listStations
-- [x] 8. listLines
-- [x] 9. getAnnouncements
-- [x] 10. getIndividualRoute
-- [x] 11a. getVehicleMap
-- [x] 11b. getTrackCoordinates
-- [x] 12. checkPostalCode
-- [x] 13. getStationInformation
-- [x] 14. tariffZoneNeighbours
-- [x] 15. tariffMetaData
-- [x] 16. singleTicketOptimizer
-- [x] 17. ticketList
 
 ## Developing
 
