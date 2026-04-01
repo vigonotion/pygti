@@ -12,3 +12,16 @@ dependencies = ["aiohttp>=3.13.5", "pytz>=2026.1.post1", "voluptuous>=0.16.0"]
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.datamodel-codegen]
+url = "https://gti.geofox.de/v3/api-docs/public"
+input-file-type = "openapi"
+output = "src/pygti/models.py"
+output-model-type = "pydantic_v2.BaseModel"
+formatters = []
+use-field-description = true
+use-operation-id-as-name = true
+naming-strategy = "parent-prefixed"
+
+[dependency-groups]
+dev = ["datamodel-code-generator[http]>=0.55.0"]
