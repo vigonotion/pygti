@@ -21,6 +21,8 @@ output-model-type = "pydantic_v2.BaseModel"
 formatters = []
 use-field-description = true
 use-operation-id-as-name = true
+use-default = true
+use-default-kwarg = true
 naming-strategy = "parent-prefixed"
 
 [dependency-groups]

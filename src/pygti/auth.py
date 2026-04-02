@@ -39,7 +39,7 @@ class Auth:
 
         payload.version = 63
 
-        data = payload.json().encode("UTF-8")
+        data = payload.model_dump_json(warnings=False).encode("UTF-8")
 
         signature = base64.b64encode(
             hmac.new(self.password.encode("UTF-8"), data, hashlib.sha1).digest()

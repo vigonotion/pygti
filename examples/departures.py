@@ -42,7 +42,6 @@ async def main():
                 maxList=5,
                 maxTimeOffset=200,
                 useRealtime=True,
-                coordinateType=None,
             )
         )
 
