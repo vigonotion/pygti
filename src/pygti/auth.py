@@ -37,9 +37,9 @@ class Auth:
         else:
             headers = dict(headers)
 
-        payload.update({"version": 54})
+        payload.version = 63
 
-        data = self.websession.json_serialize(payload).encode("UTF-8")
+        data = payload.json().encode("UTF-8")
 
         signature = base64.b64encode(
             hmac.new(self.password.encode("UTF-8"), data, hashlib.sha1).digest()
@@ -48,20 +48,22 @@ class Auth:
         headers["geofox-auth-signature"] = f"{signature}"
         headers["geofox-auth-user"] = self.username
 
+        headers["Content-Type"] = "application/json"
+
         try:
             response = await self.websession.request(
                 method,
-                f"https://{self.host}/{path}",
-                json=payload,
+                f"https://{self.host}{path}",
+                data=data,
                 **kwargs,
                 headers=headers,
             )
 
-            data = await response.json()
+            response_data = await response.json()
 
-            return_code = data.get("returnCode")
-            error_text = data.get("errorText")
-            error_dev_info = data.get("errorDevInfo")
+            return_code = response_data.get("returnCode")
+            error_text = response_data.get("errorText")
+            error_dev_info = response_data.get("errorDevInfo")
 
             if return_code == "ERROR_CN_TOO_MANY":
                 raise CheckNameTooMany(return_code, error_text, error_dev_info)
@@ -74,6 +76,6 @@ class Auth:
                     raise InvalidAuth(return_code, error_text, error_dev_info)
                 raise GTIError(return_code, error_text, error_dev_info)
 
-            return response
+            return response_data
         except ClientConnectorError as error:
             raise CannotConnect(error)

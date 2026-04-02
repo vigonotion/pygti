@@ -4,6 +4,7 @@ import aiohttp
 
 from pygti.auth import Auth
 from pygti.gti import GTI
+from pygti.models import InitRequest
 
 GTI_USER = None
 GTI_PASS = None
@@ -26,12 +27,12 @@ if not (GTI_USER and GTI_PASS):
 
 async def main():
     async with aiohttp.ClientSession() as session:
-
         auth = Auth(session, GTI_USER, GTI_PASS)
         gti = GTI(auth)
 
         print("Example 1: init()")
-        ir = await gti.init()
+        ir = await gti.init(InitRequest())
         print(ir)
+
 
 asyncio.run(main())
