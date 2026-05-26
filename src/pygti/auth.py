@@ -5,18 +5,10 @@ import json
 
 from aiohttp import ClientResponse, ClientSession
 
+from .exceptions import GTIError
 from .models import ReturnCode
 
 GTI_DEFAULT_HOST = "gti.geofox.de"
-
-
-class GTIError(Exception):
-    """An exception occured while using the GTI API."""
-
-    def __init__(self, return_code, error_text, error_dev_info):
-        self.return_code = return_code
-        self.error_text = error_text
-        self.error_dev_info = error_dev_info
 
 
 class Auth:

@@ -12,7 +12,7 @@ This guide covers all breaking changes between the pre-V1 releases and V1. V1 in
 4. Replace `AiohttpRequest` → removed (session is now part of `Auth`)
 5. Change `GTI(auth, request)` → `GTI(auth, language="de")`
 6. Replace `from pygti.schemas import ...` → `from pygti.models import ...`
-7. Replace `from pygti.exceptions import ...` → `from pygti.auth import GTIError`
+7. Replace `from pygti.exceptions import ...` → `from pygti import GTIError`
 8. Replace all `dict` payloads with typed Pydantic model instances
 9. Replace `result["key"]` dict access with `result.key` attribute access
 10. Add `InitRequest()` argument to `gti.init()`
@@ -85,7 +85,7 @@ gti = GTI(auth, language="en")
 |---|---|
 | `from pygti.auth import HMACAuth, AuthStrategy, NoAuth` | `from pygti.auth import Auth` |
 | `from pygti.schemas import CNRequest, DLRequest, ...` | `from pygti.models import CNRequest, DLRequest, ...` |
-| `from pygti.exceptions import GTIError, CannotConnect, ...` | `from pygti.auth import GTIError` |
+| `from pygti.exceptions import GTIError, CannotConnect, ...` | `from pygti import GTIError` |
 | `from pygti.request import AiohttpRequest` | *(removed)* |
 
 ### 6. Dict payloads → Pydantic models
@@ -230,7 +230,7 @@ except CannotConnect:
 
 **After:**
 ```python
-from pygti.auth import GTIError
+from pygti import GTIError
 
 try:
     await gti.checkName(...)

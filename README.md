@@ -112,7 +112,7 @@ for schedule in response.schedules:
 ### Error handling
 
 ```python
-from pygti.auth import GTIError
+from pygti import GTIError
 
 try:
     response = await gti.departureList(...)
