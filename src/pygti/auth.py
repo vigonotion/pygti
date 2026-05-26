@@ -5,7 +5,14 @@ import json
 
 from aiohttp import ClientConnectorError, ClientResponse, ClientSession
 
-from .exceptions import *
+from .exceptions import (
+    CannotConnect,
+    CheckNameTooMany,
+    CommunicationError,
+    GTIError,
+    InvalidAuth,
+    RouteError,
+)
 
 GTI_DEFAULT_HOST = "gti.geofox.de"
 
