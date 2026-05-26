@@ -1,10 +1,11 @@
 import asyncio
 import os
+
 import aiohttp
 
 from pygti.auth import Auth
 from pygti.gti import GTI
-from pygti.models import DLRequest, GTITime, InitRequest, SDName, SDNameType
+from pygti.models import DLRequest, GTITime, SDName, SDNameType
 
 GTI_USER = None
 GTI_PASS = None

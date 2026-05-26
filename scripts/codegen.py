@@ -19,45 +19,45 @@ from datetime import date as date_aliased
 
 def resolve_type(prop_schema, parent_name, prop_name):
     """Returns (type_str, inline_enum_or_None) where inline_enum is (name, values)."""
-    if '$ref' in prop_schema:
-        return prop_schema['$ref'].replace('#/components/schemas/', ''), None
+    if "$ref" in prop_schema:
+        return prop_schema["$ref"].replace("#/components/schemas/", ""), None
 
-    type_ = prop_schema.get('type')
-    fmt = prop_schema.get('format')
+    type_ = prop_schema.get("type")
+    fmt = prop_schema.get("format")
 
-    if type_ == 'string':
-        if 'enum' in prop_schema:
+    if type_ == "string":
+        if "enum" in prop_schema:
             enum_name = parent_name + prop_name[0].upper() + prop_name[1:]
-            return enum_name, (enum_name, prop_schema['enum'])
-        if fmt == 'date':
-            return 'date_aliased', None
-        if fmt == 'date-time':
-            return 'AwareDatetime', None
-        return 'str', None
-    elif type_ == 'integer':
-        return 'int', None
-    elif type_ == 'number':
-        return 'float', None
-    elif type_ == 'boolean':
-        return 'bool', None
-    elif type_ == 'array':
-        items = prop_schema.get('items', {})
-        singular = prop_name.removesuffix('s')
+            return enum_name, (enum_name, prop_schema["enum"])
+        if fmt == "date":
+            return "date_aliased", None
+        if fmt == "date-time":
+            return "AwareDatetime", None
+        return "str", None
+    elif type_ == "integer":
+        return "int", None
+    elif type_ == "number":
+        return "float", None
+    elif type_ == "boolean":
+        return "bool", None
+    elif type_ == "array":
+        items = prop_schema.get("items", {})
+        singular = prop_name.removesuffix("s")
         item_type, inline = resolve_type(items, parent_name, singular)
-        return f'list[{item_type}]', inline
-    return 'Any', None
+        return f"list[{item_type}]", inline
+    return "Any", None
 
 
 def collect_deps(schema):
     """Collect named schema dependencies via $ref."""
     deps = set()
-    for prop_schema in schema.get('properties', {}).values():
-        if '$ref' in prop_schema:
-            deps.add(prop_schema['$ref'].replace('#/components/schemas/', ''))
-        elif prop_schema.get('type') == 'array':
-            items = prop_schema.get('items', {})
-            if '$ref' in items:
-                deps.add(items['$ref'].replace('#/components/schemas/', ''))
+    for prop_schema in schema.get("properties", {}).values():
+        if "$ref" in prop_schema:
+            deps.add(prop_schema["$ref"].replace("#/components/schemas/", ""))
+        elif prop_schema.get("type") == "array":
+            items = prop_schema.get("items", {})
+            if "$ref" in items:
+                deps.add(items["$ref"].replace("#/components/schemas/", ""))
     return deps
 
 
@@ -81,28 +81,28 @@ def topological_sort(schemas):
 
 def format_default(value):
     if isinstance(value, bool):
-        return 'True' if value else 'False'
+        return "True" if value else "False"
     if isinstance(value, str):
         return f"'{value}'"
     return str(value)
 
 
 def generate_models(data, api_version):
-    schemas = data['components']['schemas']
+    schemas = data["components"]["schemas"]
     ordered = topological_sort(schemas)
     output = MODELS_HEADER
 
     for name in ordered:
         schema = schemas[name]
-        properties = schema.get('properties', {})
-        required = set(schema.get('required', []))
-        is_request = name.endswith('Request')
+        properties = schema.get("properties", {})
+        required = set(schema.get("required", []))
+        is_request = name.endswith("Request")
 
         inline_enums = []
         field_info = {}
 
         for prop_name, prop_schema in properties.items():
-            if is_request and prop_name in ('language', 'version'):
+            if is_request and prop_name in ("language", "version"):
                 continue
             type_str, inline = resolve_type(prop_schema, name, prop_name)
             field_info[prop_name] = (type_str, prop_schema)
@@ -110,21 +110,21 @@ def generate_models(data, api_version):
                 inline_enums.append(inline)
 
         for enum_name, enum_values in inline_enums:
-            output += f'class {enum_name}(Enum):\n'
+            output += f"class {enum_name}(Enum):\n"
             for val in enum_values:
                 output += f"    {val} = '{val}'\n"
-            output += '\n\n'
+            output += "\n\n"
 
-        output += f'class {name}(BaseModel):\n'
+        output += f"class {name}(BaseModel):\n"
         if not field_info:
-            output += '    pass\n'
+            output += "    pass\n"
         else:
             for prop_name, (type_str, prop_schema) in field_info.items():
                 is_required = prop_name in required
-                default = prop_schema.get('default')
+                default = prop_schema.get("default")
 
                 if keyword.iskeyword(prop_name):
-                    py_name = prop_name + '_'
+                    py_name = prop_name + "_"
                     if is_required:
                         output += f"    {py_name}: {type_str} = Field(..., alias='{prop_name}')\n"
                     elif default is not None:
@@ -132,14 +132,14 @@ def generate_models(data, api_version):
                     else:
                         output += f"    {py_name}: {type_str} | None = Field(None, alias='{prop_name}')\n"
                 elif is_required:
-                    output += f'    {prop_name}: {type_str}\n'
+                    output += f"    {prop_name}: {type_str}\n"
                 elif default is not None:
-                    output += f'    {prop_name}: {type_str} | None = {format_default(default)}\n'
+                    output += f"    {prop_name}: {type_str} | None = {format_default(default)}\n"
                 else:
-                    output += f'    {prop_name}: {type_str} | None = None\n'
-        output += '\n\n'
+                    output += f"    {prop_name}: {type_str} | None = None\n"
+        output += "\n\n"
 
-    return output.rstrip('\n') + '\n'
+    return output.rstrip("\n") + "\n"
 
 
 # --- Fetch spec ---

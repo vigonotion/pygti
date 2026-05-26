@@ -28,7 +28,6 @@ if not (GTI_USER and GTI_PASS):
 
 async def main():
     async with aiohttp.ClientSession() as session:
-
         auth = Auth(session, GTI_USER, GTI_PASS)
         gti = GTI(auth)
 

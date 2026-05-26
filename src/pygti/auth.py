@@ -27,7 +27,13 @@ class Auth:
         self.host = host
 
     async def request(
-        self, method: str, path: str, payload=None, language: str = 'de', version: int = 1, **kwargs
+        self,
+        method: str,
+        path: str,
+        payload=None,
+        language: str = "de",
+        version: int = 1,
+        **kwargs,
     ) -> ClientResponse:
         """Make a request."""
         headers = kwargs.get("headers")
@@ -38,8 +44,8 @@ class Auth:
             headers = dict(headers)
 
         payload_dict = json.loads(payload.model_dump_json(warnings=False))
-        payload_dict['language'] = language
-        payload_dict['version'] = version
+        payload_dict["language"] = language
+        payload_dict["version"] = version
         data = json.dumps(payload_dict).encode("UTF-8")
 
         signature = base64.b64encode(
