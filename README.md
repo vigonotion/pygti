@@ -9,102 +9,146 @@
 <h2 align="center">HVV Geofox Python Library</h2>
 
 <p align="center">
-  <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-  <a href=""><img alt="Hamburg" src="https://img.shields.io/badge/city-hamburg-e3000f"></a>
-  <a href="https://github.com/vigonotion/pygti/issues"><img alt="Open Issues" src="https://img.shields.io/github/issues/vigonotion/pygti"></a>
   <a href="https://github.com/vigonotion/pygti/releases"><img alt="Release" src="https://img.shields.io/github/release/vigonotion/pygti"></a>
-  <a href="https://api-test.geofox.de/gti/doc/index.jsp"><img alt="GTI version: 38" src="https://img.shields.io/badge/gti%20version-38-green.svg"></a>
-  <a href="https://dev.azure.com/vigonotion/pygti/_build/latest?definitionId=1&branchName=master"><img alt="Azure Pipelines status" src="https://dev.azure.com/vigonotion/pygti/_apis/build/status/vigonotion.pygti?branchName=master"></a>
-
 </p>
 
 <p><br /></p>
 
 ## About
 
-This library is a python wrapper for accessing the geofox api. This api is used to get information about the public transport in Hamburg, Germany.
+This library is a Python wrapper for the Geofox API, which provides public transport data for Hamburg, Germany (HVV). It uses `aiohttp` for async HTTP requests and returns fully typed Pydantic models for all responses.
 
-## How to get the api credentials
+## How to get API credentials
 
-You have to apply for credentials via the HVV website. You can see their official guide [here](https://www.hvv.de/de/fahrplaene/abruf-fahrplaninfos/datenabruf) (the page is only available in German).
-
-They will send you a contract you will have to sign and send back. After about a week, you will receive your api credentials.
+Apply for credentials via the HVV website. See their official guide [here](https://www.hvv.de/de/fahrplaene/abruf-fahrplaninfos/datenabruf) (German only). After signing and returning the contract, you will receive your credentials within about a week.
 
 ## Documentation
 
-This library uses the same data types and parameters as specified in the [GTI documentation](https://api-test.geofox.de/gti/doc/index.jsp). It features client side validation of the parameters.
+This library mirrors the data types and parameters defined in the [GTI documentation](https://gti.geofox.de/). All request and response types are Pydantic models generated from the GTI OpenAPI spec.
 
 ## Installation
 
-Install the [package from pypi](https://pypi.org/project/pygti/).
+Install from [PyPI](https://pypi.org/project/pygti/):
 
-```python
+```sh
 pip install pygti
 ```
 
+**Requirements:** Python 3.12+, `aiohttp`, `pydantic`
+
 ## Usage
 
-See the examples on how to use the library at [examples.py](https://github.com/vigonotion/pygti/blob/master/examples.py), and see the [GTI documentation](https://api-test.geofox.de/gti/doc/index.jsp) for in-depth explanation of parameters.
-
-There is also a [Glitch example](https://pygti-examples.glitch.me/) available. Try it out and if you want to see how it's done, just [remix the app](https://glitch.com/edit/#!/pygti-examples).
-
-A minimal working example is shown below:
+### Minimal example
 
 ```python
-from pygti.gti import GTI, Auth
 import asyncio
 import aiohttp
-
-GTI_USER = "" # your api username
-GTI_PASS = "" # your api password
-
+from pygti.auth import Auth
+from pygti.gti import GTI
+from pygti.models import InitRequest
 
 async def main():
     async with aiohttp.ClientSession() as session:
-        auth = Auth(session, GTI_USER, GTI_PASS)
-
+        auth = Auth(session, "GTI_USERNAME", "GTI_PASSWORD")
         gti = GTI(auth)
 
-        ir = await gti.init()
-
-        # see the examples.py file for more functionality and use of the payloads
+        ir = await gti.init(InitRequest())
+        print(ir.version, ir.buildDate)
 
 asyncio.run(main())
 ```
 
-> :exclamation: **If using Python 3.8**: Version 3.6.2 of aiohttp uses a different EventLoopPolicy so running this MWE will currently result in an error displayed in the console! It should not affect the functionality. This should be fixed with a newer version of aiohttp. For a workaround look into the [examples.py](https://github.com/vigonotion/pygti/blob/master/examples.py) file. For more information see this [Issue](https://github.com/aio-libs/aiohttp/issues/4324).
+### Departure list
 
-## Progress
+```python
+import asyncio
+import aiohttp
+from pygti.auth import Auth
+from pygti.gti import GTI
+from pygti.models import DLRequest, GTITime, SDName, SDNameType
 
-- [x] 1. init
-- [x] 2. checkName
-- [x] 3. getRoute
-- [x] 4. departureList
-- [x] 5. getTariff
-- [x] 6. departureCourse
-- [x] 7. listStations
-- [x] 8. listLines
-- [x] 9. getAnnouncements
-- [x] 10. getIndividualRoute
-- [x] 11a. getVehicleMap
-- [x] 11b. getTrackCoordinates
-- [x] 12. checkPostalCode
-- [x] 13. getStationInformation
-- [x] 14. tariffZoneNeighbours
-- [x] 15. tariffMetaData
-- [x] 16. singleTicketOptimizer
-- [x] 17. ticketList
+async def main():
+    async with aiohttp.ClientSession() as session:
+        auth = Auth(session, "GTI_USERNAME", "GTI_PASSWORD")
+        gti = GTI(auth)
+
+        response = await gti.departureList(
+            DLRequest(
+                station=SDName(
+                    name="Wartenau",
+                    id="Master:10901",
+                    type=SDNameType.STATION,
+                ),
+                time=GTITime(date="heute", time="jetzt"),
+                maxList=5,
+                maxTimeOffset=200,
+                useRealtime=True,
+            )
+        )
+
+        for dep in response.departures:
+            print(f"{dep.line.name:5} -> {dep.line.direction}  in {dep.timeOffset} min")
+
+asyncio.run(main())
+```
+
+### Connection search
+
+```python
+from pygti.models import GRRequest, SDName, SDNameType, GTITime
+
+response = await gti.getRoute(
+    GRRequest(
+        start=SDName(name="Hamburg Hbf", type=SDNameType.STATION),
+        dest=SDName(name="Hamburg Airport", type=SDNameType.STATION),
+        time=GTITime(date="heute", time="jetzt"),
+    )
+)
+
+for schedule in response.schedules:
+    print(schedule.plannedDepartureTime, "->", schedule.plannedArrivalTime)
+```
+
+### Error handling
+
+```python
+from pygti.auth import GTIError
+
+try:
+    response = await gti.departureList(...)
+except GTIError as e:
+    print(f"API error: {e.return_code} — {e.error_text}")
+```
+
+### Options
+
+```python
+# Custom host (e.g. test environment)
+auth = Auth(session, username, password, host="api-test.geofox.de")
+
+# English responses
+gti = GTI(auth, language="en")
+```
+
+## API reference
+
+All methods on `GTI` are async and accept a typed request model, returning a typed response model.
+
+All request and response models are importable from `pygti.models`. See the [GTI documentation](https://gti.geofox.de/) for detailed parameter descriptions.
+
+## Migrating from a pre-V1 version
+
+See [MIGRATION_TO_V1.md](MIGRATION_TO_V1.md) for a full list of breaking changes and how to update your code.
 
 ## Developing
 
-Some files in this project are generated based on the WADL and XSD schema files from GTI.
-To generate them, install the dev dependencies and run the script:
+The models in `pygti/models.py` are generated from the GTI OpenAPI spec. To regenerate them:
 
 ```sh
-pip install -r requirements_dev.txt
-python script/generate.py
+pip install -e ".[dev]"
+python scripts/codegen.py
 ```
 
 ## Contributions are welcome!
 
-If you want to contribute to this, please read the [Contribution guidelines](CONTRIBUTING.md)
+If you want to contribute, please read the [Contribution guidelines](CONTRIBUTING.md).
