@@ -14,6 +14,25 @@ from enum import Enum
 from datetime import date as date_aliased
 
 
+class ReturnCode(str, Enum):
+    OK = "OK"
+    ERROR_CN_TOO_MANY = "ERROR_CN_TOO_MANY"
+    ERROR_COMM = "ERROR_COMM"
+    ERROR_ROUTE = "ERROR_ROUTE"
+    ERROR_TEXT = "ERROR_TEXT"
+    START_NOT_FOUND = "START_NOT_FOUND"
+    DEST_NOT_FOUND = "DEST_NOT_FOUND"
+    VIA_NOT_FOUND = "VIA_NOT_FOUND"
+    FORCED_START_NOT_FOUND = "FORCED_START_NOT_FOUND"
+    FORCED_DEST_NOT_FOUND = "FORCED_DEST_NOT_FOUND"
+
+
+class GTIResponse(BaseModel):
+    returnCode: str
+    errorText: str | None = None
+    errorDevInfo: str | None = None
+
+
 """
 
 
@@ -87,6 +106,9 @@ def format_default(value):
     return str(value)
 
 
+RESPONSE_BASE_FIELDS = {"returnCode", "errorText", "errorDevInfo"}
+
+
 def generate_models(data, api_version):
     schemas = data["components"]["schemas"]
     ordered = topological_sort(schemas)
@@ -97,12 +119,15 @@ def generate_models(data, api_version):
         properties = schema.get("properties", {})
         required = set(schema.get("required", []))
         is_request = name.endswith("Request")
+        is_response = name.endswith("Response")
 
         inline_enums = []
         field_info = {}
 
         for prop_name, prop_schema in properties.items():
             if is_request and prop_name in ("language", "version"):
+                continue
+            if is_response and prop_name in RESPONSE_BASE_FIELDS:
                 continue
             type_str, inline = resolve_type(prop_schema, name, prop_name)
             field_info[prop_name] = (type_str, prop_schema)
@@ -115,7 +140,8 @@ def generate_models(data, api_version):
                 output += f"    {val} = '{val}'\n"
             output += "\n\n"
 
-        output += f"class {name}(BaseModel):\n"
+        base_class = "GTIResponse" if is_response else "BaseModel"
+        output += f"class {name}({base_class}):\n"
         if not field_info:
             output += "    pass\n"
         else:

@@ -3,18 +3,20 @@ import hashlib
 import hmac
 import json
 
-from aiohttp import ClientConnectorError, ClientResponse, ClientSession
+from aiohttp import ClientResponse, ClientSession
 
-from .exceptions import (
-    CannotConnect,
-    CheckNameTooMany,
-    CommunicationError,
-    GTIError,
-    InvalidAuth,
-    RouteError,
-)
+from .models import ReturnCode
 
 GTI_DEFAULT_HOST = "gti.geofox.de"
+
+
+class GTIError(Exception):
+    """An exception occured while using the GTI API."""
+
+    def __init__(self, return_code, error_text, error_dev_info):
+        self.return_code = return_code
+        self.error_text = error_text
+        self.error_dev_info = error_dev_info
 
 
 class Auth:
@@ -64,32 +66,21 @@ class Auth:
 
         headers["Content-Type"] = "application/json"
 
-        try:
-            response = await self.websession.request(
-                method,
-                f"https://{self.host}{path}",
-                data=data,
-                **kwargs,
-                headers=headers,
-            )
+        response = await self.websession.request(
+            method,
+            f"https://{self.host}{path}",
+            data=data,
+            **kwargs,
+            headers=headers,
+        )
 
-            response_data = await response.json()
+        response_data = await response.json()
 
-            return_code = response_data.get("returnCode")
-            error_text = response_data.get("errorText")
-            error_dev_info = response_data.get("errorDevInfo")
+        return_code = response_data.get("returnCode")
+        error_text = response_data.get("errorText")
+        error_dev_info = response_data.get("errorDevInfo")
 
-            if return_code == "ERROR_CN_TOO_MANY":
-                raise CheckNameTooMany(return_code, error_text, error_dev_info)
-            elif return_code == "ERROR_COMM":
-                raise CommunicationError(return_code, error_text, error_dev_info)
-            elif return_code == "ERROR_ROUTE":
-                raise RouteError(return_code, error_text, error_dev_info)
-            elif return_code == "ERROR_TEXT":
-                if error_dev_info == "Authentication failed!":
-                    raise InvalidAuth(return_code, error_text, error_dev_info)
-                raise GTIError(return_code, error_text, error_dev_info)
+        if return_code != ReturnCode.OK:
+            raise GTIError(return_code, error_text, error_dev_info)
 
-            return response_data
-        except ClientConnectorError as error:
-            raise CannotConnect(error)
+        return response_data

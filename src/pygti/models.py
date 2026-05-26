@@ -7,6 +7,25 @@ from enum import Enum
 from datetime import date as date_aliased
 
 
+class ReturnCode(str, Enum):
+    OK = "OK"
+    ERROR_CN_TOO_MANY = "ERROR_CN_TOO_MANY"
+    ERROR_COMM = "ERROR_COMM"
+    ERROR_ROUTE = "ERROR_ROUTE"
+    ERROR_TEXT = "ERROR_TEXT"
+    START_NOT_FOUND = "START_NOT_FOUND"
+    DEST_NOT_FOUND = "DEST_NOT_FOUND"
+    VIA_NOT_FOUND = "VIA_NOT_FOUND"
+    FORCED_START_NOT_FOUND = "FORCED_START_NOT_FOUND"
+    FORCED_DEST_NOT_FOUND = "FORCED_DEST_NOT_FOUND"
+
+
+class GTIResponse(BaseModel):
+    returnCode: str
+    errorText: str | None = None
+    errorDevInfo: str | None = None
+
+
 class TicketListRequest(BaseModel):
     stationKey: str | None = None
 
@@ -90,10 +109,7 @@ class TicketListTicketInfos(BaseModel):
     variants: list[TicketListTicketVariant] | None = None
 
 
-class TicketListResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class TicketListResponse(GTIResponse):
     ticketInfos: list[TicketListTicketInfos]
 
 
@@ -107,10 +123,7 @@ class TariffZone(BaseModel):
     neighbours: list[str]
 
 
-class TariffZoneNeighboursResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class TariffZoneNeighboursResponse(GTIResponse):
     tariffZones: list[TariffZone]
 
 
@@ -158,10 +171,7 @@ class TariffLevel(BaseModel):
     requiredRegionType: RequiredRegionType
 
 
-class TariffMetaDataResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class TariffMetaDataResponse(GTIResponse):
     tariffKinds: list[TariffKind] | None = None
     tariffLevels: list[TariffLevel] | None = None
     tariffCounties: list[TariffCounty] | None = None
@@ -249,10 +259,7 @@ class SingleTicketOptimizerRequest(BaseModel):
     route: SingleTicketOptimizerRequestRoute
 
 
-class SingleTicketOptimizerResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class SingleTicketOptimizerResponse(GTIResponse):
     tickets: list[TariffOptimizerTicket] | None = None
 
 
@@ -318,10 +325,7 @@ class StationListEntry(BaseModel):
     exists: bool | None = True
 
 
-class LSResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class LSResponse(GTIResponse):
     dataReleaseID: str | None = None
     stations: list[StationListEntry] | None = None
 
@@ -393,10 +397,7 @@ class LineListEntry(BaseModel):
     type: ServiceType
 
 
-class LLResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class LLResponse(GTIResponse):
     dataReleaseID: str | None = None
     lines: list[LineListEntry] | None = None
 
@@ -410,10 +411,7 @@ class InitRequest(BaseModel):
     properties: list[Property] | None = None
 
 
-class InitResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class InitResponse(GTIResponse):
     beginOfService: str
     endOfService: str
     id: str
@@ -529,10 +527,7 @@ class Journey(BaseModel):
     segments: list[PathSegment] | None = None
 
 
-class VehicleMapResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class VehicleMapResponse(GTIResponse):
     journeys: list[Journey]
 
 
@@ -549,10 +544,7 @@ class TrackCoordinatesRequest(BaseModel):
     stopPointKeys: list[str]
 
 
-class TrackCoordinatesResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class TrackCoordinatesResponse(GTIResponse):
     trackIDs: list[str]
     tracks: list[VehicleMapPath]
 
@@ -657,10 +649,7 @@ class TariffInfo(BaseModel):
     ticketRemarks: str | None = None
 
 
-class TariffResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class TariffResponse(GTIResponse):
     tariffInfos: list[TariffInfo] | None = None
 
 
@@ -744,10 +733,7 @@ class PartialStation(BaseModel):
     elevators: list[Elevator] | None = None
 
 
-class StationInformationResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class StationInformationResponse(GTIResponse):
     partialStations: list[PartialStation] | None = None
     lastUpdate: GTITime | None = None
 
@@ -1000,10 +986,7 @@ class IndividualTrack(BaseModel):
     type: IndividualTrackType
 
 
-class GRResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class GRResponse(GTIResponse):
     schedules: list[Schedule] | None = None
     realtimeSchedules: list[Schedule] | None = None
     realtimeAffected: bool | None = False
@@ -1072,10 +1055,7 @@ class IndividualRoute(BaseModel):
     serviceType: IndividualRouteServiceType
 
 
-class IndividualRouteResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class IndividualRouteResponse(GTIResponse):
     routes: list[IndividualRoute]
 
 
@@ -1093,10 +1073,7 @@ class AnnouncementRequest(BaseModel):
     showBroadcastRelevant: bool | None = False
 
 
-class AnnouncementResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class AnnouncementResponse(GTIResponse):
     announcements: list[Announcement] | None = None
     lastUpdate: AwareDatetime
 
@@ -1183,10 +1160,7 @@ class DLResponseServiceType(Enum):
     FAEHRE = "FAEHRE"
 
 
-class DLResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class DLResponse(GTIResponse):
     time: GTITime
     departures: list[Departure] | None = None
     filter: list[DLFilterEntry] | None = None
@@ -1240,10 +1214,7 @@ class CourseElement(BaseModel):
     path: Path | None = None
 
 
-class DCResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class DCResponse(GTIResponse):
     courseElements: list[CourseElement] | None = None
     vehicles: list[Vehicle] | None = None
     extra: bool | None = False
@@ -1255,10 +1226,7 @@ class PCRequest(BaseModel):
     postalCode: int | None = None
 
 
-class PCResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class PCResponse(GTIResponse):
     isHVV: bool | None = None
 
 
@@ -1307,8 +1275,5 @@ class RegionalSDName(BaseModel):
     time: int | None = None
 
 
-class CNResponse(BaseModel):
-    returnCode: str
-    errorText: str | None = None
-    errorDevInfo: str | None = None
+class CNResponse(GTIResponse):
     results: list[RegionalSDName] | None = None
