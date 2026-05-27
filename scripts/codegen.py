@@ -98,10 +98,12 @@ def topological_sort(schemas):
     return order
 
 
-def format_default(value):
+def format_default(value, enum_type=None):
     if isinstance(value, bool):
         return "True" if value else "False"
     if isinstance(value, str):
+        if enum_type:
+            return f"{enum_type}.{value}"
         return f"'{value}'"
     return str(value)
 
@@ -130,7 +132,7 @@ def generate_models(data, api_version):
             if is_response and prop_name in RESPONSE_BASE_FIELDS:
                 continue
             type_str, inline = resolve_type(prop_schema, name, prop_name)
-            field_info[prop_name] = (type_str, prop_schema)
+            field_info[prop_name] = (type_str, prop_schema, inline[0] if inline else None)
             if inline:
                 inline_enums.append(inline)
 
@@ -145,7 +147,7 @@ def generate_models(data, api_version):
         if not field_info:
             output += "    pass\n"
         else:
-            for prop_name, (type_str, prop_schema) in field_info.items():
+            for prop_name, (type_str, prop_schema, enum_type) in field_info.items():
                 is_required = prop_name in required
                 default = prop_schema.get("default")
 
@@ -154,13 +156,13 @@ def generate_models(data, api_version):
                     if is_required:
                         output += f"    {py_name}: {type_str} = Field(..., alias='{prop_name}')\n"
                     elif default is not None:
-                        output += f"    {py_name}: {type_str} | None = Field({format_default(default)}, alias='{prop_name}')\n"
+                        output += f"    {py_name}: {type_str} | None = Field({format_default(default, enum_type)}, alias='{prop_name}')\n"
                     else:
                         output += f"    {py_name}: {type_str} | None = Field(None, alias='{prop_name}')\n"
                 elif is_required:
                     output += f"    {prop_name}: {type_str}\n"
                 elif default is not None:
-                    output += f"    {prop_name}: {type_str} | None = {format_default(default)}\n"
+                    output += f"    {prop_name}: {type_str} | None = {format_default(default, enum_type)}\n"
                 else:
                     output += f"    {prop_name}: {type_str} | None = None\n"
         output += "\n\n"
