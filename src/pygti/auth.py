@@ -44,7 +44,9 @@ class Auth:
         else:
             headers = dict(headers)
 
-        payload_dict = json.loads(payload.model_dump_json(exclude_none=True, warnings=False))
+        payload_dict = json.loads(
+            payload.model_dump_json(exclude_none=True, warnings=False)
+        )
         payload_dict["language"] = language
         payload_dict["version"] = version
         data = json.dumps(payload_dict).encode("UTF-8")

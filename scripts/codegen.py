@@ -132,7 +132,11 @@ def generate_models(data, api_version):
             if is_response and prop_name in RESPONSE_BASE_FIELDS:
                 continue
             type_str, inline = resolve_type(prop_schema, name, prop_name)
-            field_info[prop_name] = (type_str, prop_schema, inline[0] if inline else None)
+            field_info[prop_name] = (
+                type_str,
+                prop_schema,
+                inline[0] if inline else None,
+            )
             if inline:
                 inline_enums.append(inline)
 
