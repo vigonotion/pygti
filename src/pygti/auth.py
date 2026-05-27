@@ -33,7 +33,7 @@ class Auth:
         self,
         method: str,
         path: str,
-        payload: BaseModel | None = None,
+        payload: BaseModel,
         language: str = "de",
         version: int = 1,
         **kwargs: Any,
@@ -46,10 +46,8 @@ class Auth:
         else:
             headers = dict(headers)
 
-        payload_dict: dict[str, Any] = (
-            json.loads(payload.model_dump_json(exclude_none=True, warnings=False))
-            if payload is not None
-            else {}
+        payload_dict: dict[str, Any] = payload.model_dump(
+            mode="json", exclude_none=True, warnings=False
         )
         payload_dict["language"] = language
         payload_dict["version"] = version
@@ -72,7 +70,7 @@ class Auth:
             headers=headers,
         )
 
-        response_data: dict[str, Any] = await response.json()
+        response_data: dict[str, Any] = await response.json(content_type=None)
 
         return_code = response_data.get("returnCode")
         error_text = response_data.get("errorText")

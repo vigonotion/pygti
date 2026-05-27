@@ -2,8 +2,6 @@
 
 <img src="https://upload.wikimedia.org/wikipedia/commons/9/9d/LogoHVV.svg" width="200" style="margin-right: 50px">
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/GEOFOX-LOGO.jpg/320px-GEOFOX-LOGO.jpg" width="120">
-
 </div>
 
 <h2 align="center">HVV Geofox Python Library</h2>

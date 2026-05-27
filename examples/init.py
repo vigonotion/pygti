@@ -21,6 +21,8 @@ if not (GTI_USER and GTI_PASS):
     print("To run the examples, enter your credentials for the GTI API.")
     GTI_USER = input("GTI Username: ")
     GTI_PASS = input("GTI Password: ")
+    if not (GTI_USER and GTI_PASS):
+        raise SystemExit("Credentials cannot be empty.")
 
 
 async def main() -> None:
