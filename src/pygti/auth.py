@@ -3,7 +3,7 @@ import hashlib
 import hmac
 import json
 
-from aiohttp import ClientResponse, ClientSession
+from aiohttp import ClientSession
 
 from .exceptions import GTIError
 from .models import ReturnCode
@@ -35,16 +35,16 @@ class Auth:
         language: str = "de",
         version: int = 1,
         **kwargs,
-    ) -> ClientResponse:
+    ) -> dict:
         """Make a request."""
-        headers = kwargs.get("headers")
+        headers = kwargs.pop("headers", None)
 
         if headers is None:
             headers = {}
         else:
             headers = dict(headers)
 
-        payload_dict = json.loads(payload.model_dump_json(warnings=False))
+        payload_dict = json.loads(payload.model_dump_json(exclude_none=True, warnings=False))
         payload_dict["language"] = language
         payload_dict["version"] = version
         data = json.dumps(payload_dict).encode("UTF-8")
