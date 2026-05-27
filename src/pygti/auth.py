@@ -2,8 +2,10 @@ import base64
 import hashlib
 import hmac
 import json
+from typing import Any
 
 from aiohttp import ClientSession
+from pydantic import BaseModel
 
 from .exceptions import GTIError
 from .models import ReturnCode
@@ -31,11 +33,11 @@ class Auth:
         self,
         method: str,
         path: str,
-        payload=None,
+        payload: BaseModel | None = None,
         language: str = "de",
         version: int = 1,
-        **kwargs,
-    ) -> dict:
+        **kwargs: Any,
+    ) -> dict[str, Any]:
         """Make a request."""
         headers = kwargs.pop("headers", None)
 
@@ -44,8 +46,10 @@ class Auth:
         else:
             headers = dict(headers)
 
-        payload_dict = json.loads(
-            payload.model_dump_json(exclude_none=True, warnings=False)
+        payload_dict: dict[str, Any] = (
+            json.loads(payload.model_dump_json(exclude_none=True, warnings=False))
+            if payload is not None
+            else {}
         )
         payload_dict["language"] = language
         payload_dict["version"] = version
@@ -68,7 +72,7 @@ class Auth:
             headers=headers,
         )
 
-        response_data = await response.json()
+        response_data: dict[str, Any] = await response.json()
 
         return_code = response_data.get("returnCode")
         error_text = response_data.get("errorText")

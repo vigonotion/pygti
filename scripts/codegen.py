@@ -1,6 +1,7 @@
 import urllib.request
 import json
 import keyword
+from typing import Any
 
 SPEC_URL = "https://gti.geofox.de/v3/api-docs/public"
 GTI_PROTOCOL_VERSION = 63
@@ -36,7 +37,9 @@ class GTIResponse(BaseModel):
 """
 
 
-def resolve_type(prop_schema, parent_name, prop_name):
+def resolve_type(
+    prop_schema: dict[str, Any], parent_name: str, prop_name: str
+) -> tuple[str, tuple[str, Any] | None]:
     """Returns (type_str, inline_enum_or_None) where inline_enum is (name, values)."""
     if "$ref" in prop_schema:
         return prop_schema["$ref"].replace("#/components/schemas/", ""), None
@@ -67,9 +70,9 @@ def resolve_type(prop_schema, parent_name, prop_name):
     return "Any", None
 
 
-def collect_deps(schema):
+def collect_deps(schema: dict[str, Any]) -> set[str]:
     """Collect named schema dependencies via $ref."""
-    deps = set()
+    deps: set[str] = set()
     for prop_schema in schema.get("properties", {}).values():
         if "$ref" in prop_schema:
             deps.add(prop_schema["$ref"].replace("#/components/schemas/", ""))
@@ -80,11 +83,11 @@ def collect_deps(schema):
     return deps
 
 
-def topological_sort(schemas):
-    visited = set()
-    order = []
+def topological_sort(schemas: dict[str, Any]) -> list[str]:
+    visited: set[str] = set()
+    order: list[str] = []
 
-    def visit(name):
+    def visit(name: str) -> None:
         if name in visited:
             return
         visited.add(name)
@@ -98,7 +101,7 @@ def topological_sort(schemas):
     return order
 
 
-def format_default(value, enum_type=None):
+def format_default(value: Any, enum_type: str | None = None) -> str:
     if isinstance(value, bool):
         return "True" if value else "False"
     if isinstance(value, str):
@@ -111,7 +114,7 @@ def format_default(value, enum_type=None):
 RESPONSE_BASE_FIELDS = {"returnCode", "errorText", "errorDevInfo"}
 
 
-def generate_models(data, api_version):
+def generate_models(data: dict[str, Any], api_version: int) -> str:
     schemas = data["components"]["schemas"]
     ordered = topological_sort(schemas)
     output = MODELS_HEADER
