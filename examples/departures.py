@@ -47,9 +47,9 @@ async def main():
         )
 
         for departure in response.departures:
-            print(
-                f"{departure.line.name:5} {departure.line.direction:50}         {departure.timeOffset:>10} min"
-            )
+            direction = departure.line.direction or ""
+            offset = departure.timeOffset if departure.timeOffset is not None else "-"
+            print(f"{departure.line.name:5} {direction:50}         {offset:>10} min")
 
 
 asyncio.run(main())
