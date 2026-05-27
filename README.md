@@ -145,7 +145,7 @@ See [MIGRATION_TO_V1.md](MIGRATION_TO_V1.md) for a full list of breaking changes
 The models in `pygti/models.py` are generated from the GTI OpenAPI spec. To regenerate them:
 
 ```sh
-pip install -e ".[dev]"
+uv sync
 python scripts/codegen.py
 ```
 
