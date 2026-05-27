@@ -179,12 +179,42 @@ class TariffMetaDataResponse(GTIResponse):
     tariffRings: list[str] | None = None
 
 
-class SingleTicketOptimizerRequestLine(BaseModel):
+class TariffOptimizerTicketRegionType(Enum):
+    RING = "RING"
+    ZONE = "ZONE"
+    COUNTY = "COUNTY"
+    GH_ZONE = "GH_ZONE"
+
+
+class TariffOptimizerTicketPersonType(Enum):
+    ALL = "ALL"
+    ADULT = "ADULT"
+    ELDERLY = "ELDERLY"
+    APPRENTICE = "APPRENTICE"
+    PUPIL = "PUPIL"
+    STUDENT = "STUDENT"
+    CHILD = "CHILD"
+
+
+class TariffOptimizerTicket(BaseModel):
+    tariffKindId: int | None = None
+    tariffKindLabel: str | None = None
+    tariffLevelId: int | None = None
+    tariffLevelLabel: str | None = None
+    tariffRegions: list[str]
+    regionType: TariffOptimizerTicketRegionType
+    count: int | None = None
+    extraFare: bool | None = None
+    personType: TariffOptimizerTicketPersonType
+    centPrice: int | None = None
+
+
+class SingleTicketOptimizerRequestStation(BaseModel):
     id: str
     name: str
 
 
-class SingleTicketOptimizerRequestStation(BaseModel):
+class SingleTicketOptimizerRequestLine(BaseModel):
     id: str
     name: str
 
@@ -219,36 +249,6 @@ class SingleTicketOptimizerRequestRoute(BaseModel):
     tariffRegions: TariffOptimizerRegions
     singleTicketTariffLevelId: int | None = None
     extraFareType: SingleTicketOptimizerRequestRouteExtraFareType
-
-
-class TariffOptimizerTicketRegionType(Enum):
-    RING = "RING"
-    ZONE = "ZONE"
-    COUNTY = "COUNTY"
-    GH_ZONE = "GH_ZONE"
-
-
-class TariffOptimizerTicketPersonType(Enum):
-    ALL = "ALL"
-    ADULT = "ADULT"
-    ELDERLY = "ELDERLY"
-    APPRENTICE = "APPRENTICE"
-    PUPIL = "PUPIL"
-    STUDENT = "STUDENT"
-    CHILD = "CHILD"
-
-
-class TariffOptimizerTicket(BaseModel):
-    tariffKindId: int | None = None
-    tariffKindLabel: str | None = None
-    tariffLevelId: int | None = None
-    tariffLevelLabel: str | None = None
-    tariffRegions: list[str]
-    regionType: TariffOptimizerTicketRegionType
-    count: int | None = None
-    extraFare: bool | None = None
-    personType: TariffOptimizerTicketPersonType
-    centPrice: int | None = None
 
 
 class SingleTicketOptimizerRequest(BaseModel):
@@ -464,18 +464,6 @@ class VehicleMapRequest(BaseModel):
     realtime: bool | None = None
 
 
-class Service(BaseModel):
-    name: str
-    direction: str | None = None
-    directionId: int | None = None
-    origin: str | None = None
-    type: ServiceType
-    id: str | None = None
-    dlid: str | None = None
-    carrierNameShort: str | None = None
-    carrierNameLong: str | None = None
-
-
 class VehicleMapPathCoordinateType(Enum):
     EPSG_4326 = "EPSG_4326"
     EPSG_31466 = "EPSG_31466"
@@ -503,6 +491,18 @@ class PathSegment(BaseModel):
     realtimeDelay: int | None = None
     isFirst: bool | None = None
     isLast: bool | None = None
+
+
+class Service(BaseModel):
+    name: str
+    direction: str | None = None
+    directionId: int | None = None
+    origin: str | None = None
+    type: ServiceType
+    id: str | None = None
+    dlid: str | None = None
+    carrierNameShort: str | None = None
+    carrierNameLong: str | None = None
 
 
 class JourneyVehicleType(Enum):
@@ -582,26 +582,6 @@ class TariffRequest(BaseModel):
     tariffInfoSelector: list[TariffInfoSelector] | None = None
 
 
-class TariffRegionList(BaseModel):
-    regions: list[str] | None = None
-
-
-class TariffRegionInfoRegionType(Enum):
-    ZONE = "ZONE"
-    GH_ZONE = "GH_ZONE"
-    RING = "RING"
-    COUNTY = "COUNTY"
-    GH = "GH"
-    NET = "NET"
-    ZG = "ZG"
-    STADTVERKEHR = "STADTVERKEHR"
-
-
-class TariffRegionInfo(BaseModel):
-    regionType: TariffRegionInfoRegionType
-    alternatives: list[TariffRegionList] | None = None
-
-
 class TicketInfoRegionType(Enum):
     ZONE = "ZONE"
     GH_ZONE = "GH_ZONE"
@@ -636,6 +616,26 @@ class TicketInfo(BaseModel):
     reducedBaseTicketID: str | None = None
     extraFareTicketID: str | None = None
     reducedExtraFareTicketID: str | None = None
+
+
+class TariffRegionList(BaseModel):
+    regions: list[str] | None = None
+
+
+class TariffRegionInfoRegionType(Enum):
+    ZONE = "ZONE"
+    GH_ZONE = "GH_ZONE"
+    RING = "RING"
+    COUNTY = "COUNTY"
+    GH = "GH"
+    NET = "NET"
+    ZG = "ZG"
+    STADTVERKEHR = "STADTVERKEHR"
+
+
+class TariffRegionInfo(BaseModel):
+    regionType: TariffRegionInfoRegionType
+    alternatives: list[TariffRegionList] | None = None
 
 
 class TariffInfoExtraFareType(Enum):
@@ -821,6 +821,16 @@ class GRRequest(BaseModel):
     useBikeAndRide: bool | None = False
 
 
+class TimeRange(BaseModel):
+    begin: AwareDatetime | None = None
+    end: AwareDatetime | None = None
+
+
+class Link(BaseModel):
+    label: str
+    url: str
+
+
 class LocationType(Enum):
     SINGLE_LINE = "SINGLE_LINE"
     ALL_LINES_OF_CARRIER = "ALL_LINES_OF_CARRIER"
@@ -834,16 +844,6 @@ class Location(BaseModel):
     begin: SDName | None = None
     end: SDName | None = None
     bothDirections: bool | None = True
-
-
-class TimeRange(BaseModel):
-    begin: AwareDatetime | None = None
-    end: AwareDatetime | None = None
-
-
-class Link(BaseModel):
-    label: str
-    url: str
 
 
 class Announcement(BaseModel):
@@ -878,15 +878,6 @@ class Ticket(BaseModel):
     tariff: str
     range: str | None = None
     ticketRemarks: str | None = None
-
-
-class ShopInfoShopType(Enum):
-    AST = "AST"
-
-
-class ShopInfo(BaseModel):
-    shopType: ShopInfoShopType
-    url: str
 
 
 class MapEntry(BaseModel):
@@ -938,6 +929,15 @@ class JourneySDName(BaseModel):
     attributes: list[Attribute] | None = None
     platform: str | None = None
     realtimePlatform: str | None = None
+
+
+class ShopInfoShopType(Enum):
+    AST = "AST"
+
+
+class ShopInfo(BaseModel):
+    shopType: ShopInfoShopType
+    url: str
 
 
 class ScheduleElement(BaseModel):
