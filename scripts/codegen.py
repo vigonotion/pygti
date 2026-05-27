@@ -91,7 +91,7 @@ def topological_sort(schemas: dict[str, Any]) -> list[str]:
         if name in visited:
             return
         visited.add(name)
-        for dep in collect_deps(schemas.get(name, {})):
+        for dep in sorted(collect_deps(schemas.get(name, {}))):
             if dep in schemas:
                 visit(dep)
         order.append(name)
@@ -242,7 +242,7 @@ for url, path in data.get("paths").items():
 
 """
 
-imports = ", ".join(models)
+imports = ", ".join(sorted(models))
 output = output.replace("<<IMPORTS>>", f"from .models import ({imports})")
 
 with open("src/pygti/gti.py", "w") as f:

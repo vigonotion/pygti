@@ -179,42 +179,12 @@ class TariffMetaDataResponse(GTIResponse):
     tariffRings: list[str] | None = None
 
 
-class TariffOptimizerTicketRegionType(Enum):
-    RING = "RING"
-    ZONE = "ZONE"
-    COUNTY = "COUNTY"
-    GH_ZONE = "GH_ZONE"
-
-
-class TariffOptimizerTicketPersonType(Enum):
-    ALL = "ALL"
-    ADULT = "ADULT"
-    ELDERLY = "ELDERLY"
-    APPRENTICE = "APPRENTICE"
-    PUPIL = "PUPIL"
-    STUDENT = "STUDENT"
-    CHILD = "CHILD"
-
-
-class TariffOptimizerTicket(BaseModel):
-    tariffKindId: int | None = None
-    tariffKindLabel: str | None = None
-    tariffLevelId: int | None = None
-    tariffLevelLabel: str | None = None
-    tariffRegions: list[str]
-    regionType: TariffOptimizerTicketRegionType
-    count: int | None = None
-    extraFare: bool | None = None
-    personType: TariffOptimizerTicketPersonType
-    centPrice: int | None = None
-
-
-class SingleTicketOptimizerRequestStation(BaseModel):
+class SingleTicketOptimizerRequestLine(BaseModel):
     id: str
     name: str
 
 
-class SingleTicketOptimizerRequestLine(BaseModel):
+class SingleTicketOptimizerRequestStation(BaseModel):
     id: str
     name: str
 
@@ -249,6 +219,36 @@ class SingleTicketOptimizerRequestRoute(BaseModel):
     tariffRegions: TariffOptimizerRegions
     singleTicketTariffLevelId: int | None = None
     extraFareType: SingleTicketOptimizerRequestRouteExtraFareType
+
+
+class TariffOptimizerTicketRegionType(Enum):
+    RING = "RING"
+    ZONE = "ZONE"
+    COUNTY = "COUNTY"
+    GH_ZONE = "GH_ZONE"
+
+
+class TariffOptimizerTicketPersonType(Enum):
+    ALL = "ALL"
+    ADULT = "ADULT"
+    ELDERLY = "ELDERLY"
+    APPRENTICE = "APPRENTICE"
+    PUPIL = "PUPIL"
+    STUDENT = "STUDENT"
+    CHILD = "CHILD"
+
+
+class TariffOptimizerTicket(BaseModel):
+    tariffKindId: int | None = None
+    tariffKindLabel: str | None = None
+    tariffLevelId: int | None = None
+    tariffLevelLabel: str | None = None
+    tariffRegions: list[str]
+    regionType: TariffOptimizerTicketRegionType
+    count: int | None = None
+    extraFare: bool | None = None
+    personType: TariffOptimizerTicketPersonType
+    centPrice: int | None = None
 
 
 class SingleTicketOptimizerRequest(BaseModel):
@@ -341,6 +341,25 @@ class LLRequest(BaseModel):
     modificationTypes: list[LLRequestModificationType] | None = None
 
 
+class ServiceTypeSimpleType(Enum):
+    BUS = "BUS"
+    TRAIN = "TRAIN"
+    SHIP = "SHIP"
+    FOOTPATH = "FOOTPATH"
+    BICYCLE = "BICYCLE"
+    AIRPLANE = "AIRPLANE"
+    CHANGE = "CHANGE"
+    CHANGE_SAME_PLATFORM = "CHANGE_SAME_PLATFORM"
+    ACTIVITY_BIKE_AND_RIDE = "ACTIVITY_BIKE_AND_RIDE"
+
+
+class ServiceType(BaseModel):
+    simpleType: ServiceTypeSimpleType
+    shortInfo: str | None = None
+    longInfo: str | None = None
+    model: str | None = None
+
+
 class StationLight(BaseModel):
     id: str
     name: str | None = None
@@ -366,25 +385,6 @@ class SublineListEntry(BaseModel):
     sublineNumber: str
     vehicleType: SublineListEntryVehicleType
     stationSequence: list[StationLight] | None = None
-
-
-class ServiceTypeSimpleType(Enum):
-    BUS = "BUS"
-    TRAIN = "TRAIN"
-    SHIP = "SHIP"
-    FOOTPATH = "FOOTPATH"
-    BICYCLE = "BICYCLE"
-    AIRPLANE = "AIRPLANE"
-    CHANGE = "CHANGE"
-    CHANGE_SAME_PLATFORM = "CHANGE_SAME_PLATFORM"
-    ACTIVITY_BIKE_AND_RIDE = "ACTIVITY_BIKE_AND_RIDE"
-
-
-class ServiceType(BaseModel):
-    simpleType: ServiceTypeSimpleType
-    shortInfo: str | None = None
-    longInfo: str | None = None
-    model: str | None = None
 
 
 class LineListEntry(BaseModel):
@@ -582,6 +582,26 @@ class TariffRequest(BaseModel):
     tariffInfoSelector: list[TariffInfoSelector] | None = None
 
 
+class TariffRegionList(BaseModel):
+    regions: list[str] | None = None
+
+
+class TariffRegionInfoRegionType(Enum):
+    ZONE = "ZONE"
+    GH_ZONE = "GH_ZONE"
+    RING = "RING"
+    COUNTY = "COUNTY"
+    GH = "GH"
+    NET = "NET"
+    ZG = "ZG"
+    STADTVERKEHR = "STADTVERKEHR"
+
+
+class TariffRegionInfo(BaseModel):
+    regionType: TariffRegionInfoRegionType
+    alternatives: list[TariffRegionList] | None = None
+
+
 class TicketInfoRegionType(Enum):
     ZONE = "ZONE"
     GH_ZONE = "GH_ZONE"
@@ -616,26 +636,6 @@ class TicketInfo(BaseModel):
     reducedBaseTicketID: str | None = None
     extraFareTicketID: str | None = None
     reducedExtraFareTicketID: str | None = None
-
-
-class TariffRegionList(BaseModel):
-    regions: list[str] | None = None
-
-
-class TariffRegionInfoRegionType(Enum):
-    ZONE = "ZONE"
-    GH_ZONE = "GH_ZONE"
-    RING = "RING"
-    COUNTY = "COUNTY"
-    GH = "GH"
-    NET = "NET"
-    ZG = "ZG"
-    STADTVERKEHR = "STADTVERKEHR"
-
-
-class TariffRegionInfo(BaseModel):
-    regionType: TariffRegionInfoRegionType
-    alternatives: list[TariffRegionList] | None = None
 
 
 class TariffInfoExtraFareType(Enum):
@@ -821,11 +821,6 @@ class GRRequest(BaseModel):
     useBikeAndRide: bool | None = False
 
 
-class TimeRange(BaseModel):
-    begin: AwareDatetime | None = None
-    end: AwareDatetime | None = None
-
-
 class Link(BaseModel):
     label: str
     url: str
@@ -844,6 +839,11 @@ class Location(BaseModel):
     begin: SDName | None = None
     end: SDName | None = None
     bothDirections: bool | None = True
+
+
+class TimeRange(BaseModel):
+    begin: AwareDatetime | None = None
+    end: AwareDatetime | None = None
 
 
 class Announcement(BaseModel):
@@ -869,31 +869,22 @@ class Attribute(BaseModel):
     id: str | None = None
 
 
-class Ticket(BaseModel):
-    price: float | None = None
-    reducedPrice: float | None = None
-    currency: str | None = "EUR"
-    type: str
-    level: str
-    tariff: str
-    range: str | None = None
-    ticketRemarks: str | None = None
+class IndividualTrackType(Enum):
+    BUS = "BUS"
+    TRAIN = "TRAIN"
+    SHIP = "SHIP"
+    FOOTPATH = "FOOTPATH"
+    BICYCLE = "BICYCLE"
+    AIRPLANE = "AIRPLANE"
+    CHANGE = "CHANGE"
+    CHANGE_SAME_PLATFORM = "CHANGE_SAME_PLATFORM"
+    ACTIVITY_BIKE_AND_RIDE = "ACTIVITY_BIKE_AND_RIDE"
 
 
-class MapEntry(BaseModel):
-    key: str
-    value: str
-
-
-class Path(BaseModel):
-    track: list[Coordinate]
-    attributes: list[str] | None = None
-    tags: list[MapEntry] | None = None
-
-
-class Vehicle(BaseModel):
-    id: str | None = None
-    number: str | None = None
+class IndividualTrack(BaseModel):
+    time: int | None = None
+    length: int | None = None
+    type: IndividualTrackType
 
 
 class JourneySDNameType(Enum):
@@ -931,6 +922,17 @@ class JourneySDName(BaseModel):
     realtimePlatform: str | None = None
 
 
+class MapEntry(BaseModel):
+    key: str
+    value: str
+
+
+class Path(BaseModel):
+    track: list[Coordinate]
+    attributes: list[str] | None = None
+    tags: list[MapEntry] | None = None
+
+
 class ShopInfoShopType(Enum):
     AST = "AST"
 
@@ -938,6 +940,11 @@ class ShopInfoShopType(Enum):
 class ShopInfo(BaseModel):
     shopType: ShopInfoShopType
     url: str
+
+
+class Vehicle(BaseModel):
+    id: str | None = None
+    number: str | None = None
 
 
 class ScheduleElement(BaseModel):
@@ -955,6 +962,17 @@ class ScheduleElement(BaseModel):
     shopInfo: list[ShopInfo] | None = None
 
 
+class Ticket(BaseModel):
+    price: float | None = None
+    reducedPrice: float | None = None
+    currency: str | None = "EUR"
+    type: str
+    level: str
+    tariff: str
+    range: str | None = None
+    ticketRemarks: str | None = None
+
+
 class Schedule(BaseModel):
     routeId: int | None = None
     start: SDName
@@ -970,24 +988,6 @@ class Schedule(BaseModel):
     scheduleElements: list[ScheduleElement] | None = None
     contSearchBefore: ContSearchByServiceId | None = None
     contSearchAfter: ContSearchByServiceId | None = None
-
-
-class IndividualTrackType(Enum):
-    BUS = "BUS"
-    TRAIN = "TRAIN"
-    SHIP = "SHIP"
-    FOOTPATH = "FOOTPATH"
-    BICYCLE = "BICYCLE"
-    AIRPLANE = "AIRPLANE"
-    CHANGE = "CHANGE"
-    CHANGE_SAME_PLATFORM = "CHANGE_SAME_PLATFORM"
-    ACTIVITY_BIKE_AND_RIDE = "ACTIVITY_BIKE_AND_RIDE"
-
-
-class IndividualTrack(BaseModel):
-    time: int | None = None
-    length: int | None = None
-    type: IndividualTrackType
 
 
 class GRResponse(GTIResponse):
