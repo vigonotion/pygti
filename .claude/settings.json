@@ -1,0 +1,27 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // .tool_response.filePath // empty' | { read -r f; if [[ \"$f\" == *.py ]]; then ruff format \"$f\"; ruff check \"$f\"; fi; } || true",
+            "statusMessage": "ruff format + check..."
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run mypy src/",
+            "statusMessage": "mypy type check..."
+          }
+        ]
+      }
+    ]
+  }
+}

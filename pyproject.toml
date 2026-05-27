@@ -15,5 +15,11 @@ build-backend = "hatchling.build"
 
 [dependency-groups]
 dev = [
+    "mypy>=1.15",
     "ruff>=0.15.14",
 ]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
