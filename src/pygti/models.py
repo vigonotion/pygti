@@ -30,7 +30,7 @@ class TicketListRequest(BaseModel):
     stationKey: str | None = None
 
 
-class PersonInfoPersonType(Enum):
+class PersonInfoPersonType(str, Enum):
     ALL = "ALL"
     ELDERLY = "ELDERLY"
     APPRENTICE = "APPRENTICE"
@@ -44,14 +44,14 @@ class PersonInfo(BaseModel):
     personCount: int | None = None
 
 
-class TicketListTicketVariantTicketClass(Enum):
+class TicketListTicketVariantTicketClass(str, Enum):
     NONE = "NONE"
     SECOND = "SECOND"
     FIRST = "FIRST"
     SCHNELL = "SCHNELL"
 
 
-class TicketListTicketVariantDiscount(Enum):
+class TicketListTicketVariantDiscount(str, Enum):
     NONE = "NONE"
     ONLINE = "ONLINE"
     SOCIAL = "SOCIAL"
@@ -64,53 +64,13 @@ class TicketListTicketVariant(BaseModel):
     currency: str | None = "EUR"
     ticketClass: TicketListTicketVariantTicketClass
     discount: TicketListTicketVariantDiscount
-    validityBegin: date_aliased
-    validityEnd: date_aliased
+    validityBegin: date_aliased | None = None
+    validityEnd: date_aliased | None = None
 
 
 class TimePeriod(BaseModel):
     begin: str
     end: str
-
-
-class ValidityPeriodDay(Enum):
-    WEEKDAY = "WEEKDAY"
-    WEEKEND = "WEEKEND"
-
-
-class ValidityPeriod(BaseModel):
-    day: ValidityPeriodDay
-    timeValidities: list[TimePeriod] | None = None
-
-
-class TicketListTicketInfosRegionType(Enum):
-    ZONE = "ZONE"
-    GH_ZONE = "GH_ZONE"
-    RING = "RING"
-    COUNTY = "COUNTY"
-    GH = "GH"
-    NET = "NET"
-    ZG = "ZG"
-    STADTVERKEHR = "STADTVERKEHR"
-
-
-class TicketListTicketInfos(BaseModel):
-    tariffKindID: int | None = None
-    tariffKindLabel: str
-    tariffLevelID: int | None = None
-    tariffLevelLabel: str
-    tariffGroupID: int | None = None
-    tariffGroupLabel: str | None = None
-    regionType: TicketListTicketInfosRegionType | None = None
-    selectableRegions: int | None = 0
-    requiredStartStation: bool | None = False
-    personInfos: list[PersonInfo] | None = None
-    validityPeriods: list[ValidityPeriod] | None = None
-    variants: list[TicketListTicketVariant] | None = None
-
-
-class TicketListResponse(GTIResponse):
-    ticketInfos: list[TicketListTicketInfos]
 
 
 class TariffZoneNeighboursRequest(BaseModel):
@@ -120,18 +80,14 @@ class TariffZoneNeighboursRequest(BaseModel):
 class TariffZone(BaseModel):
     zone: str
     ring: str
-    neighbours: list[str]
-
-
-class TariffZoneNeighboursResponse(GTIResponse):
-    tariffZones: list[TariffZone]
+    neighbours: list[str] | None = None
 
 
 class TariffMetaDataRequest(BaseModel):
     pass
 
 
-class RequiredRegionTypeType(Enum):
+class RequiredRegionTypeType(str, Enum):
     ZONE = "ZONE"
     GH_ZONE = "GH_ZONE"
     RING = "RING"
@@ -152,7 +108,7 @@ class TariffCounty(BaseModel):
     label: str
 
 
-class TariffKindTicketType(Enum):
+class TariffKindTicketType(str, Enum):
     OCCASIONAL_TICKET = "OCCASIONAL_TICKET"
     SEASON_TICKET = "SEASON_TICKET"
 
@@ -165,70 +121,14 @@ class TariffKind(BaseModel):
     levelCombinations: list[int] | None = None
 
 
-class TariffLevel(BaseModel):
-    id: int | None = None
-    label: str
-    requiredRegionType: RequiredRegionType
-
-
-class TariffMetaDataResponse(GTIResponse):
-    tariffKinds: list[TariffKind] | None = None
-    tariffLevels: list[TariffLevel] | None = None
-    tariffCounties: list[TariffCounty] | None = None
-    tariffZones: list[TariffZone] | None = None
-    tariffRings: list[str] | None = None
-
-
-class SingleTicketOptimizerRequestLine(BaseModel):
-    id: str
-    name: str
-
-
-class SingleTicketOptimizerRequestStation(BaseModel):
-    id: str
-    name: str
-
-
-class SingleTicketOptimizerRequestTrip(BaseModel):
-    start: SingleTicketOptimizerRequestStation
-    destination: SingleTicketOptimizerRequestStation
-    line: SingleTicketOptimizerRequestLine
-    vehicleType: str
-
-
-class TariffRegions(BaseModel):
-    regions: list[str]
-
-
-class TariffOptimizerRegions(BaseModel):
-    zones: list[TariffRegions] | None = None
-    rings: list[TariffRegions] | None = None
-    counties: list[TariffRegions] | None = None
-
-
-class SingleTicketOptimizerRequestRouteExtraFareType(Enum):
-    NO = "NO"
-    POSSIBLE = "POSSIBLE"
-    REQUIRED = "REQUIRED"
-
-
-class SingleTicketOptimizerRequestRoute(BaseModel):
-    trip: list[SingleTicketOptimizerRequestTrip]
-    departure: AwareDatetime
-    arrival: AwareDatetime
-    tariffRegions: TariffOptimizerRegions
-    singleTicketTariffLevelId: int | None = None
-    extraFareType: SingleTicketOptimizerRequestRouteExtraFareType
-
-
-class TariffOptimizerTicketRegionType(Enum):
+class TariffOptimizerTicketRegionType(str, Enum):
     RING = "RING"
     ZONE = "ZONE"
     COUNTY = "COUNTY"
     GH_ZONE = "GH_ZONE"
 
 
-class TariffOptimizerTicketPersonType(Enum):
+class TariffOptimizerTicketPersonType(str, Enum):
     ALL = "ALL"
     ADULT = "ADULT"
     ELDERLY = "ELDERLY"
@@ -243,7 +143,7 @@ class TariffOptimizerTicket(BaseModel):
     tariffKindLabel: str | None = None
     tariffLevelId: int | None = None
     tariffLevelLabel: str | None = None
-    tariffRegions: list[str]
+    tariffRegions: list[str] | None = None
     regionType: TariffOptimizerTicketRegionType
     count: int | None = None
     extraFare: bool | None = None
@@ -251,24 +151,26 @@ class TariffOptimizerTicket(BaseModel):
     centPrice: int | None = None
 
 
-class SingleTicketOptimizerRequest(BaseModel):
-    withReturnJourney: bool | None = None
-    numberOfAdults: int | None = None
-    numberOfChildren: int | None = None
-    tickets: list[TariffOptimizerTicket] | None = None
-    route: SingleTicketOptimizerRequestRoute
+class SingleTicketOptimizerRequestLine(BaseModel):
+    id: str
+    name: str
 
 
-class SingleTicketOptimizerResponse(GTIResponse):
-    tickets: list[TariffOptimizerTicket] | None = None
+class SingleTicketOptimizerRequestStation(BaseModel):
+    id: str
+    name: str
 
 
-class LSRequestModificationType(Enum):
+class TariffRegions(BaseModel):
+    regions: list[str] | None = None
+
+
+class LSRequestModificationType(str, Enum):
     MAIN = "MAIN"
     POSITION = "POSITION"
 
 
-class LSRequestCoordinateType(Enum):
+class LSRequestCoordinateType(str, Enum):
     EPSG_4326 = "EPSG_4326"
     EPSG_31466 = "EPSG_31466"
     EPSG_31467 = "EPSG_31467"
@@ -283,7 +185,7 @@ class LSRequest(BaseModel):
     filterEquivalent: bool | None = False
 
 
-class CoordinateType(Enum):
+class CoordinateType(str, Enum):
     EPSG_4326 = "EPSG_4326"
     EPSG_31466 = "EPSG_31466"
     EPSG_31467 = "EPSG_31467"
@@ -297,40 +199,7 @@ class Coordinate(BaseModel):
     type: CoordinateType | None = CoordinateType.EPSG_4326
 
 
-class StationListEntryVehicleType(Enum):
-    REGIONALBUS = "REGIONALBUS"
-    METROBUS = "METROBUS"
-    NACHTBUS = "NACHTBUS"
-    SCHNELLBUS = "SCHNELLBUS"
-    XPRESSBUS = "XPRESSBUS"
-    AST = "AST"
-    SCHIFF = "SCHIFF"
-    U_BAHN = "U_BAHN"
-    S_BAHN = "S_BAHN"
-    A_BAHN = "A_BAHN"
-    R_BAHN = "R_BAHN"
-    F_BAHN = "F_BAHN"
-    EILBUS = "EILBUS"
-
-
-class StationListEntry(BaseModel):
-    id: str
-    name: str | None = None
-    city: str | None = None
-    combinedName: str | None = None
-    shortcuts: list[str] | None = None
-    aliasses: list[str] | None = None
-    vehicleTypes: list[StationListEntryVehicleType] | None = None
-    coordinate: Coordinate | None = None
-    exists: bool | None = True
-
-
-class LSResponse(GTIResponse):
-    dataReleaseID: str | None = None
-    stations: list[StationListEntry] | None = None
-
-
-class LLRequestModificationType(Enum):
+class LLRequestModificationType(str, Enum):
     MAIN = "MAIN"
     SEQUENCE = "SEQUENCE"
 
@@ -341,7 +210,7 @@ class LLRequest(BaseModel):
     modificationTypes: list[LLRequestModificationType] | None = None
 
 
-class ServiceTypeSimpleType(Enum):
+class ServiceTypeSimpleType(str, Enum):
     BUS = "BUS"
     TRAIN = "TRAIN"
     SHIP = "SHIP"
@@ -365,106 +234,12 @@ class StationLight(BaseModel):
     name: str | None = None
 
 
-class SublineListEntryVehicleType(Enum):
-    REGIONALBUS = "REGIONALBUS"
-    METROBUS = "METROBUS"
-    NACHTBUS = "NACHTBUS"
-    SCHNELLBUS = "SCHNELLBUS"
-    XPRESSBUS = "XPRESSBUS"
-    AST = "AST"
-    SCHIFF = "SCHIFF"
-    U_BAHN = "U_BAHN"
-    S_BAHN = "S_BAHN"
-    A_BAHN = "A_BAHN"
-    R_BAHN = "R_BAHN"
-    F_BAHN = "F_BAHN"
-    EILBUS = "EILBUS"
-
-
-class SublineListEntry(BaseModel):
-    sublineNumber: str
-    vehicleType: SublineListEntryVehicleType
-    stationSequence: list[StationLight] | None = None
-
-
-class LineListEntry(BaseModel):
-    id: str
-    name: str | None = None
-    carrierNameShort: str | None = None
-    carrierNameLong: str | None = None
-    sublines: list[SublineListEntry] | None = None
-    exists: bool | None = True
-    type: ServiceType
-
-
-class LLResponse(GTIResponse):
-    dataReleaseID: str | None = None
-    lines: list[LineListEntry] | None = None
-
-
 class Property(BaseModel):
     key: str
     value: str | None = None
 
 
-class InitRequest(BaseModel):
-    properties: list[Property] | None = None
-
-
-class InitResponse(GTIResponse):
-    beginOfService: str
-    endOfService: str
-    id: str
-    dataId: str
-    buildDate: str
-    buildTime: str
-    buildText: str
-    version: str
-    properties: list[Property] | None = None
-
-
-class BoundingBox(BaseModel):
-    lowerLeft: Coordinate
-    upperRight: Coordinate
-
-
-class VehicleMapRequestCoordinateType(Enum):
-    EPSG_4326 = "EPSG_4326"
-    EPSG_31466 = "EPSG_31466"
-    EPSG_31467 = "EPSG_31467"
-    EPSG_31468 = "EPSG_31468"
-    EPSG_31469 = "EPSG_31469"
-
-
-class VehicleMapRequestVehicleType(Enum):
-    REGIONALBUS = "REGIONALBUS"
-    METROBUS = "METROBUS"
-    NACHTBUS = "NACHTBUS"
-    SCHNELLBUS = "SCHNELLBUS"
-    XPRESSBUS = "XPRESSBUS"
-    AST = "AST"
-    SCHIFF = "SCHIFF"
-    U_BAHN = "U_BAHN"
-    S_BAHN = "S_BAHN"
-    A_BAHN = "A_BAHN"
-    R_BAHN = "R_BAHN"
-    F_BAHN = "F_BAHN"
-    EILBUS = "EILBUS"
-
-
-class VehicleMapRequest(BaseModel):
-    boundingBox: BoundingBox
-    periodBegin: int | None = None
-    periodEnd: int | None = None
-    withoutCoords: bool | None = None
-    coordinateType: VehicleMapRequestCoordinateType | None = (
-        VehicleMapRequestCoordinateType.EPSG_4326
-    )
-    vehicleTypes: list[VehicleMapRequestVehicleType] | None = None
-    realtime: bool | None = None
-
-
-class VehicleMapPathCoordinateType(Enum):
+class VehicleMapPathCoordinateType(str, Enum):
     EPSG_4326 = "EPSG_4326"
     EPSG_31466 = "EPSG_31466"
     EPSG_31467 = "EPSG_31467"
@@ -477,63 +252,7 @@ class VehicleMapPath(BaseModel):
     coordinateType: VehicleMapPathCoordinateType
 
 
-class PathSegment(BaseModel):
-    startStopPointKey: str
-    endStopPointKey: str
-    startStationName: str
-    startStationKey: str
-    startDateTime: int | None = None
-    endStationName: str
-    endStationKey: str
-    endDateTime: int | None = None
-    track: VehicleMapPath
-    destination: str
-    realtimeDelay: int | None = None
-    isFirst: bool | None = None
-    isLast: bool | None = None
-
-
-class Service(BaseModel):
-    name: str
-    direction: str | None = None
-    directionId: int | None = None
-    origin: str | None = None
-    type: ServiceType
-    id: str | None = None
-    dlid: str | None = None
-    carrierNameShort: str | None = None
-    carrierNameLong: str | None = None
-
-
-class JourneyVehicleType(Enum):
-    REGIONALBUS = "REGIONALBUS"
-    METROBUS = "METROBUS"
-    NACHTBUS = "NACHTBUS"
-    SCHNELLBUS = "SCHNELLBUS"
-    XPRESSBUS = "XPRESSBUS"
-    AST = "AST"
-    SCHIFF = "SCHIFF"
-    U_BAHN = "U_BAHN"
-    S_BAHN = "S_BAHN"
-    A_BAHN = "A_BAHN"
-    R_BAHN = "R_BAHN"
-    F_BAHN = "F_BAHN"
-    EILBUS = "EILBUS"
-
-
-class Journey(BaseModel):
-    journeyID: str
-    line: Service
-    vehicleType: JourneyVehicleType
-    realtime: bool | None = None
-    segments: list[PathSegment] | None = None
-
-
-class VehicleMapResponse(GTIResponse):
-    journeys: list[Journey]
-
-
-class TrackCoordinatesRequestCoordinateType(Enum):
+class TrackCoordinatesRequestCoordinateType(str, Enum):
     EPSG_4326 = "EPSG_4326"
     EPSG_31466 = "EPSG_31466"
     EPSG_31467 = "EPSG_31467"
@@ -546,11 +265,6 @@ class TrackCoordinatesRequest(BaseModel):
         TrackCoordinatesRequestCoordinateType.EPSG_4326
     )
     stopPointKeys: list[str]
-
-
-class TrackCoordinatesResponse(GTIResponse):
-    trackIDs: list[str]
-    tracks: list[VehicleMapPath]
 
 
 class GTITime(BaseModel):
@@ -573,36 +287,7 @@ class TariffInfoSelector(BaseModel):
     blacklist: bool | None = False
 
 
-class TariffRequest(BaseModel):
-    scheduleElements: list[ScheduleElementLight]
-    departure: GTITime
-    arrival: GTITime
-    returnReduced: bool | None = False
-    returnPartialTickets: bool | None = True
-    tariffInfoSelector: list[TariffInfoSelector] | None = None
-
-
-class TariffRegionList(BaseModel):
-    regions: list[str] | None = None
-
-
-class TariffRegionInfoRegionType(Enum):
-    ZONE = "ZONE"
-    GH_ZONE = "GH_ZONE"
-    RING = "RING"
-    COUNTY = "COUNTY"
-    GH = "GH"
-    NET = "NET"
-    ZG = "ZG"
-    STADTVERKEHR = "STADTVERKEHR"
-
-
-class TariffRegionInfo(BaseModel):
-    regionType: TariffRegionInfoRegionType
-    alternatives: list[TariffRegionList] | None = None
-
-
-class TicketInfoRegionType(Enum):
+class TicketInfoRegionType(str, Enum):
     ZONE = "ZONE"
     GH_ZONE = "GH_ZONE"
     RING = "RING"
@@ -638,23 +323,8 @@ class TicketInfo(BaseModel):
     reducedExtraFareTicketID: str | None = None
 
 
-class TariffInfoExtraFareType(Enum):
-    NO = "NO"
-    POSSIBLE = "POSSIBLE"
-    REQUIRED = "REQUIRED"
-
-
-class TariffInfo(BaseModel):
-    tariffName: str
-    tariffRegions: list[TariffRegionInfo] | None = None
-    regionTexts: list[str] | None = None
-    extraFareType: TariffInfoExtraFareType | None = TariffInfoExtraFareType.NO
-    ticketInfos: list[TicketInfo] | None = None
-    ticketRemarks: str | None = None
-
-
-class TariffResponse(GTIResponse):
-    tariffInfos: list[TariffInfo] | None = None
+class TariffRegionList(BaseModel):
+    regions: list[str] | None = None
 
 
 class TariffDetails(BaseModel):
@@ -675,7 +345,292 @@ class TariffDetails(BaseModel):
     uniqueValues: bool | None = None
 
 
-class SDNameType(Enum):
+class ElevatorButtonType(str, Enum):
+    BRAILLE = "BRAILLE"
+    ACUSTIC = "ACUSTIC"
+    COMBI = "COMBI"
+    UNKNOWN = "UNKNOWN"
+
+
+class ElevatorState(str, Enum):
+    READY = "READY"
+    OUTOFORDER = "OUTOFORDER"
+    UNKNOWN = "UNKNOWN"
+
+
+class Elevator(BaseModel):
+    lines: list[str] | None = None
+    label: str | None = None
+    cabinWidth: int | None = None
+    cabinLength: int | None = None
+    doorWidth: int | None = None
+    description: str | None = None
+    elevatorType: str | None = None
+    buttonType: ElevatorButtonType | None = None
+    state: ElevatorState | None = None
+    cause: str | None = None
+
+
+class Penalty(BaseModel):
+    name: str
+    value: str
+
+
+class TimeRange(BaseModel):
+    begin: AwareDatetime | None = None
+    end: AwareDatetime | None = None
+
+
+class Link(BaseModel):
+    label: str
+    url: str
+
+
+class Attribute(BaseModel):
+    title: str | None = None
+    isPlanned: bool | None = None
+    value: str
+    types: list[str] | None = None
+    id: str | None = None
+
+
+class IndividualTrackType(str, Enum):
+    BUS = "BUS"
+    TRAIN = "TRAIN"
+    SHIP = "SHIP"
+    FOOTPATH = "FOOTPATH"
+    BICYCLE = "BICYCLE"
+    AIRPLANE = "AIRPLANE"
+    CHANGE = "CHANGE"
+    CHANGE_SAME_PLATFORM = "CHANGE_SAME_PLATFORM"
+    ACTIVITY_BIKE_AND_RIDE = "ACTIVITY_BIKE_AND_RIDE"
+
+
+class IndividualTrack(BaseModel):
+    time: int | None = None
+    length: int | None = None
+    type: IndividualTrackType
+
+
+class MapEntry(BaseModel):
+    key: str
+    value: str
+
+
+class Ticket(BaseModel):
+    price: float | None = None
+    reducedPrice: float | None = None
+    currency: str | None = "EUR"
+    type: str
+    level: str
+    tariff: str
+    range: str | None = None
+    ticketRemarks: str | None = None
+
+
+class Vehicle(BaseModel):
+    id: str | None = None
+    number: str | None = None
+
+
+class ShopInfoShopType(str, Enum):
+    AST = "AST"
+
+
+class ShopInfo(BaseModel):
+    shopType: ShopInfoShopType
+    url: str
+
+
+class DLFilterEntry(BaseModel):
+    serviceID: str | None = None
+    stationIDs: list[str] | None = None
+    label: str | None = None
+    serviceName: str | None = None
+
+
+class PCRequest(BaseModel):
+    postalCode: int | None = None
+
+
+class PCResponse(GTIResponse):
+    isHVV: bool | None = None
+
+
+class ValidityPeriodDay(str, Enum):
+    WEEKDAY = "WEEKDAY"
+    WEEKEND = "WEEKEND"
+
+
+class ValidityPeriod(BaseModel):
+    day: ValidityPeriodDay
+    timeValidities: list[TimePeriod] | None = None
+
+
+class TariffZoneNeighboursResponse(GTIResponse):
+    tariffZones: list[TariffZone] | None = None
+
+
+class TariffLevel(BaseModel):
+    id: int | None = None
+    label: str
+    requiredRegionType: RequiredRegionType
+
+
+class SingleTicketOptimizerResponse(GTIResponse):
+    tickets: list[TariffOptimizerTicket] | None = None
+
+
+class SingleTicketOptimizerRequestTrip(BaseModel):
+    start: SingleTicketOptimizerRequestStation
+    destination: SingleTicketOptimizerRequestStation
+    line: SingleTicketOptimizerRequestLine
+    vehicleType: str
+
+
+class TariffOptimizerRegions(BaseModel):
+    zones: list[TariffRegions] | None = None
+    rings: list[TariffRegions] | None = None
+    counties: list[TariffRegions] | None = None
+
+
+class StationListEntryVehicleType(str, Enum):
+    REGIONALBUS = "REGIONALBUS"
+    METROBUS = "METROBUS"
+    NACHTBUS = "NACHTBUS"
+    SCHNELLBUS = "SCHNELLBUS"
+    XPRESSBUS = "XPRESSBUS"
+    AST = "AST"
+    SCHIFF = "SCHIFF"
+    U_BAHN = "U_BAHN"
+    S_BAHN = "S_BAHN"
+    A_BAHN = "A_BAHN"
+    R_BAHN = "R_BAHN"
+    F_BAHN = "F_BAHN"
+    EILBUS = "EILBUS"
+
+
+class StationListEntry(BaseModel):
+    id: str
+    name: str | None = None
+    city: str | None = None
+    combinedName: str | None = None
+    shortcuts: list[str] | None = None
+    aliasses: list[str] | None = None
+    vehicleTypes: list[StationListEntryVehicleType] | None = None
+    coordinate: Coordinate | None = None
+    exists: bool | None = True
+
+
+class BoundingBox(BaseModel):
+    lowerLeft: Coordinate
+    upperRight: Coordinate
+
+
+class Service(BaseModel):
+    name: str
+    direction: str | None = None
+    directionId: int | None = None
+    origin: str | None = None
+    type: ServiceType
+    id: str | None = None
+    dlid: str | None = None
+    carrierNameShort: str | None = None
+    carrierNameLong: str | None = None
+
+
+class SublineListEntryVehicleType(str, Enum):
+    REGIONALBUS = "REGIONALBUS"
+    METROBUS = "METROBUS"
+    NACHTBUS = "NACHTBUS"
+    SCHNELLBUS = "SCHNELLBUS"
+    XPRESSBUS = "XPRESSBUS"
+    AST = "AST"
+    SCHIFF = "SCHIFF"
+    U_BAHN = "U_BAHN"
+    S_BAHN = "S_BAHN"
+    A_BAHN = "A_BAHN"
+    R_BAHN = "R_BAHN"
+    F_BAHN = "F_BAHN"
+    EILBUS = "EILBUS"
+
+
+class SublineListEntry(BaseModel):
+    sublineNumber: str
+    vehicleType: SublineListEntryVehicleType
+    stationSequence: list[StationLight] | None = None
+
+
+class InitRequest(BaseModel):
+    properties: list[Property] | None = None
+
+
+class InitResponse(GTIResponse):
+    beginOfService: str
+    endOfService: str
+    id: str
+    dataId: str
+    buildDate: str
+    buildTime: str
+    buildText: str
+    version: str
+    properties: list[Property] | None = None
+
+
+class PathSegment(BaseModel):
+    startStopPointKey: str
+    endStopPointKey: str
+    startStationName: str
+    startStationKey: str
+    startDateTime: int | None = None
+    endStationName: str
+    endStationKey: str
+    endDateTime: int | None = None
+    track: VehicleMapPath
+    destination: str
+    realtimeDelay: int | None = None
+    isFirst: bool | None = None
+    isLast: bool | None = None
+
+
+class TrackCoordinatesResponse(GTIResponse):
+    trackIDs: list[str] | None = None
+    tracks: list[VehicleMapPath] | None = None
+
+
+class ContSearchByServiceId(BaseModel):
+    serviceId: int | None = None
+    lineKey: str
+    plannedDepArrTime: GTITime
+    additionalOffset: int | None = None
+
+
+class TariffRequest(BaseModel):
+    scheduleElements: list[ScheduleElementLight]
+    departure: GTITime
+    arrival: GTITime
+    returnReduced: bool | None = False
+    returnPartialTickets: bool | None = True
+    tariffInfoSelector: list[TariffInfoSelector] | None = None
+
+
+class TariffRegionInfoRegionType(str, Enum):
+    ZONE = "ZONE"
+    GH_ZONE = "GH_ZONE"
+    RING = "RING"
+    COUNTY = "COUNTY"
+    GH = "GH"
+    NET = "NET"
+    ZG = "ZG"
+    STADTVERKEHR = "STADTVERKEHR"
+
+
+class TariffRegionInfo(BaseModel):
+    regionType: TariffRegionInfoRegionType
+    alternatives: list[TariffRegionList] | None = None
+
+
+class SDNameType(str, Enum):
     UNKNOWN = "UNKNOWN"
     STATION = "STATION"
     ADDRESS = "ADDRESS"
@@ -701,34 +656,32 @@ class SDName(BaseModel):
     address: str | None = None
 
 
-class StationInformationRequest(BaseModel):
-    station: SDName
-
-
-class ElevatorButtonType(Enum):
-    BRAILLE = "BRAILLE"
-    ACUSTIC = "ACUSTIC"
-    COMBI = "COMBI"
+class RegionalSDNameType(str, Enum):
     UNKNOWN = "UNKNOWN"
+    STATION = "STATION"
+    ADDRESS = "ADDRESS"
+    POI = "POI"
+    COORDINATE = "COORDINATE"
+    BIKE_AND_RIDE = "BIKE_AND_RIDE"
+    STOP_POINT = "STOP_POINT"
 
 
-class ElevatorState(Enum):
-    READY = "READY"
-    OUTOFORDER = "OUTOFORDER"
-    UNKNOWN = "UNKNOWN"
-
-
-class Elevator(BaseModel):
-    lines: list[str] | None = None
-    label: str | None = None
-    cabinWidth: int | None = None
-    cabinLength: int | None = None
-    doorWidth: int | None = None
-    description: str | None = None
-    elevatorType: str | None = None
-    buttonType: ElevatorButtonType | None = None
-    state: ElevatorState | None = None
-    cause: str | None = None
+class RegionalSDName(BaseModel):
+    name: str | None = None
+    city: str | None = None
+    combinedName: str | None = None
+    id: str | None = None
+    globalId: str | None = None
+    provider: str | None = None
+    type: RegionalSDNameType | None = RegionalSDNameType.UNKNOWN
+    coordinate: Coordinate | None = None
+    layer: int | None = None
+    tariffDetails: TariffDetails | None = None
+    serviceTypes: list[str] | None = None
+    hasStationInformation: bool | None = None
+    address: str | None = None
+    distance: int | None = None
+    time: int | None = None
 
 
 class PartialStation(BaseModel):
@@ -737,24 +690,116 @@ class PartialStation(BaseModel):
     elevators: list[Elevator] | None = None
 
 
-class StationInformationResponse(GTIResponse):
-    partialStations: list[PartialStation] | None = None
-    lastUpdate: GTITime | None = None
+class AnnouncementRequestFilterPlanned(str, Enum):
+    NO_FILTER = "NO_FILTER"
+    ONLY_PLANNED = "ONLY_PLANNED"
+    ONLY_UNPLANNED = "ONLY_UNPLANNED"
 
 
-class ContSearchByServiceId(BaseModel):
-    serviceId: int | None = None
-    lineKey: str
-    plannedDepArrTime: GTITime
-    additionalOffset: int | None = None
+class AnnouncementRequest(BaseModel):
+    names: list[str] | None = None
+    timeRange: TimeRange | None = None
+    full: bool | None = False
+    filterPlanned: AnnouncementRequestFilterPlanned | None = None
+    showBroadcastRelevant: bool | None = False
 
 
-class Penalty(BaseModel):
-    name: str
-    value: str
+class JourneySDNameType(str, Enum):
+    UNKNOWN = "UNKNOWN"
+    STATION = "STATION"
+    ADDRESS = "ADDRESS"
+    POI = "POI"
+    COORDINATE = "COORDINATE"
+    BIKE_AND_RIDE = "BIKE_AND_RIDE"
+    STOP_POINT = "STOP_POINT"
 
 
-class GRRequestCoordinateType(Enum):
+class JourneySDName(BaseModel):
+    name: str | None = None
+    city: str | None = None
+    combinedName: str | None = None
+    id: str | None = None
+    globalId: str | None = None
+    provider: str | None = None
+    type: JourneySDNameType | None = JourneySDNameType.UNKNOWN
+    coordinate: Coordinate | None = None
+    layer: int | None = None
+    tariffDetails: TariffDetails | None = None
+    serviceTypes: list[str] | None = None
+    hasStationInformation: bool | None = None
+    address: str | None = None
+    arrTime: GTITime | None = None
+    depTime: GTITime | None = None
+    arrDelay: int | None = None
+    depDelay: int | None = None
+    extra: bool | None = False
+    cancelled: bool | None = False
+    attributes: list[Attribute] | None = None
+    platform: str | None = None
+    realtimePlatform: str | None = None
+
+
+class Path(BaseModel):
+    track: list[Coordinate] | None = None
+    attributes: list[str] | None = None
+    tags: list[MapEntry] | None = None
+
+
+class TicketListTicketInfosRegionType(str, Enum):
+    ZONE = "ZONE"
+    GH_ZONE = "GH_ZONE"
+    RING = "RING"
+    COUNTY = "COUNTY"
+    GH = "GH"
+    NET = "NET"
+    ZG = "ZG"
+    STADTVERKEHR = "STADTVERKEHR"
+
+
+class TicketListTicketInfos(BaseModel):
+    tariffKindID: int | None = None
+    tariffKindLabel: str
+    tariffLevelID: int | None = None
+    tariffLevelLabel: str
+    tariffGroupID: int | None = None
+    tariffGroupLabel: str | None = None
+    regionType: TicketListTicketInfosRegionType | None = None
+    selectableRegions: int | None = 0
+    requiredStartStation: bool | None = False
+    personInfos: list[PersonInfo] | None = None
+    validityPeriods: list[ValidityPeriod] | None = None
+    variants: list[TicketListTicketVariant] | None = None
+
+
+class TariffMetaDataResponse(GTIResponse):
+    tariffKinds: list[TariffKind] | None = None
+    tariffLevels: list[TariffLevel] | None = None
+    tariffCounties: list[TariffCounty] | None = None
+    tariffZones: list[TariffZone] | None = None
+    tariffRings: list[str] | None = None
+
+
+class SingleTicketOptimizerRequestRouteExtraFareType(str, Enum):
+    NO = "NO"
+    POSSIBLE = "POSSIBLE"
+    REQUIRED = "REQUIRED"
+
+
+class SingleTicketOptimizerRequestRoute(BaseModel):
+    trip: list[SingleTicketOptimizerRequestTrip] | None = None
+    departure: AwareDatetime | None = None
+    arrival: AwareDatetime | None = None
+    tariffRegions: TariffOptimizerRegions
+    singleTicketTariffLevelId: int | None = None
+    extraFareType: SingleTicketOptimizerRequestRouteExtraFareType
+
+
+class LSResponse(GTIResponse):
+    dataReleaseID: str | None = None
+    stations: list[StationListEntry] | None = None
+
+
+class VehicleMapRequestCoordinateType(str, Enum):
     EPSG_4326 = "EPSG_4326"
     EPSG_31466 = "EPSG_31466"
     EPSG_31467 = "EPSG_31467"
@@ -762,13 +807,102 @@ class GRRequestCoordinateType(Enum):
     EPSG_31469 = "EPSG_31469"
 
 
-class GRRequestRealtime(Enum):
+class VehicleMapRequestVehicleType(str, Enum):
+    REGIONALBUS = "REGIONALBUS"
+    METROBUS = "METROBUS"
+    NACHTBUS = "NACHTBUS"
+    SCHNELLBUS = "SCHNELLBUS"
+    XPRESSBUS = "XPRESSBUS"
+    AST = "AST"
+    SCHIFF = "SCHIFF"
+    U_BAHN = "U_BAHN"
+    S_BAHN = "S_BAHN"
+    A_BAHN = "A_BAHN"
+    R_BAHN = "R_BAHN"
+    F_BAHN = "F_BAHN"
+    EILBUS = "EILBUS"
+
+
+class VehicleMapRequest(BaseModel):
+    boundingBox: BoundingBox
+    periodBegin: int | None = None
+    periodEnd: int | None = None
+    withoutCoords: bool | None = None
+    coordinateType: VehicleMapRequestCoordinateType | None = (
+        VehicleMapRequestCoordinateType.EPSG_4326
+    )
+    vehicleTypes: list[VehicleMapRequestVehicleType] | None = None
+    realtime: bool | None = None
+
+
+class LineListEntry(BaseModel):
+    id: str
+    name: str | None = None
+    carrierNameShort: str | None = None
+    carrierNameLong: str | None = None
+    sublines: list[SublineListEntry] | None = None
+    exists: bool | None = True
+    type: ServiceType
+
+
+class JourneyVehicleType(str, Enum):
+    REGIONALBUS = "REGIONALBUS"
+    METROBUS = "METROBUS"
+    NACHTBUS = "NACHTBUS"
+    SCHNELLBUS = "SCHNELLBUS"
+    XPRESSBUS = "XPRESSBUS"
+    AST = "AST"
+    SCHIFF = "SCHIFF"
+    U_BAHN = "U_BAHN"
+    S_BAHN = "S_BAHN"
+    A_BAHN = "A_BAHN"
+    R_BAHN = "R_BAHN"
+    F_BAHN = "F_BAHN"
+    EILBUS = "EILBUS"
+
+
+class Journey(BaseModel):
+    journeyID: str
+    line: Service
+    vehicleType: JourneyVehicleType
+    realtime: bool | None = None
+    segments: list[PathSegment] | None = None
+
+
+class TariffInfoExtraFareType(str, Enum):
+    NO = "NO"
+    POSSIBLE = "POSSIBLE"
+    REQUIRED = "REQUIRED"
+
+
+class TariffInfo(BaseModel):
+    tariffName: str
+    tariffRegions: list[TariffRegionInfo] | None = None
+    regionTexts: list[str] | None = None
+    extraFareType: TariffInfoExtraFareType | None = TariffInfoExtraFareType.NO
+    ticketInfos: list[TicketInfo] | None = None
+    ticketRemarks: str | None = None
+
+
+class StationInformationRequest(BaseModel):
+    station: SDName
+
+
+class GRRequestCoordinateType(str, Enum):
+    EPSG_4326 = "EPSG_4326"
+    EPSG_31466 = "EPSG_31466"
+    EPSG_31467 = "EPSG_31467"
+    EPSG_31468 = "EPSG_31468"
+    EPSG_31469 = "EPSG_31469"
+
+
+class GRRequestRealtime(str, Enum):
     PLANDATA = "PLANDATA"
     REALTIME = "REALTIME"
     AUTO = "AUTO"
 
 
-class GRRequestToStartBy(Enum):
+class GRRequestToStartBy(str, Enum):
     BUS = "BUS"
     TRAIN = "TRAIN"
     SHIP = "SHIP"
@@ -780,7 +914,7 @@ class GRRequestToStartBy(Enum):
     ACTIVITY_BIKE_AND_RIDE = "ACTIVITY_BIKE_AND_RIDE"
 
 
-class GRRequestToDestBy(Enum):
+class GRRequestToDestBy(str, Enum):
     BUS = "BUS"
     TRAIN = "TRAIN"
     SHIP = "SHIP"
@@ -821,12 +955,7 @@ class GRRequest(BaseModel):
     useBikeAndRide: bool | None = False
 
 
-class Link(BaseModel):
-    label: str
-    url: str
-
-
-class LocationType(Enum):
+class LocationType(str, Enum):
     SINGLE_LINE = "SINGLE_LINE"
     ALL_LINES_OF_CARRIER = "ALL_LINES_OF_CARRIER"
     COMPLETE_NET = "COMPLETE_NET"
@@ -841,163 +970,7 @@ class Location(BaseModel):
     bothDirections: bool | None = True
 
 
-class TimeRange(BaseModel):
-    begin: AwareDatetime | None = None
-    end: AwareDatetime | None = None
-
-
-class Announcement(BaseModel):
-    id: str | None = None
-    version: int | None = None
-    summary: str | None = None
-    locations: list[Location] | None = None
-    description: str
-    links: list[Link] | None = None
-    publication: TimeRange
-    validities: list[TimeRange]
-    lastModified: AwareDatetime
-    planned: bool | None = None
-    reason: str | None = None
-    broadcastRelevant: bool | None = None
-
-
-class Attribute(BaseModel):
-    title: str | None = None
-    isPlanned: bool | None = None
-    value: str
-    types: list[str] | None = None
-    id: str | None = None
-
-
-class IndividualTrackType(Enum):
-    BUS = "BUS"
-    TRAIN = "TRAIN"
-    SHIP = "SHIP"
-    FOOTPATH = "FOOTPATH"
-    BICYCLE = "BICYCLE"
-    AIRPLANE = "AIRPLANE"
-    CHANGE = "CHANGE"
-    CHANGE_SAME_PLATFORM = "CHANGE_SAME_PLATFORM"
-    ACTIVITY_BIKE_AND_RIDE = "ACTIVITY_BIKE_AND_RIDE"
-
-
-class IndividualTrack(BaseModel):
-    time: int | None = None
-    length: int | None = None
-    type: IndividualTrackType
-
-
-class JourneySDNameType(Enum):
-    UNKNOWN = "UNKNOWN"
-    STATION = "STATION"
-    ADDRESS = "ADDRESS"
-    POI = "POI"
-    COORDINATE = "COORDINATE"
-    BIKE_AND_RIDE = "BIKE_AND_RIDE"
-    STOP_POINT = "STOP_POINT"
-
-
-class JourneySDName(BaseModel):
-    name: str | None = None
-    city: str | None = None
-    combinedName: str | None = None
-    id: str | None = None
-    globalId: str | None = None
-    provider: str | None = None
-    type: JourneySDNameType | None = JourneySDNameType.UNKNOWN
-    coordinate: Coordinate | None = None
-    layer: int | None = None
-    tariffDetails: TariffDetails | None = None
-    serviceTypes: list[str] | None = None
-    hasStationInformation: bool | None = None
-    address: str | None = None
-    arrTime: GTITime | None = None
-    depTime: GTITime | None = None
-    arrDelay: int | None = None
-    depDelay: int | None = None
-    extra: bool | None = False
-    cancelled: bool | None = False
-    attributes: list[Attribute] | None = None
-    platform: str | None = None
-    realtimePlatform: str | None = None
-
-
-class MapEntry(BaseModel):
-    key: str
-    value: str
-
-
-class Path(BaseModel):
-    track: list[Coordinate]
-    attributes: list[str] | None = None
-    tags: list[MapEntry] | None = None
-
-
-class ShopInfoShopType(Enum):
-    AST = "AST"
-
-
-class ShopInfo(BaseModel):
-    shopType: ShopInfoShopType
-    url: str
-
-
-class Vehicle(BaseModel):
-    id: str | None = None
-    number: str | None = None
-
-
-class ScheduleElement(BaseModel):
-    from_: JourneySDName = Field(..., alias="from")
-    to: JourneySDName
-    line: Service
-    paths: list[Path] | None = None
-    attributes: list[Attribute] | None = None
-    announcements: list[Announcement] | None = None
-    extra: bool | None = False
-    cancelled: bool | None = False
-    intermediateStops: list[JourneySDName] | None = None
-    vehicles: list[Vehicle] | None = None
-    serviceId: int | None = None
-    shopInfo: list[ShopInfo] | None = None
-
-
-class Ticket(BaseModel):
-    price: float | None = None
-    reducedPrice: float | None = None
-    currency: str | None = "EUR"
-    type: str
-    level: str
-    tariff: str
-    range: str | None = None
-    ticketRemarks: str | None = None
-
-
-class Schedule(BaseModel):
-    routeId: int | None = None
-    start: SDName
-    dest: SDName
-    time: int | None = None
-    footpathTime: int | None = None
-    plannedDepartureTime: AwareDatetime | None = None
-    realDepartureTime: AwareDatetime | None = None
-    plannedArrivalTime: AwareDatetime | None = None
-    realArrivalTime: AwareDatetime | None = None
-    tickets: list[Ticket] | None = None
-    tariffInfos: list[TariffInfo] | None = None
-    scheduleElements: list[ScheduleElement] | None = None
-    contSearchBefore: ContSearchByServiceId | None = None
-    contSearchAfter: ContSearchByServiceId | None = None
-
-
-class GRResponse(GTIResponse):
-    schedules: list[Schedule] | None = None
-    realtimeSchedules: list[Schedule] | None = None
-    realtimeAffected: bool | None = False
-    individualTrack: IndividualTrack | None = None
-
-
-class IndividualRouteRequestType(Enum):
+class IndividualRouteRequestType(str, Enum):
     EPSG_4326 = "EPSG_4326"
     EPSG_31466 = "EPSG_31466"
     EPSG_31467 = "EPSG_31467"
@@ -1005,7 +978,7 @@ class IndividualRouteRequestType(Enum):
     EPSG_31469 = "EPSG_31469"
 
 
-class IndividualRouteRequestServiceType(Enum):
+class IndividualRouteRequestServiceType(str, Enum):
     BUS = "BUS"
     TRAIN = "TRAIN"
     SHIP = "SHIP"
@@ -1017,7 +990,7 @@ class IndividualRouteRequestServiceType(Enum):
     ACTIVITY_BIKE_AND_RIDE = "ACTIVITY_BIKE_AND_RIDE"
 
 
-class IndividualRouteRequestProfile(Enum):
+class IndividualRouteRequestProfile(str, Enum):
     BICYCLE_NORMAL = "BICYCLE_NORMAL"
     BICYCLE_RACING = "BICYCLE_RACING"
     BICYCLE_QUIET_ROADS = "BICYCLE_QUIET_ROADS"
@@ -1041,59 +1014,7 @@ class IndividualRouteRequest(BaseModel):
     speed: str | None = "NORMAL"
 
 
-class IndividualRouteServiceType(Enum):
-    BUS = "BUS"
-    TRAIN = "TRAIN"
-    SHIP = "SHIP"
-    FOOTPATH = "FOOTPATH"
-    BICYCLE = "BICYCLE"
-    AIRPLANE = "AIRPLANE"
-    CHANGE = "CHANGE"
-    CHANGE_SAME_PLATFORM = "CHANGE_SAME_PLATFORM"
-    ACTIVITY_BIKE_AND_RIDE = "ACTIVITY_BIKE_AND_RIDE"
-
-
-class IndividualRoute(BaseModel):
-    start: SDName
-    dest: SDName
-    path: Path | None = None
-    paths: list[Path] | None = None
-    length: int | None = None
-    time: int | None = None
-    serviceType: IndividualRouteServiceType
-
-
-class IndividualRouteResponse(GTIResponse):
-    routes: list[IndividualRoute]
-
-
-class AnnouncementRequestFilterPlanned(Enum):
-    NO_FILTER = "NO_FILTER"
-    ONLY_PLANNED = "ONLY_PLANNED"
-    ONLY_UNPLANNED = "ONLY_UNPLANNED"
-
-
-class AnnouncementRequest(BaseModel):
-    names: list[str] | None = None
-    timeRange: TimeRange | None = None
-    full: bool | None = False
-    filterPlanned: AnnouncementRequestFilterPlanned | None = None
-    showBroadcastRelevant: bool | None = False
-
-
-class AnnouncementResponse(GTIResponse):
-    announcements: list[Announcement] | None = None
-    lastUpdate: AwareDatetime
-
-
-class DLFilterEntry(BaseModel):
-    serviceID: str | None = None
-    stationIDs: list[str] | None = None
-    label: str | None = None
-    serviceName: str | None = None
-
-
-class DLRequestServiceType(Enum):
+class DLRequestServiceType(str, Enum):
     ZUG = "ZUG"
     UBAHN = "UBAHN"
     SBAHN = "SBAHN"
@@ -1111,7 +1032,7 @@ class DLRequestServiceType(Enum):
     FAEHRE = "FAEHRE"
 
 
-class DLRequestCoordinateType(Enum):
+class DLRequestCoordinateType(str, Enum):
     EPSG_4326 = "EPSG_4326"
     EPSG_31466 = "EPSG_31466"
     EPSG_31467 = "EPSG_31467"
@@ -1150,7 +1071,142 @@ class Departure(BaseModel):
     attributes: list[Attribute] | None = None
 
 
-class DLResponseServiceType(Enum):
+class DCRequestSegments(str, Enum):
+    BEFORE = "BEFORE"
+    AFTER = "AFTER"
+    ALL = "ALL"
+
+
+class DCRequestCoordinateType(str, Enum):
+    EPSG_4326 = "EPSG_4326"
+    EPSG_31466 = "EPSG_31466"
+    EPSG_31467 = "EPSG_31467"
+    EPSG_31468 = "EPSG_31468"
+    EPSG_31469 = "EPSG_31469"
+
+
+class DCRequest(BaseModel):
+    lineKey: str | None = None
+    lineId: str | None = None
+    station: SDName
+    time: AwareDatetime
+    direction: str | None = None
+    origin: str | None = None
+    serviceId: int | None = -1
+    segments: DCRequestSegments | None = DCRequestSegments.ALL
+    showPath: bool | None = False
+    coordinateType: DCRequestCoordinateType | None = DCRequestCoordinateType.EPSG_4326
+
+
+class CNRequestCoordinateType(str, Enum):
+    EPSG_4326 = "EPSG_4326"
+    EPSG_31466 = "EPSG_31466"
+    EPSG_31467 = "EPSG_31467"
+    EPSG_31468 = "EPSG_31468"
+    EPSG_31469 = "EPSG_31469"
+
+
+class CNRequest(BaseModel):
+    theName: SDName
+    maxList: int | None = None
+    maxDistance: int | None = None
+    coordinateType: CNRequestCoordinateType | None = CNRequestCoordinateType.EPSG_4326
+    tariffDetails: bool | None = False
+    allowTypeSwitch: bool | None = True
+
+
+class CNResponse(GTIResponse):
+    results: list[RegionalSDName] | None = None
+
+
+class StationInformationResponse(GTIResponse):
+    partialStations: list[PartialStation] | None = None
+    lastUpdate: GTITime | None = None
+
+
+class IndividualRouteServiceType(str, Enum):
+    BUS = "BUS"
+    TRAIN = "TRAIN"
+    SHIP = "SHIP"
+    FOOTPATH = "FOOTPATH"
+    BICYCLE = "BICYCLE"
+    AIRPLANE = "AIRPLANE"
+    CHANGE = "CHANGE"
+    CHANGE_SAME_PLATFORM = "CHANGE_SAME_PLATFORM"
+    ACTIVITY_BIKE_AND_RIDE = "ACTIVITY_BIKE_AND_RIDE"
+
+
+class IndividualRoute(BaseModel):
+    start: SDName
+    dest: SDName
+    path: Path | None = None
+    paths: list[Path] | None = None
+    length: int | None = None
+    time: int | None = None
+    serviceType: IndividualRouteServiceType
+
+
+class CourseElement(BaseModel):
+    fromStation: SDName
+    fromPlatform: str | None = None
+    fromRealtimePlatform: str | None = None
+    toStation: SDName
+    toPlatform: str | None = None
+    toRealtimePlatform: str | None = None
+    model: str | None = None
+    depTime: AwareDatetime | None = None
+    arrTime: AwareDatetime | None = None
+    depDelay: int | None = None
+    arrDelay: int | None = None
+    fromExtra: bool | None = False
+    fromCancelled: bool | None = False
+    toExtra: bool | None = False
+    toCancelled: bool | None = False
+    attributes: list[Attribute] | None = None
+    path: Path | None = None
+
+
+class TicketListResponse(GTIResponse):
+    ticketInfos: list[TicketListTicketInfos] | None = None
+
+
+class SingleTicketOptimizerRequest(BaseModel):
+    withReturnJourney: bool | None = None
+    numberOfAdults: int | None = None
+    numberOfChildren: int | None = None
+    tickets: list[TariffOptimizerTicket] | None = None
+    route: SingleTicketOptimizerRequestRoute
+
+
+class LLResponse(GTIResponse):
+    dataReleaseID: str | None = None
+    lines: list[LineListEntry] | None = None
+
+
+class VehicleMapResponse(GTIResponse):
+    journeys: list[Journey] | None = None
+
+
+class TariffResponse(GTIResponse):
+    tariffInfos: list[TariffInfo] | None = None
+
+
+class Announcement(BaseModel):
+    id: str | None = None
+    version: int | None = None
+    summary: str | None = None
+    locations: list[Location] | None = None
+    description: str
+    links: list[Link] | None = None
+    publication: TimeRange
+    validities: list[TimeRange] | None = None
+    lastModified: AwareDatetime | None = None
+    planned: bool | None = None
+    reason: str | None = None
+    broadcastRelevant: bool | None = None
+
+
+class DLResponseServiceType(str, Enum):
     ZUG = "ZUG"
     UBAHN = "UBAHN"
     SBAHN = "SBAHN"
@@ -1175,51 +1231,8 @@ class DLResponse(GTIResponse):
     serviceTypes: list[DLResponseServiceType] | None = None
 
 
-class DCRequestSegments(Enum):
-    BEFORE = "BEFORE"
-    AFTER = "AFTER"
-    ALL = "ALL"
-
-
-class DCRequestCoordinateType(Enum):
-    EPSG_4326 = "EPSG_4326"
-    EPSG_31466 = "EPSG_31466"
-    EPSG_31467 = "EPSG_31467"
-    EPSG_31468 = "EPSG_31468"
-    EPSG_31469 = "EPSG_31469"
-
-
-class DCRequest(BaseModel):
-    lineKey: str | None = None
-    lineId: str | None = None
-    station: SDName
-    time: AwareDatetime
-    direction: str | None = None
-    origin: str | None = None
-    serviceId: int | None = -1
-    segments: DCRequestSegments | None = DCRequestSegments.ALL
-    showPath: bool | None = False
-    coordinateType: DCRequestCoordinateType | None = DCRequestCoordinateType.EPSG_4326
-
-
-class CourseElement(BaseModel):
-    fromStation: SDName
-    fromPlatform: str | None = None
-    fromRealtimePlatform: str | None = None
-    toStation: SDName
-    toPlatform: str | None = None
-    toRealtimePlatform: str | None = None
-    model: str | None = None
-    depTime: AwareDatetime
-    arrTime: AwareDatetime
-    depDelay: int | None = None
-    arrDelay: int | None = None
-    fromExtra: bool | None = False
-    fromCancelled: bool | None = False
-    toExtra: bool | None = False
-    toCancelled: bool | None = False
-    attributes: list[Attribute] | None = None
-    path: Path | None = None
+class IndividualRouteResponse(GTIResponse):
+    routes: list[IndividualRoute] | None = None
 
 
 class DCResponse(GTIResponse):
@@ -1230,58 +1243,45 @@ class DCResponse(GTIResponse):
     attributes: list[Attribute] | None = None
 
 
-class PCRequest(BaseModel):
-    postalCode: int | None = None
+class ScheduleElement(BaseModel):
+    from_: JourneySDName = Field(..., alias="from")
+    to: JourneySDName
+    line: Service
+    paths: list[Path] | None = None
+    attributes: list[Attribute] | None = None
+    announcements: list[Announcement] | None = None
+    extra: bool | None = False
+    cancelled: bool | None = False
+    intermediateStops: list[JourneySDName] | None = None
+    vehicles: list[Vehicle] | None = None
+    serviceId: int | None = None
+    shopInfo: list[ShopInfo] | None = None
 
 
-class PCResponse(GTIResponse):
-    isHVV: bool | None = None
+class AnnouncementResponse(GTIResponse):
+    announcements: list[Announcement] | None = None
+    lastUpdate: AwareDatetime | None = None
 
 
-class CNRequestCoordinateType(Enum):
-    EPSG_4326 = "EPSG_4326"
-    EPSG_31466 = "EPSG_31466"
-    EPSG_31467 = "EPSG_31467"
-    EPSG_31468 = "EPSG_31468"
-    EPSG_31469 = "EPSG_31469"
-
-
-class CNRequest(BaseModel):
-    theName: SDName
-    maxList: int | None = None
-    maxDistance: int | None = None
-    coordinateType: CNRequestCoordinateType | None = CNRequestCoordinateType.EPSG_4326
-    tariffDetails: bool | None = False
-    allowTypeSwitch: bool | None = True
-
-
-class RegionalSDNameType(Enum):
-    UNKNOWN = "UNKNOWN"
-    STATION = "STATION"
-    ADDRESS = "ADDRESS"
-    POI = "POI"
-    COORDINATE = "COORDINATE"
-    BIKE_AND_RIDE = "BIKE_AND_RIDE"
-    STOP_POINT = "STOP_POINT"
-
-
-class RegionalSDName(BaseModel):
-    name: str | None = None
-    city: str | None = None
-    combinedName: str | None = None
-    id: str | None = None
-    globalId: str | None = None
-    provider: str | None = None
-    type: RegionalSDNameType | None = RegionalSDNameType.UNKNOWN
-    coordinate: Coordinate | None = None
-    layer: int | None = None
-    tariffDetails: TariffDetails | None = None
-    serviceTypes: list[str] | None = None
-    hasStationInformation: bool | None = None
-    address: str | None = None
-    distance: int | None = None
+class Schedule(BaseModel):
+    routeId: int | None = None
+    start: SDName
+    dest: SDName
     time: int | None = None
+    footpathTime: int | None = None
+    plannedDepartureTime: AwareDatetime | None = None
+    realDepartureTime: AwareDatetime | None = None
+    plannedArrivalTime: AwareDatetime | None = None
+    realArrivalTime: AwareDatetime | None = None
+    tickets: list[Ticket] | None = None
+    tariffInfos: list[TariffInfo] | None = None
+    scheduleElements: list[ScheduleElement] | None = None
+    contSearchBefore: ContSearchByServiceId | None = None
+    contSearchAfter: ContSearchByServiceId | None = None
 
 
-class CNResponse(GTIResponse):
-    results: list[RegionalSDName] | None = None
+class GRResponse(GTIResponse):
+    schedules: list[Schedule] | None = None
+    realtimeSchedules: list[Schedule] | None = None
+    realtimeAffected: bool | None = False
+    individualTrack: IndividualTrack | None = None
