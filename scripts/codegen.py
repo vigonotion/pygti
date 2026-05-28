@@ -240,7 +240,7 @@ class GTI:
         if not post:
             continue
 
-        operationId = post.get("operationId")
+        operationId = post.get("operationId").removesuffix("Public")
         requestModel = (
             post.get("requestBody")
             .get("content")

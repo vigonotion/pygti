@@ -124,9 +124,7 @@ class GTI:
         )
         return InitResponse.model_validate(response)
 
-    async def getVehicleMapPublic(
-        self, payload: VehicleMapRequest
-    ) -> VehicleMapResponse:
+    async def getVehicleMap(self, payload: VehicleMapRequest) -> VehicleMapResponse:
         response = await self.auth.request(
             "post",
             "/gti/public/getVehicleMap",
@@ -136,7 +134,7 @@ class GTI:
         )
         return VehicleMapResponse.model_validate(response)
 
-    async def getTrackCoordinatesPublic(
+    async def getTrackCoordinates(
         self, payload: TrackCoordinatesRequest
     ) -> TrackCoordinatesResponse:
         response = await self.auth.request(

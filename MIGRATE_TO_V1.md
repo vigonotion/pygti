@@ -106,8 +106,6 @@ Check `e.return_code` against the `ReturnCode` enum in `pygti.models` to disting
 | 0.10.x | 1.0 |
 |---|---|
 | `stationInformation()` | `getStationInformation()` |
-| `getVehicleMap()` | `getVehicleMapPublic()` |
-| `getTrackCoordinates()` | `getTrackCoordinatesPublic()` |
 
 ---
 
