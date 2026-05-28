@@ -1,6 +1,7 @@
 import urllib.request
 import json
 import keyword
+import subprocess
 from graphlib import TopologicalSorter
 from typing import Any
 
@@ -86,7 +87,15 @@ def collect_deps(schema: dict[str, Any]) -> set[str]:
 
 def topological_sort(schemas: dict[str, Any]) -> list[str]:
     deps = {name: collect_deps(schemas[name]) & schemas.keys() for name in schemas}
-    return list(TopologicalSorter(deps).static_order())
+    ts = TopologicalSorter(deps)
+    ts.prepare()
+    result = []
+    while ts.is_active():
+        ready = sorted(ts.get_ready())
+        result.extend(ready)
+        for node in ready:
+            ts.done(node)
+    return result
 
 
 def format_default(value: Any, enum_type: str | None = None) -> str:
@@ -265,3 +274,7 @@ class GTI:
 
     with open("src/pygti/gti.py", "w") as f:
         f.write(output)
+
+    subprocess.run(
+        ["ruff", "format", "src/pygti/models.py", "src/pygti/gti.py"], check=True
+    )
