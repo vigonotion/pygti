@@ -21,7 +21,7 @@ class ReturnCode(str, Enum):
 
 
 class GTIResponse(BaseModel):
-    returnCode: str
+    returnCode: ReturnCode
     errorText: str | None = None
     errorDevInfo: str | None = None
 

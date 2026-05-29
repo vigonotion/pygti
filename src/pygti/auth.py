@@ -72,7 +72,10 @@ class Auth:
 
         response_data: dict[str, Any] = await response.json(content_type=None)
 
-        return_code = response_data.get("returnCode")
+        return_code_raw = response_data.get("returnCode")
+        return_code = (
+            ReturnCode(return_code_raw) if return_code_raw is not None else None
+        )
         error_text = response_data.get("errorText")
         error_dev_info = response_data.get("errorDevInfo")
 
