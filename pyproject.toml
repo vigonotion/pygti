@@ -20,6 +20,9 @@ source = "vcs"
 dev = [
     "mypy>=1.15",
     "ruff>=0.15.14",
+    "pytest>=8",
+    "pytest-asyncio>=0.25",
+    "aioresponses>=0.7",
 ]
 
 [tool.mypy]

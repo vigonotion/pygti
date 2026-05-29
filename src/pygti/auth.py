@@ -1,14 +1,34 @@
 import base64
+import contextlib
 import hashlib
 import hmac
 import json
+from collections.abc import Callable
 from typing import Any
 
-from aiohttp import ClientSession
+from aiohttp import ClientSession, ContentTypeError
 from pydantic import BaseModel
 
-from .exceptions import GTIError
+from .exceptions import (
+    GTIBadRequestError,
+    GTIError,
+    GTIForbiddenError,
+    GTIHTTPError,
+    GTIInternalServerError,
+    GTIServiceUnavailableError,
+    GTITooManyRequestsError,
+    GTIUnauthorizedError,
+)
 from .models import ReturnCode
+
+_HTTP_ERROR_MAP: dict[int, Callable[[str | None], GTIHTTPError]] = {
+    400: GTIBadRequestError,
+    401: GTIUnauthorizedError,
+    403: GTIForbiddenError,
+    429: GTITooManyRequestsError,
+    500: GTIInternalServerError,
+    503: GTIServiceUnavailableError,
+}
 
 GTI_DEFAULT_HOST = "gti.geofox.de"
 
@@ -69,6 +89,20 @@ class Auth:
             **kwargs,
             headers=headers,
         )
+
+        if response.status >= 400:
+            dev_info: str | None = None
+            with contextlib.suppress(json.JSONDecodeError, ContentTypeError):
+                error_body = await response.json(content_type=None)
+                if isinstance(error_body, dict):
+                    dev_info = (
+                        error_body.get("errorDevInfo")
+                        if "errorDevInfo" in error_body
+                        else error_body.get("message")
+                    )
+            if response.status in _HTTP_ERROR_MAP:
+                raise _HTTP_ERROR_MAP[response.status](dev_info)
+            raise GTIHTTPError(response.status, dev_info)
 
         response_data: dict[str, Any] = await response.json(content_type=None)
 
